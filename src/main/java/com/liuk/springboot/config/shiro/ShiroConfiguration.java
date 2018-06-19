@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * shiro相关配置
  * Created by kl on 2018/6/19.
  */
 @Configuration
@@ -40,6 +41,7 @@ public class ShiroConfiguration {
 
     @Bean
     public SecurityManager securityManager(){
+        System.out.println("SecurityManager ...");
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
 
         return defaultWebSecurityManager;

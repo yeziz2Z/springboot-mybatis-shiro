@@ -18,8 +18,8 @@ var Demo = function() {
          }
 
          e.preventDefault;
-         alert('Your form has submitted!');
-         return false;
+         // alert('Your form has submitted!');
+         return true;
 
       });
 

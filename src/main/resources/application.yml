@@ -4,9 +4,17 @@
 #    password: root
 #    driver-class-name: com.mysql.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/trade?useSSL=falsespring:
-  thymeleaf:
-    cache: false
 
   spring:
     banner:
       location: banner.txt
+    mvc:
+      favicon:
+        enabled: true
+    thymeleaf:
+      cache: false
+  server:
+    port: 9090
+  logging:
+    file: E:/work-pj/log/sbst.log
+

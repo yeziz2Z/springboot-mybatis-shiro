@@ -13,19 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class TestController {
 
-    @RequestMapping("login")
+    @RequestMapping({"/login","/"})
     public String hello(HttpServletRequest request){
 
         System.out.println(request.getRequestURI());
+        System.out.println(request.getAttribute("shiroLoginFailure"));
         Subject subject = SecurityUtils.getSubject();
         Object principal = subject.getPrincipal();
         if(principal != null){
-            return "redirect:/loginSuccess";
+            return "redirect:/index";
         }
         return "html/pages_login";
     }
 
-    @RequestMapping("loginSuccess")
+    @RequestMapping("index")
     public String toIndex(){
         return "html/dashboard";
     }

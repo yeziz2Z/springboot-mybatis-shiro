@@ -1,5 +1,7 @@
 package com.liuk.springboot.config.shiro;
 
+import com.liuk.springboot.entity.User;
+import com.liuk.springboot.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -13,6 +15,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,6 +30,9 @@ import java.util.Map;
 public class ShiroConfiguration {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private UserService userService;
 
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
@@ -45,7 +51,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         shiroFilterFactoryBean.setLoginUrl("/login");
-        shiroFilterFactoryBean.setSuccessUrl("/loginSuccess");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
         return shiroFilterFactoryBean;
     }
 
@@ -66,8 +72,15 @@ public class ShiroConfiguration {
             @Override
             protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
                 logger.info("doGetAuthenticationInfo ...");
+                System.out.println("=====================");
                 System.out.println(authenticationToken);
-                return new SimpleAuthenticationInfo();
+                User user = userService.get("1");
+                System.out.println(user);
+                String username = (String) authenticationToken.getPrincipal();
+                String pawwword = "12345";
+                SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username,pawwword,getName());
+//                authenticationInfo.se
+                return authenticationInfo;
             }
         };
         return authorizingRealm;

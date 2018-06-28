@@ -1,20 +1,41 @@
-#spring:
-#  datasource:
-#    username: root
-#    password: root
-#    driver-class-name: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/trade?useSSL=falsespring:
+server:
+  port: 9090
 
-  spring:
-    banner:
-      location: banner.txt
-    mvc:
-      favicon:
-        enabled: true
-    thymeleaf:
-      cache: false
-  server:
-    port: 9090
-  logging:
-    file: E:/work-pj/log/sbst.log
+spring:
+  banner:
+    location: banner.txt
+  mvc:
+    favicon:
+      enabled: true
+  thymeleaf:
+    cache: false
+  # 数据源配置
+  datasource:
+        username: root
+        password: root
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://locahost:3306/sb-mybatis-shiro?characterEncoding=utf8&useSSL=false
+        type: com.alibaba.druid.pool.DruidDataSource
+        initialSize: 5
+        min: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+        filters: stat,wall,log4j
+        maxPoolPreparedStatementPerConnectionSize: 20
+        useGlobalDataSourceStat: true
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+#mybatis配置
+mybatis:
+  config-location: classpath:/mybatis/mybatis-config.xml
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+logging:
+  file: E:/work-pj/log/sbst.log
 

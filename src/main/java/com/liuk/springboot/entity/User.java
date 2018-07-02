@@ -1,8 +1,10 @@
 package com.liuk.springboot.entity;
 
 
+import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
@@ -12,6 +14,8 @@ import java.util.Date;
  */
 @Data
 @ToString
+@TableName("sys_user")
+@Accessors(chain = true)
 public class User extends BaseEntity{
 
     private String companyId;
@@ -40,7 +44,7 @@ public class User extends BaseEntity{
 
     private String loginFlag;
 
-    private String qrCode;
+    private String qrcode;
 
     private String sign;
 

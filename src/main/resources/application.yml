@@ -13,8 +13,8 @@ spring:
   datasource:
         username: root
         password: root
-        driver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://locahost:3306/sb-mybatis-shiro?characterEncoding=utf8&useSSL=false
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/sb-mybatis-shiro?characterEncoding=utf8&useSSL=false
         type: com.alibaba.druid.pool.DruidDataSource
         initialSize: 5
         min: 5
@@ -33,9 +33,19 @@ spring:
         useGlobalDataSourceStat: true
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 #mybatis配置
-mybatis:
+#mybatis:
+#  config-location: classpath:/mybatis/mybatis-config.xml
+#  mapper-locations: classpath:/mybatis/mapper/*.xml
+
+# 使用mybatis-plus
+mybatis-plus:
   config-location: classpath:/mybatis/mybatis-config.xml
   mapper-locations: classpath:/mybatis/mapper/*.xml
+  type-aliases-package: com.liuk.springboot.entity
+  global-config:
+    id-type: 3
+    db-column-underline: true
+    field-strategy: 2
+
 logging:
   file: E:/work-pj/log/sbst.log
-

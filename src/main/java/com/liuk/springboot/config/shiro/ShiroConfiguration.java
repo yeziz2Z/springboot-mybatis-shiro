@@ -6,19 +6,34 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.codec.Hex;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.Filter;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -34,7 +49,7 @@ public class ShiroConfiguration {
     @Autowired
     private UserService userService;
 
-    @Bean
+    @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
         logger.info("ShiroConfiguration.shiroFilter()....");
 
@@ -42,19 +57,37 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        ///static/** = anon
         filterChainDefinitionMap.put("/assets/**","anon");
         filterChainDefinitionMap.put("/vendor/**","anon");
         filterChainDefinitionMap.put("/favicon.ico","anon");
         filterChainDefinitionMap.put("/logout","logout");
-//        filterChainDefinitionMap.put("login","authc");
-        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setSuccessUrl("/index");
+
+        Map<String,Filter> filterMap = new HashMap<>();
+        filterMap.put("authc",formAuthenticationFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+
         return shiroFilterFactoryBean;
     }
 
+    @Bean
+    @Order
+    public FormAuthenticationFilter formAuthenticationFilter(){
+
+        /**
+         * 配置登录成功后跳转到首页
+         */
+        return new FormAuthenticationFilter() {
+            @Override
+            protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
+                WebUtils.issueRedirect(request, response, getSuccessUrl());
+                return false;
+            }
+        };
+    }
 
 
     @Bean
@@ -72,15 +105,23 @@ public class ShiroConfiguration {
             @Override
             protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
                 logger.info("doGetAuthenticationInfo ...");
-                System.out.println("=====================");
-                System.out.println(authenticationToken);
-                User user = userService.get("1");
+                System.out.println(authenticationToken.getPrincipal());
+                User user = userService.getByLoginName(authenticationToken.getPrincipal().toString());
+                if(user == null){
+                    throw new AuthenticationException("用户不存在！");
+                }
                 System.out.println(user);
                 String username = (String) authenticationToken.getPrincipal();
-                String pawwword = "12345";
-                SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username,pawwword,getName());
-//                authenticationInfo.se
-                return authenticationInfo;
+                byte[] salt = Hex.decode(user.getPassword().substring(0, 16));
+                SimpleAuthenticationInfo authenticationInfo2 = new SimpleAuthenticationInfo(username,user.getPassword().substring(16),ByteSource.Util.bytes(salt),getName());
+                return authenticationInfo2;
+            }
+
+            @PostConstruct
+            public void initCredentialsMatcher(){
+                HashedCredentialsMatcher matcher = new HashedCredentialsMatcher("MD5");
+                matcher.setHashIterations(1024);
+                setCredentialsMatcher(matcher);
             }
         };
         return authorizingRealm;
@@ -93,5 +134,16 @@ public class ShiroConfiguration {
         defaultWebSecurityManager.setRealm(authorizingRealm());
         return defaultWebSecurityManager;
     }
-
+//
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean(){
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        // 设置 targetBeanName
+        DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy("shiroFilter");
+//        DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy();
+        filterRegistrationBean.setFilter(delegatingFilterProxy);
+        filterRegistrationBean.addInitParameter("targetFilterLifecycle","true");
+        filterRegistrationBean.addUrlPatterns("/*");
+        return filterRegistrationBean;
+    }
 }

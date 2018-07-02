@@ -4,4 +4,6 @@ import com.liuk.springboot.entity.User;
 
 public interface UserService {
     User get(String id);
+
+    User getByLoginName(String loginName);
 }

@@ -13,6 +13,11 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Override
     public User get(String id) {
-        return userMapper.get(id);
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public User getByLoginName(String loginName) {
+        return userMapper.selectOne(new User().setLoginName(loginName));
     }
 }

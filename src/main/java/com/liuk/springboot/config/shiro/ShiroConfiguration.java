@@ -2,10 +2,8 @@ package com.liuk.springboot.config.shiro;
 
 import com.liuk.springboot.entity.User;
 import com.liuk.springboot.service.UserService;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -32,6 +30,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -39,7 +38,9 @@ import java.util.Map;
 
 /**
  * shiro相关配置
- * Created by kl on 2018/6/19.
+ *
+ * @author kl
+ * @date 2018/6/19
  */
 @Configuration
 public class ShiroConfiguration {
@@ -86,7 +87,15 @@ public class ShiroConfiguration {
                 WebUtils.issueRedirect(request, response, getSuccessUrl());
                 return false;
             }
+
+            @Override
+            protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
+                System.out.println(e.getMessage());
+                request.setAttribute("message",e.getMessage());
+                return true;
+            }
         };
+
     }
 
 
@@ -108,13 +117,25 @@ public class ShiroConfiguration {
                 System.out.println(authenticationToken.getPrincipal());
                 User user = userService.getByLoginName(authenticationToken.getPrincipal().toString());
                 if(user == null){
-                    throw new AuthenticationException("用户不存在！");
+                    throw new AuthenticationException("message:用户不存在！");
                 }
                 System.out.println(user);
                 String username = (String) authenticationToken.getPrincipal();
                 byte[] salt = Hex.decode(user.getPassword().substring(0, 16));
-                SimpleAuthenticationInfo authenticationInfo2 = new SimpleAuthenticationInfo(username,user.getPassword().substring(16),ByteSource.Util.bytes(salt),getName());
-                return authenticationInfo2;
+                return new SimpleAuthenticationInfo(username,user.getPassword().substring(16),ByteSource.Util.bytes(salt),getName());
+            }
+
+            @Override
+            protected void assertCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) throws AuthenticationException {
+                CredentialsMatcher credentialsMatcher = getCredentialsMatcher();
+                if(credentialsMatcher != null){
+                    if(!credentialsMatcher.doCredentialsMatch(token,info)){
+                        throw new IncorrectCredentialsException("message:账户名或密码错误,请重试！");
+                    }
+                }else {
+                    logger.error("No CredentialsMatcher has Configured...");
+                    throw new AuthenticationException("No CredentialsMatcher has Configured...");
+                }
             }
 
             @PostConstruct
@@ -134,13 +155,13 @@ public class ShiroConfiguration {
         defaultWebSecurityManager.setRealm(authorizingRealm());
         return defaultWebSecurityManager;
     }
-//
+
     @Bean
     public FilterRegistrationBean filterRegistrationBean(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         // 设置 targetBeanName
         DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy("shiroFilter");
-//        DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy();
+        //DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy();
         filterRegistrationBean.setFilter(delegatingFilterProxy);
         filterRegistrationBean.addInitParameter("targetFilterLifecycle","true");
         filterRegistrationBean.addUrlPatterns("/*");

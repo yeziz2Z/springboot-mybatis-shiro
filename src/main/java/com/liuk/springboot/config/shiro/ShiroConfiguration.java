@@ -1,7 +1,7 @@
 package com.liuk.springboot.config.shiro;
 
 import com.liuk.springboot.entity.User;
-import com.liuk.springboot.service.UserService;
+import com.liuk.springboot.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -30,8 +30,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -48,7 +46,7 @@ public class ShiroConfiguration {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){

@@ -112,7 +112,6 @@ public class ShiroConfiguration {
             @Override
             protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
                 logger.info("doGetAuthenticationInfo ...");
-                System.out.println(authenticationToken.getPrincipal());
                 User user = userService.getByLoginName(authenticationToken.getPrincipal().toString());
                 if(user == null){
                     throw new AuthenticationException("message:用户不存在！");

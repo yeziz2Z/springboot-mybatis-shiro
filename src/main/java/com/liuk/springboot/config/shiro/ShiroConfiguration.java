@@ -69,6 +69,8 @@ public class ShiroConfiguration {
         filterMap.put("authc",formAuthenticationFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
+
+        
         return shiroFilterFactoryBean;
     }
 

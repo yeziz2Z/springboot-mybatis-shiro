@@ -1,7 +1,7 @@
 package com.liuk.springboot.config.shiro;
 
-import com.liuk.springboot.entity.User;
-import com.liuk.springboot.service.IUserService;
+import com.liuk.springboot.sys.entity.User;
+import com.liuk.springboot.sys.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;

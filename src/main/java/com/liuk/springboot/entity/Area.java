@@ -88,4 +88,6 @@ public class Area extends Model<Area> {
     protected Serializable pkVal() {
         return this.id;
     }
+
+    
 }

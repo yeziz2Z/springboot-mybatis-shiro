@@ -1,4 +1,4 @@
-package com.liuk.springboot.mapper;
+package com.liuk.springboot.sys.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.liuk.springboot.sys.entity.User;

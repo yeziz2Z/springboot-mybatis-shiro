@@ -1,5 +1,6 @@
 package com.liuk.springboot.entity;
 
+import com.liuk.springboot.sys.entity.User;
 import lombok.Data;
 
 import java.io.Serializable;

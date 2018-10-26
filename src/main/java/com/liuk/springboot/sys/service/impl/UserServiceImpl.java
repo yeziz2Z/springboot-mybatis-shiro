@@ -1,10 +1,9 @@
-package com.liuk.springboot.service.impl;
+package com.liuk.springboot.sys.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.liuk.springboot.entity.User;
+import com.liuk.springboot.sys.entity.User;
 import com.liuk.springboot.mapper.UserMapper;
-import com.liuk.springboot.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.liuk.springboot.sys.service.IUserService;
 import org.springframework.stereotype.Service;
 
 @Service

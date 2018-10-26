@@ -1,7 +1,8 @@
-package com.liuk.springboot.entity;
+package com.liuk.springboot.sys.entity;
 
 
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.liuk.springboot.entity.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;

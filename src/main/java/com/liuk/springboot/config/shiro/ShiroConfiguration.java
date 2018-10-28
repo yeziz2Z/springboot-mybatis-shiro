@@ -1,5 +1,6 @@
 package com.liuk.springboot.config.shiro;
 
+import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.liuk.springboot.sys.entity.User;
 import com.liuk.springboot.sys.service.IUserService;
 import org.apache.shiro.authc.*;
@@ -165,5 +166,10 @@ public class ShiroConfiguration {
         filterRegistrationBean.addInitParameter("targetFilterLifecycle","true");
         filterRegistrationBean.addUrlPatterns("/*");
         return filterRegistrationBean;
+    }
+
+    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        return new PaginationInterceptor();
     }
 }

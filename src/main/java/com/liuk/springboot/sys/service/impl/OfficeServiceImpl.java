@@ -1,9 +1,9 @@
-package com.liuk.springboot.service.impl;
+package com.liuk.springboot.sys.service.impl;
 
-import com.liuk.springboot.entity.Office;
-import com.liuk.springboot.mapper.OfficeMapper;
-import com.liuk.springboot.service.IOfficeService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.liuk.springboot.sys.entity.Office;
+import com.liuk.springboot.sys.mapper.OfficeMapper;
+import com.liuk.springboot.sys.service.IOfficeService;
 import org.springframework.stereotype.Service;
 
 /**

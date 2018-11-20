@@ -1,7 +1,7 @@
-package com.liuk.springboot.service;
+package com.liuk.springboot.sys.service;
 
-import com.liuk.springboot.entity.Office;
 import com.baomidou.mybatisplus.service.IService;
+import com.liuk.springboot.sys.entity.Office;
 
 /**
  * <p>

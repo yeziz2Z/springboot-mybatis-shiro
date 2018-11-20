@@ -12,7 +12,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 
     @Override
     public User getByLoginName(String loginName) {
-
+        
         return baseMapper.selectOne(new User().setLoginName(loginName));
     }
 }

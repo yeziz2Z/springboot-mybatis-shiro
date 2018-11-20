@@ -37,4 +37,11 @@ public class SysUserController extends BaseController {
 
         return getDataTableData(userService.selectPage(page) );
     }
+
+    @PostMapping("add")
+    @ResponseBody
+    public Object add(){
+
+        return null;
+    }
 }

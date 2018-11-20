@@ -20,6 +20,11 @@
     <!-- Required Plugin CSS -->
     <link rel="stylesheet" type="text/css" href="vendor/plugins/datatables/media/css/dataTables.bootstrap.css" th:href="@{/vendor/plugins/datatables/media/css/dataTables.bootstrap.css}">
 
+    <!-- JQuery treeTable CSS -->
+    <link th:href="@{/vendor/jquery/tree-table/jquery.treetable.css}" rel="stylesheet">
+    <link th:href="@{/vendor/jquery/tree-table/jquery.treetable.theme.default.css}" rel="stylesheet">
+    <link th:href="@{/vendor/jquery/tree-table/my-tree.css}" rel="stylesheet">
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" th:href="@{/favicon.ico}">
 
@@ -939,7 +944,7 @@
                             </div>-->
 
                             <div class="panel-body pn">
-                                <table class="table table-striped table-bordered table-hover" id="userTables" cellspacing="0" width="100%">
+                                <table class="table table-striped table-bordered table-hover" id="treeTable" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
@@ -950,7 +955,8 @@
                                         <th>Options</th>
                                     </tr>
                                     </thead>
-
+                                    <tbody>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -1056,89 +1062,57 @@
     <script type="text/javascript" src="vendor/plugins/datatables/media/js/dataTables.bootstrap.js" th:src="@{/vendor/plugins/datatables/media/js/dataTables.bootstrap.js}"></script>
     <script type="text/javascript" src="vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js" th:src="@{/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js}"></script>
 
+    <script th:src="@{/vendor/jquery/tree-table/jquery.treetable.js}"></script>
+    <script th:src="@{/vendor/jquery/tree-table/my-tree.js}"></script>
+
     <!-- Theme Javascript -->
     <script type="text/javascript" src="assets/js/utility/utility.js" th:src="@{/assets/js/utility/utility.js}"></script>
     <script type="text/javascript" src="assets/js/main.js" th:src="@{/assets/js/main.js}"></script>
     <script type="text/javascript" src="assets/js/demo.js" th:src="@{/assets/js/demo.js}"></script>
     <script type="text/javascript">
+        var $treeTable = null;
         jQuery(document).ready(function() {
 
-            "use strict";
-
-            // Init Theme Core    
+            // Init Theme Core
             Core.init();
 
             // Init Theme Core    
             Demo.init();
 
-            $('#userTables').dataTable({
-                /*"aoColumnDefs": [{
-                    'bSortable': false,
-                    'aTargets': [-1]
-                }],*/
-               "aoColumns":[
+            $treeTable = $("#treeTable").treeTable({
+                theme:'vsStyle',
+                expandLevel : 2,
+                column:0,
+                checkbox: false,
+                url:'/sys/office/getChildren?parentId=',
+                callback:function(item) {
+                    console.log(item);
+                    /*var officeItemTpl= $("#officeItemTpl").html();
+                    item.typeLabel = jp.getDictLabel(${fns:toJson(fns:getDictList('sys_office_type'))}, item.type);
+                    var result = laytpl(officeItemTpl).render(item);*/
 
-                        {"mData":"loginName"},
-                        {"mData": "name"},
-                        {"mData": "no"},
-                        {"mData": "createDate"},
-                        {"mData": "createDate"},
-                        {"mData": "delFlag"}
-                    ],
-                "oLanguage": {
-                    "sInfo":"当前 _START_ 条到 _END_ 条 共 _TOTAL_ 条",
-                    "sZeroRecords":"暂时没有数据。。。",
-                    "sInfoEmpty": "显示 0 to 0 of 0 条",
-                    "sInfoFiltered": "",
-                    "sProcessing": "加载中...",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "上一页",
-                        "sNext": "下一页",
-                        "sLast": "尾页"
-                    }
+                    var result = "<td>"+item.name+"</td>";
+                    result += "<td>"+item.areaId+"</td>";
+                    result += "<td>"+item.code+"</td>";
+                    result += "<td>"+item.type+"</td>";
+                    result += "<td>"+item.remarks+"</td>";
+                    result += "<td>"+item.sort+"</td>";
+                    return result;
                 },
-                "bSearchable" : false,
-                "iDisplayLength": 10,
-                "sPaginationType": "full_numbers",
-                "aLengthMenu": [
-                    [ 10, 25, 50, 100],
-                    [ 10, 25, 50, 100]
-                ],
-                "sDom": '<"dt-panelmenu clearfix"lfr>t<"dt-panelfooter clearfix"ip>',
-                "bServerSide": true,
-                "bProcessing": true,
-                "bPaginate": true,
-                "bInfo": true,
-                "sAjaxDataProp" : "data",//是服务器分页的标志，必须有
-                "sAjaxSource" : "/sys/userList",//通过ajax实现分页的url路径。
-                "sServerMethod":"POST",
-                "fnServerParams" :function (aoData) {
-                    aoData.push({ "name": "AAA_more_data", "value": "my_value" } );
+                beforeClick: function($treeTable, id) {
+                    //异步获取数据 这里模拟替换处理
+                    $treeTable.refreshPoint(id);
                 },
-                /*"ajax":{
-                    "url":"/sys/userList",
-                    "dataSrc":"records",
-                    "data": function (d) {//d 是原始的发送给服务器的数据，默认很长。
-                        var param = {};//因为服务端排序，可以新建一个参数对象
-                        param.start = d.start;//开始的序号
-                        param.length = d.length;//要取的数据的条数
-                        return param;//自定义需要传递的参数。
-                    }
+                beforeExpand : function($treeTable, id) {
                 },
-                "aoInitComplete": function(settings, json) {
-                    console.log(settings);
-                    console.log("==================");
-                    console.log(json);
-                }*//*,
-                "createdRow": function (row, data, index) {
-                    /!* 设置表格中的内容居中 *!/
-                    console.log(row);
-                    console.log(data);
-                    $('td', row).attr("class", "text-center");
-                }*/
+                afterExpand : function($treeTable, id) {
+                    //layer.closeAll();
+                },
+                beforeClose : function($treeTable, id) {
+
+                }
+
             });
-
         });
     </script>
     <!-- END: PAGE SCRIPTS -->

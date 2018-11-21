@@ -6,6 +6,7 @@
 </head>
 <body>
 
+
 <!-- Start: Header -->
     <header class="navbar navbar-fixed-top bg-light" th:fragment="header">
         <div class="navbar-branding">
@@ -82,8 +83,8 @@
                     </li>
                     <li class="p10 br-t item-1">
                         <div class="media">
-                            <a class="media-left" href="#"> <img src="assets/img/avatars/2.jpg" class="mw40"
-                                                                 alt="holder-img"> </a>
+                            <a class="media-left" href="#">
+                                <img src="assets/img/avatars/2.jpg" th:src="@{/assets/img/avatars/2.jpg}" class="mw40" alt="holder-img"> </a>
                             <div class="media-body va-m">
                                 <h5 class="media-heading mv5">Article
                                     <small class="text-muted">- 08/16/22</small>
@@ -95,8 +96,8 @@
                     </li>
                     <li class="p10 br-t item-2">
                         <div class="media">
-                            <a class="media-left" href="#"> <img src="assets/img/avatars/3.jpg" class="mw40"
-                                                                 alt="holder-img"> </a>
+                            <a class="media-left" href="#">
+                                <img src="assets/img/avatars/3.jpg" th:src="@{/assets/img/avatars/3.jpg}" class="mw40" alt="holder-img"> </a>
                             <div class="media-body va-m">
                                 <h5 class="media-heading mv5">Article
                                     <small class="text-muted">- 08/16/22</small>
@@ -108,8 +109,8 @@
                     </li>
                     <li class="p10 br-t item-3">
                         <div class="media">
-                            <a class="media-left" href="#"> <img src="assets/img/avatars/4.jpg" class="mw40"
-                                                                 alt="holder-img"> </a>
+                            <a class="media-left" href="#">
+                                <img src="assets/img/avatars/4.jpg" th:src="@{/assets/img/avatars/4.jpg}" class="mw40" alt="holder-img"> </a>
                             <div class="media-body va-m">
                                 <h5 class="media-heading mv5">Article
                                     <small class="text-muted">- 08/16/22</small>
@@ -121,8 +122,8 @@
                     </li>
                     <li class="p10 br-t item-4">
                         <div class="media">
-                            <a class="media-left" href="#"> <img src="assets/img/avatars/5.jpg" class="mw40"
-                                                                 alt="holder-img"> </a>
+                            <a class="media-left" href="#">
+                                <img src="assets/img/avatars/5.jpg" th:src="@{/assets/img/avatars/5.jpg}" class="mw40" alt="holder-img"> </a>
                             <div class="media-body va-m">
                                 <h5 class="media-heading mv5">Article
                                     <small class="text-muted">- 08/16/22</small>
@@ -157,9 +158,8 @@
             <li class="ph10 pv20"><i class="fa fa-circle text-tp fs8"></i>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle fw600 p15" data-toggle="dropdown"> <img src="assets/img/avatars/1.jpg"
-                                                                                           alt="avatar"
-                                                                                           class="mw30 br64 mr15">
+                <a href="#" class="dropdown-toggle fw600 p15" data-toggle="dropdown">
+                    <img src="assets/img/avatars/1.jpg" th:src="@{/assets/img/avatars/1.jpg}" alt="avatar"  class="mw30 br64 mr15">
                     <span>John.Smith</span>
                     <span class="caret caret-tp"></span>
                 </a>
@@ -204,7 +204,7 @@
                             <span class="fa fa-gear pr5"></span> Account Settings </a>
                     </li>
                     <li class="br-t of-h">
-                        <a href="#" class="fw600 p12 animated animated-short fadeInDown">
+                        <a href="#" th:href="@{/logout}" class="fw600 p12 animated animated-short fadeInDown">
                             <span class="fa fa-power-off pr5"></span> Logout </a>
                     </li>
                 </ul>

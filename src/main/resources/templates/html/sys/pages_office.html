@@ -1096,7 +1096,21 @@
                     result += "<td>"+item.code+"</td>";
                     result += "<td>"+item.type+"</td>";
                     result += "<td>"+item.remarks+"</td>";
-                    result += "<td>"+item.sort+"</td>";
+                    result += "<td><div class='btn-group'>" +
+                        "<button type='button' class='fa fa-gear btn btn-sm btn-primary dropdown-toggle' data-toggle='dropdown'>" +
+                        "<span class='caret ml5'></span>" +
+                        "</button>" +
+                        "<ul class='dropdown-menu' role='menu'>" +
+                        "<li>" +
+                        "<a href='#'>Action</a>" +
+                        "</li>" +
+                        "<li>" +
+                        "<a href='#'>Another action</a>" +
+                        "</li>" +
+                        "<li>" +
+                        "<a href='#'>Something else here</a>" +
+                        "</li></ul></div></td>";
+
                     return result;
                 },
                 beforeClick: function($treeTable, id) {

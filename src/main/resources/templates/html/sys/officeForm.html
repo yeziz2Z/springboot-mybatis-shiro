@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>office Form</title>
+</head>
+<body>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+        </button>
+        <h4 class="modal-title" >
+            新增机构
+        </h4>
+    </div>
+    <div class="modal-body admin-form">
+        <form class="">
+            <input type="hidden" name="id" id="id">
+            <table class="table table-bordered">
+                <tbody>
+                <tr >
+                    <td class="col-md-2" ><span style="color: red">*</span>上级机构:</td>
+                    <td class="col-md-4">
+                        <div class="smart-widget sm-right smr-50" >
+                            <label class="field">
+                                <input type="text" name="parentId" id="parentId" class="gui-input" style="background: #EEE" >
+                            </label>
+                            <button type="button" class="button btn-default"> <i class="fa fa-search"></i></button>
+                            <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
+                        </div>
+
+                    </td>
+
+                    <td class="col-md-2"><span style="color: red">*</span>区域:</td>
+                    <td class="col-md-4">
+                        <div class="smart-widget sm-right smr-50">
+                            <label class="field">
+                                <input type="text" name="areaId" id="areaId" class="gui-input" >
+                            </label>
+                            <button type="submit" class="button btn-default"> <i class="fa fa-search"></i></button>
+                            <button type="button" id="areaDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2" ><span style="color: red">*</span>名称机构:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="name" id="name" class="gui-input" >
+                        </label>
+                    </td>
+
+                    <td>机构编码:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="code" id="code" class="gui-input" >
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2" >机构类型:</td>
+                    <td class="col-md-4">
+                        <label class="field select">
+                            <select id="type" name="type">
+                                <option></option>
+                                <option value="">公司</option>
+                                <option value="AL">部门</option>
+                                <option value="DZ">小组</option>
+                                <option value="DZC">其它</option>
+                            </select>
+                            <i class="arrow"></i>
+                        </label>
+                    </td>
+
+                    <td>机构等级:</td>
+                    <td class="col-md-4">
+                        <label class="field select">
+                            <select id="grade" name="grade">
+                                <option></option>
+                                <option value="AC">一级</option>
+                                <option value="AL">二级</option>
+                                <option value="DZ">三级</option>
+                                <option value="DC">四级</option>
+                            </select>
+                            <i class="arrow"></i>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>主负aasda责人:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="primaryPerson" id="primaryPerson" class="gui-input" >
+                        </label>
+                    </td>
+
+                    <td>副负责人:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="deputyPerson" id="deputyPerson" class="gui-input" >
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2" >是否可用:</td>
+                    <td class="col-md-4">
+
+                        <label class="field select">
+                            <select id="useable" name="useable">
+                                <option value="AC">是</option>
+                                <option value="AL">否</option>
+                            </select>
+                            <i class="arrow"></i>
+                        </label>
+                    </td>
+
+                    <td>联系地址:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="address" id="address" class="gui-input" >
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2" >邮政编码:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="zipCode" id="zipCode" class="gui-input" >
+                        </label>
+                    </td>
+
+                    <td>负责人:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="master" id="master" class="gui-input" >
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2" >电话:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="phone" id="phone" class="gui-input" >
+                        </label>
+                    </td>
+
+                    <td>传真:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="fax" id="fax" class="gui-input" >
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2" >邮箱:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="email" id="email" class="gui-input" >
+                        </label>
+                    </td>
+
+                    <td>备注:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <textarea class="form-control" id="textArea2" rows="2"></textarea>
+                        </label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary">
+            提交更改
+        </button>
+    </div>
+</body>
+</html>

@@ -31,6 +31,11 @@ public class OfficeController {
         return "html/sys/pages_office";
     }
 
+    @RequestMapping("form")
+    public String officeForm(){
+        return "html/sys/officeForm";
+    }
+
     @RequestMapping("getChildren")
     @ResponseBody
     public List<Office> getChildren(String parentId){

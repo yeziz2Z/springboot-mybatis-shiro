@@ -17,8 +17,8 @@
     <!-- Theme CSS -->
     <link rel="stylesheet" type="text/css" href="assets/skin/default_skin/css/theme.css" th:href="@{/assets/skin/default_skin/css/theme.css}">
 
-    <!-- Required Plugin CSS -->
-    <!--<link rel="stylesheet" type="text/css" href="vendor/plugins/datatables/media/css/dataTables.bootstrap.css" th:href="@{/vendor/plugins/datatables/media/css/dataTables.bootstrap.css}">-->
+    <!-- Admin Forms CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/admin-tools/admin-forms/css/admin-forms.css" th:href="@{/assets/admin-tools/admin-forms/css/admin-forms.css}">
 
     <!-- JQuery treeTable CSS -->
     <link th:href="@{/vendor/jquery/tree-table/jquery.treetable.css}" rel="stylesheet">
@@ -856,7 +856,7 @@
         <!-- End: Right Sidebar -->
 
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width: 700px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -866,73 +866,164 @@
                             新增机构
                         </h4>
                     </div>
-                    <div class="modal-body">
-                            <form class="form-horizontal" role="form">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="section">
-                                            <label for="parent" class="col-lg-3 control-label"><span style="color: red">*</span>上级机构:</label>
-                                            <div class="col-lg-8">
-                                                <input type="text" id="parent" class="form-control" placeholder="Type Here...">
+                    <div class="modal-body admin-form">
+                        <form class="">
+                            <input type="hidden" name="id" id="id">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr >
+                                        <td class="col-md-2" ><span style="color: red">*</span>上级机构:</td>
+                                        <td class="col-md-4">
+                                            <div class="smart-widget sm-right smr-50" >
+                                                <label class="field">
+                                                    <input type="text" name="parentId" id="parentId" class="gui-input" style="background: #EEE" >
+                                                </label>
+                                                <button type="button" class="button btn-default"> <i class="fa fa-search"></i></button>
+                                                <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="section">
-                                            <label for="inputStandard" class="col-lg-3 control-label">Standard</label>
-                                            <div class="col-lg-8">
-                                                <input type="text" id="inputStandard" class="form-control" placeholder="Type Here...">
+
+                                        </td>
+
+                                        <td class="col-md-2"><span style="color: red">*</span>区域:</td>
+                                        <td class="col-md-4">
+                                            <div class="smart-widget sm-right smr-50">
+                                                <label class="field">
+                                                    <input type="text" name="areaId" id="areaId" class="gui-input" >
+                                                </label>
+                                                <button type="submit" class="button btn-default"> <i class="fa fa-search"></i></button>
+                                                <button type="button" id="areaDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" ><span style="color: red">*</span>名称机构:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="name" id="name" class="gui-input" >
+                                            </label>
+                                        </td>
+
+                                        <td>机构编码:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="code" id="code" class="gui-input" >
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" >机构类型:</td>
+                                        <td class="col-md-4">
+                                            <label class="field select">
+                                                <select id="type" name="type">
+                                                    <option></option>
+                                                    <option value="">公司</option>
+                                                    <option value="AL">部门</option>
+                                                    <option value="DZ">小组</option>
+                                                    <option value="DZC">其它</option>
+                                                </select>
+                                                <i class="arrow"></i>
+                                            </label>
+                                        </td>
+
+                                        <td>机构等级:</td>
+                                        <td class="col-md-4">
+                                            <label class="field select">
+                                                <select id="grade" name="grade">
+                                                    <option></option>
+                                                    <option value="AC">一级</option>
+                                                    <option value="AL">二级</option>
+                                                    <option value="DZ">三级</option>
+                                                    <option value="DC">四级</option>
+                                                </select>
+                                                <i class="arrow"></i>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>主负责人:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="primaryPerson" id="primaryPerson" class="gui-input" >
+                                            </label>
+                                        </td>
+
+                                        <td>副负责人:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="deputyPerson" id="deputyPerson" class="gui-input" >
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" >是否可用:</td>
+                                        <td class="col-md-4">
+
+                                            <label class="field select">
+                                                <select id="useable" name="useable">
+                                                    <option value="AC">是</option>
+                                                    <option value="AL">否</option>
+                                                </select>
+                                                <i class="arrow"></i>
+                                            </label>
+                                        </td>
+
+                                        <td>联系地址:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="address" id="address" class="gui-input" >
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" >邮政编码:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="zipCode" id="zipCode" class="gui-input" >
+                                            </label>
+                                        </td>
+
+                                        <td>负责人:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="master" id="master" class="gui-input" >
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" >电话:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="phone" id="phone" class="gui-input" >
+                                            </label>
+                                        </td>
+
+                                        <td>传真:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="fax" id="fax" class="gui-input" >
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" >邮箱:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <input type="text" name="email" id="email" class="gui-input" >
+                                            </label>
+                                        </td>
+
+                                        <td>备注:</td>
+                                        <td class="col-md-4">
+                                            <label class="field">
+                                                <textarea class="form-control" id="textArea2" rows="2"></textarea>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </form>
-                        <!--<table class="table">-->
-                            <!--<tbody>-->
-                                <!--<tr>-->
-                                    <!--<td class="width-15 active">-->
-                                        <!--<label ><span color="red">*</span>机构名称:</label>-->
-                                    <!--</td>-->
-                                    <!--<td class="width-35">-->
 
-                                    <!--</td>-->
-                                    <!--<td class="width-15 active">-->
-                                        <!--<label ><span color="red">*</span>归属区域:</label>-->
-                                    <!--</td>-->
-                                    <!--<td class="width-35">-->
 
-                                    <!--</td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td class="width-15 active">-->
-                                        <!--<label ><span color="red">*</span>机构名称:</label>-->
-                                    <!--</td>-->
-                                    <!--<td class="width-35">-->
-
-                                    <!--</td>-->
-                                    <!--<td class="width-15 active">-->
-                                        <!--<label ><span color="red">*</span>归属区域:</label>-->
-                                    <!--</td>-->
-                                    <!--<td class="width-35">-->
-
-                                    <!--</td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td class="width-15 active">-->
-                                        <!--<label ><span color="red">*</span>机构名称:</label>-->
-                                    <!--</td>-->
-                                    <!--<td class="width-35">-->
-
-                                    <!--</td>-->
-                                    <!--<td class="width-15 active">-->
-                                        <!--<label ><span color="red">*</span>归属区域:</label>-->
-                                    <!--</td>-->
-                                    <!--<td class="width-35">-->
-
-                                    <!--</td>-->
-                                <!--</tr>-->
-                            <!--</tbody>-->
-                        <!--</table>-->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭

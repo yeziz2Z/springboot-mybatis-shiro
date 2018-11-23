@@ -344,7 +344,7 @@
   *display: inline;
   color: #626262;
   outline: none;
-  height: 42px;
+  height: 34px;
   width: 100%;
   *zoom: 1;
 }
@@ -374,7 +374,7 @@
 }
 .admin-form .select > select {
   display: block;
-  padding: 9px 10px;
+  padding: 5px 10px;
   color: #626262;
   background: #FFF;
   border: 1px solid #DDD;
@@ -412,7 +412,7 @@
 }
 .admin-form .select .arrow:before {
   content: '\25BC';
-  bottom: 4px;
+  bottom: 9px;
 }
 .admin-form .select .double:after {
   content: '\25B2';
@@ -1205,8 +1205,8 @@
   position: absolute;
   cursor: pointer;
   color: #626262;
-  height: 42px;
-  line-height: 39px;
+  height: 34px;
+  line-height: 33px;
   top: 0;
 }
 /* Disabled Prepended Icon State */

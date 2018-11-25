@@ -24,4 +24,12 @@
         id, dict_type_id, label, value, sort, create_by, create_date, update_by, update_date, del_flag
     </sql>
 
+
+    <select id="getListByDictType" resultMap="BaseResultMap">
+        select sdv.label,sdv.value
+        from sys_dict_value sdv ,sys_dict_type sdt
+        where sdv.dict_type_id = sdt.id
+        and sdt.type = #{type}
+        order by sdv.sort
+    </select>
 </mapper>

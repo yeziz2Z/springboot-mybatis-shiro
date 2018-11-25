@@ -3,6 +3,10 @@ package com.liuk.springboot.service;
 import com.liuk.springboot.entity.DictValue;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * <p>
  * 字典值 服务类
@@ -13,4 +17,6 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface IDictValueService extends IService<DictValue> {
 
+
+    List<DictValue> getDictList(String type);
 }

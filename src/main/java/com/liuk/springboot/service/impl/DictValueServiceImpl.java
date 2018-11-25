@@ -6,6 +6,8 @@ import com.liuk.springboot.service.IDictValueService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 字典值 服务实现类
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DictValueServiceImpl extends ServiceImpl<DictValueMapper, DictValue> implements IDictValueService {
 
+    @Override
+    public List<DictValue> getDictList(String type) {
+        return baseMapper.getListByDictType(type);
+    }
 }

@@ -1,7 +1,11 @@
 package com.liuk.springboot.sys.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.liuk.springboot.common.JsTree;
+import com.liuk.springboot.sys.vo.OfficeVO;
 import com.liuk.springboot.sys.entity.Office;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,7 @@ import com.liuk.springboot.sys.entity.Office;
  */
 public interface IOfficeService extends IService<Office> {
 
+    List<JsTree> getAllOfficeTree();
+
+    OfficeVO getOfficeVoById(String id);
 }

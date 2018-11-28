@@ -33,9 +33,53 @@
         <result column="del_flag" property="delFlag" />
     </resultMap>
 
+    <resultMap id="officeVoMap" type="com.liuk.springboot.sys.vo.OfficeVO" extends="BaseResultMap">
+        <result column="parent_name" property="parentName"/>
+        <result column="area_name" property="areaName"/>
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, parent_ids, name, sort, area_id, code, type, grade, address, zip_code, master, phone, fax, email, USEABLE, PRIMARY_PERSON, DEPUTY_PERSON, create_by, create_date, update_by, update_date, remarks, del_flag
+        a.id,
+        a.parent_id,
+        a.parent_ids,
+        a.name,
+        a.sort,
+        a.area_id,
+        a.code,
+        a.type,
+        a.grade,
+        a.address,
+        a.zip_code,
+        a.master,
+        a.phone,
+        a.fax,
+        a.email,
+        a.USEABLE,
+        a.PRIMARY_PERSON,
+        a.DEPUTY_PERSON,
+        a.create_by,
+        a.create_date,
+        a.update_by,
+        a.update_date,
+        a.remarks,
+        a.del_flag
     </sql>
 
+    <select id="getAllOfficeTree" resultType="com.liuk.springboot.common.JsTree">
+        select id 'key',name title,parent_Id parentId from sys_office
+        where del_flag = '0'
+    </select>
+
+    <select id="getOfficeVoById" resultMap="officeVoMap">
+      select
+        b.name parent_name,
+        c.name area_name,
+        <include refid="Base_Column_List"/>
+      from sys_office a
+      left join sys_office b
+        on a.parent_id = b.id
+      left join sys_area c
+        on a.area_id = c.id
+      where a.id = #{id}
+    </select>
 </mapper>

@@ -866,12 +866,53 @@
             </div><!-- /.modal -->
         </div>
 
-        <div class="modal fade" id="orgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style="width: 700px;">
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" id="testModal" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
 
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" >
+                            选择机构
+                        </h4>
+                    </div>
+
+                    <div class="modal-body panel-body" id="p4">
+
+                            <div class="row mb15">
+                                <div class="col-xs-8">
+                                    <input class="form-control" style="height: 34px" name="search" placeholder="Filter...">
+                                </div>
+                                <div class="col-xs-4">
+                                    <button class="btn btn-primary" style="height: 34px;padding: 7px 9px;" id="btnResetSearch"> Clear <i class="fa fa-remove pl10"></i>
+                                    </button>
+                                    <span id="matches"></span>
+                                </div>
+                            </div>
+                            <p>
+                                <label for="hideMode" class="mr15">
+                                    <input type="checkbox" class="mr5 va-t" id="hideMode"> 隐藏未匹配节点
+                                </label>
+                            </p>
+                            <hr class="short alt mv15">
+                            <p id="sampleButtons">
+                            </p>
+                            <!-- Add a <table> element where the tree should appear: -->
+                            <div id="tree8" style=" overflow-y:auto; height:300px;">
+                            </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="test()">
+                            确定
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- End: Main -->
@@ -936,13 +977,13 @@
                         "</button>" +
                         "<ul class='dropdown-menu' role='menu'>" +
                         "<li>" +
-                        "<a href='#'>Action</a>" +
+                        "<a href='#' onclick='showOfficeForm(\""+item.id+"\")'>修改</a>" +
                         "</li>" +
                         "<li>" +
-                        "<a href='#'>Another action</a>" +
+                        "<a href='#'>删除</a>" +
                         "</li>" +
                         "<li>" +
-                        "<a href='#'>Something else here</a>" +
+                        "<a href='#'>添加下级机构</a>" +
                         "</li></ul></div></td>";
 
                     return result;
@@ -962,16 +1003,125 @@
 
             });
         });
-        function showOfficeForm() {
-            // $("#myModal").modal("show");
+        function showOfficeForm(officeId) {
+            if (!officeId){
+                officeId = "";
+            }
             $("#myModal").modal({
-                remote : "/sys/office/form"
+                remote : "/sys/office/form?officeId="+officeId
             });
             $("#myModal").on('shown.bs.modal',function () {
-                $(this).find('.modal-title').text("修改机构");
+                $(this).find('.modal-title').text(officeId?"修改机构":"新增机构");
+            });
+            //模态框内容仅加载一次 监听模态隐藏事件 清楚模态框内容
+            $("#myModal").on('hidden.bs.modal',function () {
+                $(this).removeData("bs.modal");
             });
         }
 
+
+        function test() {
+            $("#testModal").modal("show");
+        }
+
+        $("#tree8").fancytree({
+            extensions: ["filter"],
+            quicksearch: true,
+            source:{
+                url: "/sys/office/treeData"
+            },
+            /*source: [
+                {"key": "10", "title": "总公司", "folder": true, "children": [
+                        {"key": "10_1", "title": "行政部门", "children": [
+                                {"key": "10_1_1", "title": "ADA"},
+                                {"key": "10_1_2", "title": "ADC"}
+                            ]},
+                        {"key": "10_2", "title": "技术部", "children": [
+                                {"key": "10_2_1", "title": "IT1"},
+                                {"key": "10_2_3", "title": "IT2"},
+                                {"key": "10_2_4", "title": "IT3"},
+                                {"key": "10_2_5", "title": "IT4"},
+                                {"key": "10_2_6", "title": "IT5"},
+                                {"key": "10_2_7", "title": "IT6"},
+                                {"key": "10_2_8", "title": "IT7"},
+                                {"key": "10_2_9", "title": "IT8"},
+                                {"key": "10_2_10", "title": "IT9"},
+                                {"key": "10_2_12", "title": "ITA"}
+                            ]}
+                    ]},
+                {"key": "20", "title": "Simple", "expanded": true, "children": [
+                        {"key": "20_1", "title": "Sub-item", "children": [
+                                {"key": "20_1_1", "title": "2.1.1"},
+                                {"key": "20_1_2", "title": "2.1.2"}
+                            ]},
+                        {"key": "20_2", "title": "Sub-item", "children": [
+                                {"key": "20_2_1", "title": "Sub-item1"},
+                                {"key": "20_2_2", "title": "Sub-item2"}
+                            ]}
+                    ]}
+            ],*/
+            filter: {
+                mode: "hide",
+                autoApply: true
+            },
+            activate: function(event, data) {
+                        //alert("activate " + data.node);
+            },
+            lazyLoad:function (event, data) {
+                console.log(event);
+                console.log(data);
+            }
+
+        });
+        var tree = $("#tree8").fancytree("getTree");
+        /*
+         * Event handlers for our little demo interface
+         */
+        $("input[name=search]").keyup(function(e) {
+            var n,
+                leavesOnly = $("#leavesOnly").is(":checked"),
+                match = $(this).val();
+
+            if (e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === "") {
+                $("button#btnResetSearch").click();
+                return;
+            }
+            if ($("#regex").is(":checked")) {
+                // Pass function to perform match
+                n = tree.filterNodes(function(node) {
+                    return new RegExp(match, "i").test(node.title);
+                }, leavesOnly);
+            } else {
+                // Pass a string to perform case insensitive matching
+                n = tree.filterNodes(match, leavesOnly);
+            }
+            $("button#btnResetSearch").attr("disabled", false);
+            $("span#matches").text("(" + n + " 匹配项)");
+        });
+
+        $("button#btnResetSearch").click(function(e) {
+            $("input[name=search]").val("");
+            $("span#matches").text("");
+            tree.clearFilter();
+        }).attr("disabled", true);
+
+        tree.options.filter.mode = $("input#hideMode").is(":checked") ? "hide" : "dimm";
+        tree.clearFilter();
+
+        $("input#hideMode").change(function(e) {
+            tree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
+            tree.clearFilter();
+            $("input[name=search]").keyup();
+        });
+        $("input#leavesOnly").change(function(e) {
+            // tree.options.filter.leavesOnly = $(this).is(":checked");
+            tree.clearFilter();
+            $("input[name=search]").keyup();
+        });
+        $("input#regex").change(function(e) {
+            tree.clearFilter();
+            $("input[name=search]").keyup();
+        });
 
     </script>
     <!-- END: PAGE SCRIPTS -->

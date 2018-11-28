@@ -1,7 +1,12 @@
 package com.liuk.springboot.sys.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.liuk.springboot.common.JsTree;
+import com.liuk.springboot.sys.vo.OfficeVO;
 import com.liuk.springboot.sys.entity.Office;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +18,7 @@ import com.liuk.springboot.sys.entity.Office;
  */
 public interface OfficeMapper extends BaseMapper<Office> {
 
+    List<JsTree> getAllOfficeTree();
+
+    OfficeVO getOfficeVoById(@Param("id") String id);
 }

@@ -1,43 +1,32 @@
-package com.liuk.springboot.sys.entity;
+package com.liuk.springboot.sys.vo;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.util.Date;
 
-/**
- * <p>
- * 机构表
- * </p>
- *
- * @author liuk
- * @since 2018-07-05
- */
-@TableName("sys_office")
 @Data
 @ToString
 @Accessors(chain = true)
 @NoArgsConstructor
-public class Office extends Model<Office> {
-
+public class OfficeVO {
     private static final long serialVersionUID = 1L;
 
     /**
      * 编号
      */
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
     /**
      * 父级编号
      */
     private String parentId;
+
+    /**
+     * 父级机构名称
+     */
+    private String parentName;
     /**
      * 所有父级编号
      */
@@ -54,6 +43,11 @@ public class Office extends Model<Office> {
      * 归属区域
      */
     private String areaId;
+
+    /**
+     * 归属区域名称
+     */
+    private String areaName;
     /**
      * 区域编码
      */
@@ -127,11 +121,5 @@ public class Office extends Model<Office> {
      */
     private String delFlag;
 
-
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
 }

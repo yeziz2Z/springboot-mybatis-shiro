@@ -24,9 +24,10 @@
                     <td class="col-md-4">
                         <div class="smart-widget sm-right smr-50" >
                             <label class="field">
-                                <input type="text" name="parentId" id="parentId" class="gui-input" style="background: #EEE" >
+                                <input type="text" th:value="${office.parentName}" class="gui-input" style="background: #EEE" >
                             </label>
-                            <button type="button" class="button btn-default"> <i class="fa fa-search"></i></button>
+                            <input type="hidden" name="parentId" th:value="${office.parentId}">
+                            <button type="button" onclick="test()" class="button btn-default"> <i class="fa fa-search"></i></button>
                             <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
 
@@ -36,8 +37,9 @@
                     <td class="col-md-4">
                         <div class="smart-widget sm-right smr-50">
                             <label class="field">
-                                <input type="text" name="areaId" id="areaId" class="gui-input" >
+                                <input type="text" th:value="${office.areaName}" class="gui-input" >
                             </label>
+                            <input type="hidden" th:value="${office.areaId}">
                             <button type="submit" class="button btn-default"> <i class="fa fa-search"></i></button>
                             <button type="button" id="areaDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
@@ -64,7 +66,7 @@
                         <label class="field select">
                             <select id="type" name="type">
                                 <option></option>
-                                <option   th:each="dict :${#dictUtils.getDictList('sys_office_type')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${office!=null}?${office.type == dict.value}"></option>
+                                <option th:each="dict :${#dictUtils.getDictList('sys_office_type')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${office!=null}?${office.type == dict.value}"></option>
 
                             </select>
                             <i class="arrow"></i>
@@ -76,7 +78,7 @@
                         <label class="field select">
                             <select id="grade" name="grade">
                                 <option></option>
-                                <option   th:each="dict :${#dictUtils.getDictList('sys_office_grade')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${office!=null}?${office.grade == dict.value}"></option>
+                                <option th:each="dict :${#dictUtils.getDictList('sys_office_grade')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${office!=null}?${office.grade == dict.value}"></option>
                             </select>
                             <i class="arrow"></i>
                         </label>
@@ -103,7 +105,7 @@
 
                         <label class="field select">
                             <select id="useable" name="useable">
-                                <option   th:each="dict :${#dictUtils.getDictList('yes_no')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${office!=null}?${office.useable == dict.value}"></option>
+                                <option th:each="dict :${#dictUtils.getDictList('yes_no')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${office!=null}?${office.useable == dict.value}"></option>
                             </select>
                             <i class="arrow"></i>
                         </label>
@@ -157,7 +159,7 @@
                     <td>备注:</td>
                     <td class="col-md-4">
                         <label class="field">
-                            <textarea class="form-control" id="textArea2" th:value="${office.remarks}" rows="2"></textarea>
+                            <textarea class="form-control" id="textArea2" th:text="${office.remarks}" rows="2"></textarea>
                         </label>
                     </td>
                 </tr>
@@ -171,7 +173,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
         </button>
         <button type="button" class="btn btn-primary" onclick="test()">
-            提交更改
+            保存
         </button>
     </div>
 </body>

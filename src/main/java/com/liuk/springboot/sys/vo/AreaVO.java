@@ -1,44 +1,29 @@
-package com.liuk.springboot.entity;
+package com.liuk.springboot.sys.vo;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
+import java.util.Date;
 
-/**
- * <p>
- * 区域表; InnoDB free: 34816 kB
- * </p>
- *
- * @author liuk
- * @since 2018-07-05
- */
-@TableName("sys_area")
 @Data
 @ToString
 @Accessors(chain = true)
 @NoArgsConstructor
-public class Area extends Model<Area> {
-
-    private static final long serialVersionUID = 1L;
-
+public class AreaVO {
     /**
      * 编号
      */
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
     /**
      * 父级编号
      */
     private String parentId;
+    /**
+     * 父级名称
+     */
+    private String parentName;
     /**
      * 所有父级编号
      */
@@ -50,7 +35,7 @@ public class Area extends Model<Area> {
     /**
      * 排序
      */
-    private BigDecimal sort;
+    private Integer sort;
     /**
      * 区域编码
      */
@@ -84,10 +69,4 @@ public class Area extends Model<Area> {
      */
     private String delFlag;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
-    
 }

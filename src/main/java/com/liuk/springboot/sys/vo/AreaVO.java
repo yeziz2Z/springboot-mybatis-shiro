@@ -44,6 +44,11 @@ public class AreaVO {
      * 区域类型
      */
     private String type;
+
+    /**
+     * 区域类型名称
+     */
+    private String typeName;
     /**
      * 创建者
      */

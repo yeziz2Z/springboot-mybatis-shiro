@@ -48,11 +48,11 @@ public class AreaController {
 
     @RequestMapping("getChildren")
     @ResponseBody
-    public List<Area> getChildren(String parentId){
+    public List<AreaVO> getChildren(String parentId){
         if ("-1".equals(parentId)){
             parentId = "0";
         }
-        return areaService.getChildren(parentId);
+        return areaService.getAreaVOList(parentId);
     }
 
     @RequestMapping("treeData")

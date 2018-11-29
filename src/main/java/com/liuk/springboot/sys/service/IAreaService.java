@@ -22,4 +22,6 @@ public interface IAreaService extends IService<Area> {
     AreaVO getAreaVoById(String id);
 
     List<JsTree> getAllAreaTree();
+
+    List<AreaVO> getAreaVOList(String parentId);
 }

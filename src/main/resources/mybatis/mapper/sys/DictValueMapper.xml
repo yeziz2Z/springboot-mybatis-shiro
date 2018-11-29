@@ -32,4 +32,12 @@
         and sdt.type = #{type}
         order by sdv.sort
     </select>
+
+    <select id="getDictLabel" resultType="string">
+        select sdv.label
+        from sys_dict_value sdv ,sys_dict_type sdt
+        where sdv.dict_type_id = sdt.id
+        and sdt.type = #{type}
+        and sdv.value = #{value}
+    </select>
 </mapper>

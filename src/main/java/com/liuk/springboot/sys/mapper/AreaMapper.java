@@ -21,4 +21,6 @@ public interface AreaMapper extends BaseMapper<Area> {
     List<JsTree> getAllAreaTree();
 
     AreaVO getAreaVoById(@Param("id") String id);
+
+    List<AreaVO> getAreaVOList(@Param("parentId") String parentId);
 }

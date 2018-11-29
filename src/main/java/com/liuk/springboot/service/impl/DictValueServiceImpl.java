@@ -23,4 +23,9 @@ public class DictValueServiceImpl extends ServiceImpl<DictValueMapper, DictValue
     public List<DictValue> getDictList(String type) {
         return baseMapper.getListByDictType(type);
     }
+
+    @Override
+    public String getDictLabel(String type, String value) {
+        return baseMapper.getDictLabel(type,value);
+    }
 }

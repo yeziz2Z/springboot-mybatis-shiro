@@ -19,4 +19,6 @@ public interface IDictValueService extends IService<DictValue> {
 
 
     List<DictValue> getDictList(String type);
+
+    String getDictLabel(String type,String value);
 }

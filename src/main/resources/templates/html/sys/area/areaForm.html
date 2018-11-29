@@ -24,11 +24,11 @@
                     <td class="col-md-4">
                         <div class="smart-widget sm-right smr-50" >
                             <label class="field">
-                                <input type="text" th:value="${area.parentName}" class="gui-input" style="background: #EEE" >
+                                <input type="text" readonly id="parentName" th:value="${area.parentName}" class="gui-input" style="background: #EEE" >
                             </label>
                             <input type="hidden" name="parentId" th:value="${area.parentId}">
-                            <button type="button" onclick="test()" class="button btn-default"> <i class="fa fa-search"></i></button>
-                            <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
+                            <button type="button" id="searchAreaBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
+                            <button type="button" id="areaDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
 
                     </td>
@@ -89,6 +89,11 @@
         var formData = $("#areaForm").serialize();
         console.log(formData);
     }
+
+    $("#searchAreaBtn,#parentName").click(function () {
+        alert("hello");
+    });
+
 </script>
 </body>
 

@@ -19,4 +19,6 @@ import java.util.List;
 public interface DictValueMapper extends BaseMapper<DictValue> {
 
     List<DictValue> getListByDictType(@Param("type") String type);
+
+    String getDictLabel(@Param("type")String type,@Param("value") String value);
 }

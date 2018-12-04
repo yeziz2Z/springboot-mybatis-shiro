@@ -727,6 +727,55 @@
             </div><!-- /.modal -->
         </div>
 
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" id="treeModal" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" >
+                            选择上级区域
+                        </h4>
+                    </div>
+
+                    <div class="modal-body panel-body" id="p4">
+
+                        <div class="row mb15">
+                            <div class="col-xs-8">
+                                <input class="form-control" style="height: 34px" name="search" placeholder="Filter...">
+                            </div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary" style="height: 34px;padding: 7px 9px;" id="btnResetSearch"> Clear <i class="fa fa-remove pl10"></i>
+                                </button>
+                                <span id="matches"></span>
+                            </div>
+                        </div>
+                        <p>
+                            <label for="hideMode" class="mr15">
+                                <input type="checkbox" class="mr5 va-t" id="hideMode"> 隐藏未匹配节点
+                            </label>
+                        </p>
+                        <hr class="short alt mv15">
+                        <p id="sampleButtons">
+                        </p>
+                        <!-- Add a <table> element where the tree should appear: -->
+                        <div id="areaTree" style=" overflow-y:auto; height:300px;">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="$('#treeModal').modal('hide')">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="selectArea()">
+                            确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- End: Main -->
 
@@ -818,7 +867,7 @@
                 remote : "/sys/area/form?areaId="+areaId
             });
             $("#myModal").on('shown.bs.modal',function () {
-                $(this).find('.modal-title').text(areaId?"修改区域":"新增区域");
+                $(this).find('#myModal .modal-title').text(areaId?"修改区域":"新增区域");
             });
             //模态框内容仅加载一次 监听模态隐藏事件 清楚模态框内容
             $("#myModal").on('hidden.bs.modal',function () {

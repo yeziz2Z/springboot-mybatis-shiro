@@ -26,7 +26,7 @@
                             <label class="field">
                                 <input type="text" readonly id="parentName" th:value="${area.parentName}" class="gui-input" style="background: #EEE" >
                             </label>
-                            <input type="hidden" name="parentId" th:value="${area.parentId}">
+                            <input type="hidden" id="parentId" name="parentId" th:value="${area.parentId}">
                             <button type="button" id="searchAreaBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
                             <button type="button" id="areaDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
@@ -84,6 +84,8 @@
             保存
         </button>
     </div>
+
+
 <script>
     function saveOffice() {
         var formData = $("#areaForm").serialize();
@@ -91,9 +93,91 @@
     }
 
     $("#searchAreaBtn,#parentName").click(function () {
-        alert("hello");
+        $("#treeModal").modal("show");
     });
 
+
+    $("#areaTree").fancytree({
+        extensions: ["filter"],
+        quicksearch: true,
+        source:{
+            url: "/sys/area/treeData"
+        },
+
+        filter: {
+            mode: "hide",
+            autoApply: true
+        },
+        activate: function(event, data) {
+            //alert("activate " + data.node);
+        },
+        lazyLoad:function (event, data) {
+            console.log(data);
+        }
+
+    });
+    var tree = $("#areaTree").fancytree("getTree");
+    /*
+     * Event handlers for our little demo interface
+     */
+    $("input[name=search]").keyup(function(e) {
+        var n,
+            leavesOnly = $("#leavesOnly").is(":checked"),
+            match = $(this).val();
+
+        if (e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === "") {
+            $("button#btnResetSearch").click();
+            return;
+        }
+        if ($("#regex").is(":checked")) {
+            // Pass function to perform match
+            n = tree.filterNodes(function(node) {
+                return new RegExp(match, "i").test(node.title);
+            }, leavesOnly);
+        } else {
+            // Pass a string to perform case insensitive matching
+            n = tree.filterNodes(match, leavesOnly);
+        }
+        $("button#btnResetSearch").attr("disabled", false);
+        $("span#matches").text("(" + n + " 匹配项)");
+    });
+
+    $("button#btnResetSearch").click(function(e) {
+        $("input[name=search]").val("");
+        $("span#matches").text("");
+        tree.clearFilter();
+    }).attr("disabled", true);
+
+    tree.options.filter.mode = $("input#hideMode").is(":checked") ? "hide" : "dimm";
+    tree.clearFilter();
+
+    $("input#hideMode").change(function(e) {
+        tree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
+        tree.clearFilter();
+        $("input[name=search]").keyup();
+    });
+    $("input#leavesOnly").change(function(e) {
+        // tree.options.filter.leavesOnly = $(this).is(":checked");
+        tree.clearFilter();
+        $("input[name=search]").keyup();
+    });
+    $("input#regex").change(function(e) {
+        tree.clearFilter();
+        $("input[name=search]").keyup();
+    });
+
+    function selectArea() {
+        if(tree.activeNode){
+            $("#parentName").val(tree.activeNode.title);
+            $("#parentId").val(tree.activeNode.key);
+
+        }
+        $('#treeModal').modal('hide');
+    }
+    $("#areaDelButton").click(function () {
+        $("#parentName").val("");
+        $("#parentId").val("");
+    })
 </script>
 </body>
 

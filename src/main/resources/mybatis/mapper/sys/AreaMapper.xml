@@ -24,7 +24,12 @@
 
     <resultMap id="areaVOMap" type="com.liuk.springboot.sys.vo.AreaVO" extends="BaseResultMap">
         <result column="parent_name" property="parentName" />
+        <association column="id" property="hasChildren" select="hasChildren" />
     </resultMap>
+
+    <select id="hasChildren" parameterType="string" resultType="boolean">
+        select case when exists(select 1 from sys_area where parent_id = #{id}) then 1 else 0 end from dual
+    </select>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">

@@ -46,6 +46,13 @@ public class AreaController {
         return "html/sys/area/areaForm";
     }
 
+    @RequestMapping("save")
+    @ResponseBody
+    public Object save(Area area){
+        areaService.insertOrUpdate(area);
+        return "ok!";
+    }
+
     @RequestMapping("getChildren")
     @ResponseBody
     public List<AreaVO> getChildren(String parentId){

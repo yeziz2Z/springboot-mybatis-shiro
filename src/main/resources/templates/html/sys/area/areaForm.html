@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        <button type="button" class="close" onclick="closeAreaForm()" aria-hidden="true">
             &times;
         </button>
         <h4 class="modal-title" >
@@ -63,7 +63,7 @@
                     <td>备注:</td>
                     <td class="col-md-4">
                         <label class="field">
-                            <textarea class="form-control" id="textArea2" th:text="${area.remarks}" rows="2"></textarea>
+                            <textarea class="form-control" name="remarks" th:text="${area.remarks}" rows="2"></textarea>
                         </label>
                     </td>
                     <td class="col-md-2" ></td>
@@ -78,7 +78,7 @@
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+        <button type="button" class="btn btn-default" onclick="closeAreaForm()">关闭
         </button>
         <button type="button" class="btn btn-primary" onclick="saveOffice()">
             保存
@@ -87,9 +87,28 @@
 
 
 <script>
+
+    var $treeTable;
+    function closeAreaForm() {
+        $("#myModal").modal("hide");
+    }
+    
     function saveOffice() {
         var formData = $("#areaForm").serialize();
-        console.log(formData);
+        $.ajax({
+            url : "/sys/area/save",
+            method : "POST",
+            data : formData,
+            success : function (data) {
+                alert(data);
+                console.log($treeTable);
+                $treeTable.refreshPoint(-1);
+                closeAreaForm();
+            },
+            error : function () {
+                alert("出错啦");
+            }
+        });
     }
 
     $("#searchAreaBtn,#parentName").click(function () {

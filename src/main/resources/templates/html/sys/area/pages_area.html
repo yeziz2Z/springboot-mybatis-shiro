@@ -605,7 +605,7 @@
                                 <div class="col-adjust-8  row text-center" >
 
                                     <div class="col-sm-1">
-                                        <button class="btn btn-primary btn-block" onclick="showAreaForm();"><span class="glyphicon glyphicon-plus">新增</span></button>
+                                        <button class="btn btn-primary btn-block" onclick="showAreaForm('','新增区域');"><span class="glyphicon glyphicon-plus">新增</span></button>
                                     </div>
                                     <div class="col-sm-1">
                                         <button class="btn btn-default btn-block" onclick="refresh()"><span class="glyphicons glyphicons-repeat">刷新</span> </button>
@@ -823,7 +823,7 @@
                 checkbox: false,
                 url:'/sys/area/getChildren?parentId=',
                 callback:function(item) {
-                    var result = "<td>"+ item.name + "</td>";
+                    var result = "<td><a onclick='showAreaForm(\""+item.id +"\",\"查看区域\")'>"+ item.name + "</a></td>";
                     result += "<td>"+ item.code + "</td>";
                     result += "<td>"+ item.typeName + "</td>";
                     result += "<td>"+ item.remarks + "</td>";
@@ -833,10 +833,10 @@
                         "</button>" +
                         "<ul class='dropdown-menu' role='menu'>" +
                         "<li>" +
-                        "<a href='#' onclick='showAreaForm(\""+item.id+"\")'>修改</a>" +
+                        "<a href='#' onclick='showAreaForm(\""+item.id +"\",\"修改区域\")'>修改</a>" +
                         "</li>" +
                         "<li>" +
-                        "<a href='#'>删除</a>" +
+                        "<a href='#' onclick='delArea(\"" +item.id +"\")'>删除</a>" +
                         "</li>" +
                         "<li>" +
                         "<a href='#'>添加下级机构</a>" +
@@ -859,15 +859,48 @@
 
             });
         });
-        function showAreaForm(areaId) {
+        function delArea(areaId) {
+            bootbox.confirm({
+                message: "确认要删除吗",
+                buttons: {
+                    confirm: {
+                        label: '确认'
+                    },
+                    cancel: {
+                        label: '取消'
+                    }
+                },
+                callback: function (result) {
+                    // 返回 true  或者false
+                    if (result) {
+                        $.ajax({
+                            url : "/sys/area/delete?areaId="+areaId,
+                            method : "GET",
+                            success : function (data) {
+                                bootbox.alert(data);
+                                $treeTable.refresh();
+                            },
+                            error : function () {
+                                bootbox.alert("出错啦");
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        function showAreaForm(areaId,title) {
             if (!areaId){
                 areaId = "";
             }
             $("#myModal").modal({
                 remote : "/sys/area/form?areaId="+areaId
             });
+
             $("#myModal").on('shown.bs.modal',function () {
-                $(this).find('#myModal .modal-title').text(areaId?"修改区域":"新增区域");
+                $(this).find('.modal-title').text(title);
+                if (title.includes('查看')) {
+                    $(this).find('#saveBtn').hide();
+                }
             });
             //模态框内容仅加载一次 监听模态隐藏事件 清楚模态框内容
             $("#myModal").on('hidden.bs.modal',function () {

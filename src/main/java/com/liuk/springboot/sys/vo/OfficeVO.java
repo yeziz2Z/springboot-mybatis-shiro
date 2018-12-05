@@ -121,5 +121,8 @@ public class OfficeVO {
      */
     private String delFlag;
 
-
+    /**
+     * 是否有子节点
+     */
+    private boolean hasChildren;
 }

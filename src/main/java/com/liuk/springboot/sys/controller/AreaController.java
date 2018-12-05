@@ -53,6 +53,13 @@ public class AreaController {
         return "ok!";
     }
 
+    @RequestMapping("delete")
+    @ResponseBody
+    public Object delete(String areaId){
+        areaService.deleteById(areaId);
+        return "ok!";
+    }
+
     @RequestMapping("getChildren")
     @ResponseBody
     public List<AreaVO> getChildren(String parentId){

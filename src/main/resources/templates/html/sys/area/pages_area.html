@@ -605,7 +605,7 @@
                                 <div class="col-adjust-8  row text-center" >
 
                                     <div class="col-sm-1">
-                                        <button class="btn btn-primary btn-block" onclick="showAreaForm('','新增区域');"><span class="glyphicon glyphicon-plus">新增</span></button>
+                                        <button class="btn btn-primary btn-block" onclick="showAreaForm('/sys/area/form','新增区域');"><span class="glyphicon glyphicon-plus">新增</span></button>
                                     </div>
                                     <div class="col-sm-1">
                                         <button class="btn btn-default btn-block" onclick="refresh()"><span class="glyphicons glyphicons-repeat">刷新</span> </button>
@@ -823,7 +823,7 @@
                 checkbox: false,
                 url:'/sys/area/getChildren?parentId=',
                 callback:function(item) {
-                    var result = "<td><a onclick='showAreaForm(\""+item.id +"\",\"查看区域\")'>"+ item.name + "</a></td>";
+                    var result = "<td><a onclick='showAreaForm(\"/sys/area/form?id="+item.id +"\",\"查看区域\")'>"+ item.name + "</a></td>";
                     result += "<td>"+ item.code + "</td>";
                     result += "<td>"+ item.typeName + "</td>";
                     result += "<td>"+ item.remarks + "</td>";
@@ -833,14 +833,13 @@
                         "</button>" +
                         "<ul class='dropdown-menu' role='menu'>" +
                         "<li>" +
-                        "<a href='#' onclick='showAreaForm(\""+item.id +"\",\"修改区域\")'>修改</a>" +
+                        "<a href='#' onclick='showAreaForm(\"/sys/area/form?id="+item.id +"\",\"修改区域\")'>修改</a>" +
                         "</li>" +
                         "<li>" +
                         "<a href='#' onclick='delArea(\"" +item.id +"\")'>删除</a>" +
                         "</li>" +
-                        "<li>" +
-                        "<a href='#'>添加下级机构</a>" +
-                        "</li></ul></div></td>";
+                        "<li><a href='#' onclick='showAreaForm(\"/sys/area/form?parentId="+item.id +"\",\"新增区域\")'>添加下级机构</a></li>" +
+                        "</ul></div></td>";
 
                     return result;
                 },
@@ -878,7 +877,7 @@
                             method : "GET",
                             success : function (data) {
                                 bootbox.alert(data);
-                                $treeTable.refresh();
+                                refresh();
                             },
                             error : function () {
                                 bootbox.alert("出错啦");
@@ -888,12 +887,10 @@
                 }
             });
         }
-        function showAreaForm(areaId,title) {
-            if (!areaId){
-                areaId = "";
-            }
+        function showAreaForm(url,title) {
+
             $("#myModal").modal({
-                remote : "/sys/area/form?areaId="+areaId
+                remote : url
             });
 
             $("#myModal").on('shown.bs.modal',function () {
@@ -908,8 +905,9 @@
             });
         }
 
-        function refresh(id) {
-            $treeTable.refreshPoint(id);
+        function refresh() {
+            $treeTable.refresh();
+            // $treeTable.refreshPoint(id);
         }
     </script>
     <!-- END: PAGE SCRIPTS -->

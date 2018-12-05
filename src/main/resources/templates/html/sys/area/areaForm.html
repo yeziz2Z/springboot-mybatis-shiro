@@ -99,11 +99,27 @@
                 method : "POST",
                 data : formData,
                 success : function (data) {
-                    alert(data);
-                    console.log($treeTable);
-                    $treeTable.refresh();
+                    if(data.code == 200){
+                        /*var current_id = data.data.id;
+                        var target = $treeTable.get(current_id);
+                        var old_parent_id = target.attr("pid") == undefined?'0':target.attr("pid");
+                        var current_parent_id = data.data.parentId;
+                        var current_parent_ids = data.data.parentIds;
 
-                    closeAreaForm();
+                        if(old_parent_id == current_parent_id){
+                            if(current_parent_id == '0'){
+                                $treeTable.refreshPoint(-1);
+                            }else{
+                                $treeTable.refreshPoint(current_parent_id);
+                            }
+                        }else{
+                            $treeTable.del(current_id);//刷新删除旧节点
+                            // $treeTable.initParents(current_parent_ids, "0");
+                        }*/
+                        $treeTable.refresh();
+                        closeAreaForm();
+                    }
+
                 },
                 error : function () {
                     alert("出错啦");
@@ -113,7 +129,7 @@
 
         $("#searchAreaBtn,#parentName").click(function () {
             console.log(tree.reload());
-            tree.reload();
+            // tree.reload();
             $("#treeModal").modal("show");
         });
 

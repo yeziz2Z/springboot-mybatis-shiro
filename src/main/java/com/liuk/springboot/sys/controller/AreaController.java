@@ -2,6 +2,7 @@ package com.liuk.springboot.sys.controller;
 
 
 import com.liuk.springboot.common.JsTree;
+import com.liuk.springboot.common.Result;
 import com.liuk.springboot.sys.entity.Area;
 import com.liuk.springboot.sys.service.IAreaService;
 import com.liuk.springboot.sys.vo.AreaVO;
@@ -37,20 +38,23 @@ public class AreaController {
     }
 
     @RequestMapping("form")
-    public String areaForm(String areaId, Model model){
-        if (StringUtils.isNotEmpty(areaId)){
-            model.addAttribute("area",areaService.getAreaVoById(areaId));
-        }else {
-            model.addAttribute("area",new AreaVO());
+    public String areaForm(AreaVO areaVO, Model model){
+        if (StringUtils.isNotEmpty(areaVO.getId())){
+            areaVO = areaService.getAreaVoById(areaVO.getId());
+        }else if(StringUtils.isNotEmpty(areaVO.getParentId())) {
+            areaVO.setParentName(areaService.selectById(areaVO.getParentId()).getName());
         }
+        model.addAttribute("area",areaVO);
         return "html/sys/area/areaForm";
     }
 
     @RequestMapping("save")
     @ResponseBody
-    public Object save(Area area){
+    public Result<Area> save(Area area){
+        Result<Area> result = new Result<>();
         areaService.insertOrUpdate(area);
-        return "ok!";
+        result.setData(area);
+        return result;
     }
 
     @RequestMapping("delete")

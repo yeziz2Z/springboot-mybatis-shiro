@@ -782,7 +782,7 @@
     <!-- BEGIN: PAGE SCRIPTS -->
 
     <!-- jQuery -->
-    <script type="text/javascript" src="vendor/jquery/jquery-1.11.1.min.js" th:src="@{/vendor/jquery/jquery-1.11.1.min.js}"></script>
+    <script type="text/javascript" src="vendor/jquery/jquery-1.11.1.js" th:src="@{/vendor/jquery/jquery-1.11.1.js}"></script>
     <script type="text/javascript" src="vendor/jquery/jquery_ui/jquery-ui.min.js" th:src="@{/vendor/jquery/jquery_ui/jquery-ui.min.js}"></script>
 
     <!-- Bootstrap -->
@@ -797,7 +797,7 @@
     <script th:src="@{/vendor/jquery/tree-table/my-tree.js}"></script>
 
     <!-- Fancytree Plugin -->
-    <script type="text/javascript" src="vendor/plugins/fancytree/jquery.fancytree-all.min.js" th:src="@{/vendor/plugins/fancytree/jquery.fancytree-all.min.js}"></script>
+    <script type="text/javascript" src="vendor/plugins/fancytree/jquery.fancytree-all.js" th:src="@{/vendor/plugins/fancytree/jquery.fancytree-all.js}"></script>
 
     <!-- Fancytree Addon - Inline Edit -->
     <script type="text/javascript" src="vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js" th:src="@{/vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js}"></script>
@@ -857,6 +857,7 @@
                 }
 
             });
+
         });
         function delArea(areaId) {
             bootbox.confirm({
@@ -888,20 +889,99 @@
             });
         }
         function showAreaForm(url,title) {
-
+            // tree = null;
             $("#myModal").modal({
                 remote : url
             });
-
             $("#myModal").on('shown.bs.modal',function () {
                 $(this).find('.modal-title').text(title);
                 if (title.includes('查看')) {
                     $(this).find('#saveBtn').hide();
                 }
             });
-            //模态框内容仅加载一次 监听模态隐藏事件 清楚模态框内容
-            $("#myModal").on('hidden.bs.modal',function () {
-                $(this).removeData("bs.modal");
+        }
+
+
+        //模态框内容仅加载一次 监听模态隐藏事件 清楚模态框内容
+        $("#myModal").on('hidden.bs.modal',function () {
+            $(this).removeData("bs.modal");
+
+        });
+        //模态框内容仅加载一次 监听模态隐藏事件 清楚模态框内容
+        $("#treeModal").on('hidden.bs.modal',function () {
+            $(this).removeData("bs.modal");
+
+        });
+
+        function loadTreeModal() {
+            $("#areaTree").fancytree({
+                extensions: ["filter"],
+                quicksearch: true,
+                source:{
+                    url: "/sys/area/treeData"
+                },
+
+                filter: {
+                    mode: "hide",
+                    autoApply: true
+                },
+                activate: function(event, data) {
+                    //alert("activate " + data.node);
+                },
+                lazyLoad:function (event, data) {
+                    console.log(data);
+                }
+
+            });
+            tree = $("#areaTree").fancytree("getTree");
+
+            /*
+             * Event handlers for our little demo interface
+             */
+            $("input[name=search]").keyup(function(e) {
+                var n,
+                    leavesOnly = $("#leavesOnly").is(":checked"),
+                    match = $(this).val();
+
+                if (e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === "") {
+                    $("button#btnResetSearch").click();
+                    return;
+                }
+                if ($("#regex").is(":checked")) {
+                    // Pass function to perform match
+                    n = tree.filterNodes(function(node) {
+                        return new RegExp(match, "i").test(node.title);
+                    }, leavesOnly);
+                } else {
+                    // Pass a string to perform case insensitive matching
+                    n = tree.filterNodes(match, leavesOnly);
+                }
+                $("button#btnResetSearch").attr("disabled", false);
+                $("span#matches").text("(" + n + " 匹配项)");
+            });
+
+            $("button#btnResetSearch").click(function(e) {
+                $("input[name=search]").val("");
+                $("span#matches").text("");
+                tree.clearFilter();
+            }).attr("disabled", true);
+
+            tree.options.filter.mode = $("input#hideMode").is(":checked") ? "hide" : "dimm";
+            tree.clearFilter();
+
+            $("input#hideMode").change(function(e) {
+                tree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
+                tree.clearFilter();
+                $("input[name=search]").keyup();
+            });
+            $("input#leavesOnly").change(function(e) {
+                // tree.options.filter.leavesOnly = $(this).is(":checked");
+                tree.clearFilter();
+                $("input[name=search]").keyup();
+            });
+            $("input#regex").change(function(e) {
+                tree.clearFilter();
+                $("input[name=search]").keyup();
             });
         }
 

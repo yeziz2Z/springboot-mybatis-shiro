@@ -52,7 +52,7 @@ public class AreaController {
     @ResponseBody
     public Result<Area> save(Area area){
         Result<Area> result = new Result<>();
-        areaService.insertOrUpdate(area);
+        areaService.insertOrUpdate(area.setDelFlag("0"));
         result.setData(area);
         return result;
     }

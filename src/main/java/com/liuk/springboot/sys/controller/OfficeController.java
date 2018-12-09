@@ -3,6 +3,7 @@ package com.liuk.springboot.sys.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.liuk.springboot.common.JsTree;
+import com.liuk.springboot.common.Result;
 import com.liuk.springboot.sys.entity.Office;
 import com.liuk.springboot.sys.service.IOfficeService;
 import com.liuk.springboot.sys.vo.OfficeVO;
@@ -37,14 +38,30 @@ public class OfficeController {
         return "html/sys/pages_office";
     }
 
-    @RequestMapping("form")
-    public String officeForm(String officeId,Model model){
-        if (StringUtils.isNotEmpty(officeId)){
-            model.addAttribute("office",officeService.getOfficeVoById(officeId));
-        }else {
-            model.addAttribute("office",new OfficeVO());
-        }
+    @RequestMapping("save")
+    @ResponseBody
+    public Result<Office> save(Office office){
+        Result<Office> result = new Result<>();
+        officeService.insertOrUpdate(office.setDelFlag("0"));
+        result.setData(office);
+        return result;
+    }
 
+    @RequestMapping("delete")
+    @ResponseBody
+    public Object delete(String officeId){
+        officeService.deleteById(officeId);
+        return "ok!";
+    }
+
+    @RequestMapping("form")
+    public String officeForm(OfficeVO officeVO,Model model){
+        if (StringUtils.isNotEmpty(officeVO.getId())){
+            officeVO = officeService.getOfficeVoById(officeVO.getId());
+        }else if(StringUtils.isNotEmpty(officeVO.getParentId())){
+            officeVO.setParentName(officeService.selectById(officeVO.getParentId()).getName());
+        }
+        model.addAttribute("office",officeVO);
         return "html/sys/officeForm";
     }
 

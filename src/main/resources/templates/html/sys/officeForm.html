@@ -10,24 +10,24 @@
             &times;
         </button>
         <h4 class="modal-title" >
-            新增机构
+
         </h4>
 
     </div>
     <div class="modal-body admin-form">
-        <form class="">
+        <form  id="officeForm">
             <input type="hidden" name="id" id="id">
             <table class="table table-bordered">
                 <tbody>
                 <tr >
-                    <td class="col-md-2" ><span style="color: red">*</span>上级机构:</td>
+                    <td class="col-md-2" >上级机构:</td>
                     <td class="col-md-4">
                         <div class="smart-widget sm-right smr-50" >
                             <label class="field">
-                                <input type="text" th:value="${office.parentName}" class="gui-input" style="background: #EEE" >
+                                <input type="text" id="parentName" readonly th:value="${office.parentName}" class="gui-input" style="background: #EEE" >
                             </label>
-                            <input type="hidden" name="parentId" th:value="${office.parentId}">
-                            <button type="button" onclick="test()" class="button btn-default"> <i class="fa fa-search"></i></button>
+                            <input type="hidden" id="parentId" name="parentId" th:value="${office.parentId}">
+                            <button type="button" id="officeSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
                             <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
 
@@ -37,10 +37,10 @@
                     <td class="col-md-4">
                         <div class="smart-widget sm-right smr-50">
                             <label class="field">
-                                <input type="text" th:value="${office.areaName}" class="gui-input" >
+                                <input type="text" id="areaName" readonly th:value="${office.areaName}" style="background: #EEE" class="gui-input" >
                             </label>
                             <input type="hidden" th:value="${office.areaId}">
-                            <button type="submit" class="button btn-default"> <i class="fa fa-search"></i></button>
+                            <button type="submit" id="areaSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
                             <button type="button" id="areaDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
                     </td>
@@ -172,9 +172,28 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
         </button>
-        <button type="button" class="btn btn-primary" onclick="test()">
+        <button type="button" class="btn btn-primary" id="saveBtn" onclick="saveOffice()">
             保存
         </button>
     </div>
+<script>
+    function closeOfficeForm() {
+        $("#officeFormModal").modal("hide");
+    }
+
+    function saveOffice() {
+        var formData = $("#officeForm").serialize();
+        console.log(formData);
+    }
+
+    $("#areaSearchBtn,#areaName").click(function () {
+        loadAreaTree();
+        $("#areaTreeModal").modal("show");
+    });
+    $("#officeSearchBtn,#parentName").click(function () {
+        loadOfficeTree();
+        $("#officeTreeModal").modal("show");
+    });
+</script>
 </body>
 </html>

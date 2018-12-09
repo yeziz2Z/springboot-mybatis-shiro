@@ -761,8 +761,11 @@
                         <p id="sampleButtons">
                         </p>
                         <!-- Add a <table> element where the tree should appear: -->
-                        <div id="areaTree" style=" overflow-y:auto; height:300px;">
+                        <div id="tree-container">
+                            <div id="areaTree" style="overflow-y:auto; height:300px;">
+                            </div>
                         </div>
+
                     </div>
 
                     <div class="modal-footer">
@@ -908,12 +911,15 @@
 
         });
         //模态框内容仅加载一次 监听模态隐藏事件 清楚模态框内容
-        $("#treeModal").on('hidden.bs.modal',function () {
+       /* $("#treeModal").on('hidden.bs.modal',function () {
             $(this).removeData("bs.modal");
 
-        });
+        });*/
 
         function loadTreeModal() {
+            //删除重新构建   fancytree 初始化两次会报错
+            $("#areaTree").remove();
+            $("#tree-container").append("<div id='areaTree' style='overflow-y:auto; height:300px;'></div>");
             $("#areaTree").fancytree({
                 extensions: ["filter"],
                 quicksearch: true,
@@ -925,12 +931,12 @@
                     mode: "hide",
                     autoApply: true
                 },
-                activate: function(event, data) {
+                /*activate: function(event, data) {
                     //alert("activate " + data.node);
                 },
                 lazyLoad:function (event, data) {
                     console.log(data);
-                }
+                }*/
 
             });
             tree = $("#areaTree").fancytree("getTree");

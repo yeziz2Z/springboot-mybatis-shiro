@@ -26,7 +26,7 @@ public class SysUserController extends BaseController {
 
     @RequestMapping("user")
     public String toUser(){
-        return "html/sys/pages_user";
+        return "html/sys/user/pages_user";
     }
 
     @PostMapping("userList")

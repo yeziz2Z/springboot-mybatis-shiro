@@ -701,15 +701,15 @@
                 <div class="topbar-left">
                     <ol class="breadcrumb">
                         <li class="crumb-active">
-                            <a href="dashboard.html">机构管理</a>
+                            <a href="#">机构管理</a>
                         </li>
                         <li class="crumb-icon">
                             <a href="dashboard.html">
-                                <span class="glyphicon glyphicon-home"></span>
+                                <span class="glyphicon glyphicon-home" th:href="@{/index}"></span>
                             </a>
                         </li>
                         <li class="crumb-link">
-                            <a href="index.html">Home</a>
+                            <a href="index.html" th:href="@{/index}">Home</a>
                         </li>
                         <li class="crumb-trail">机构列表</li>
                     </ol>
@@ -1019,7 +1019,7 @@
                     var result = laytpl(officeItemTpl).render(item);*/
 
                     var result = "<td><a onclick='showOfficeForm(\"/sys/office/form?id="+item.id +"\",\"查看机构\")'>"+item.name+"</a></td>";
-                    result += "<td>"+item.areaId+"</td>";
+                    result += "<td>"+item.areaName+"</td>";
                     result += "<td>"+item.code+"</td>";
                     result += "<td>"+item.type+"</td>";
                     result += "<td>"+item.remarks+"</td>";
@@ -1103,10 +1103,10 @@
                 }
             });
         }
-
+        var officeTree;
         function loadOfficeTree(){
             $("#officeTree").remove();
-            $("#tree-container").append("<div id='areaTree' style='overflow-y:auto; height:300px;'></div>");
+            $("#tree-container").append("<div id='officeTree' style='overflow-y:auto; height:300px;'></div>");
             $("#officeTree").fancytree({
                 extensions: ["filter"],
                 quicksearch: true,
@@ -1127,7 +1127,7 @@
                 }
 
             });
-            var tree = $("#officeTree").fancytree("getTree");
+            officeTree = $("#officeTree").fancytree("getTree");
             /*
              * Event handlers for our little demo interface
              */
@@ -1140,6 +1140,8 @@
                     return;
                 }
 
+                n = officeTree.filterNodes(match, false);
+
                 $("button#btnResetSearch").attr("disabled", false);
                 $("span#matches").text("(" + n + " 匹配项)");
             });
@@ -1147,20 +1149,21 @@
             $("button#btnResetSearch").click(function(e) {
                 $("input[name=search]").val("");
                 $("span#matches").text("");
-                tree.clearFilter();
+                officeTree.clearFilter();
             }).attr("disabled", true);
 
-            tree.options.filter.mode = $("input#hideMode").is(":checked") ? "hide" : "dimm";
-            tree.clearFilter();
+            officeTree.options.filter.mode = $("input#hideMode").is(":checked") ? "hide" : "dimm";
+            officeTree.clearFilter();
 
             $("input#hideMode").change(function(e) {
-                tree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
-                tree.clearFilter();
+                officeTree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
+                officeTree.clearFilter();
                 $("input[name=search]").keyup();
             });
 
-
         }
+
+        var areaTree;
 
         function loadAreaTree(){
             $("#areaTree").remove();
@@ -1178,11 +1181,11 @@
                 }
 
             });
-            var tree = $("#areaTree").fancytree("getTree");
+            areaTree = $("#areaTree").fancytree("getTree");
             /*
              * Event handlers for our little demo interface
              */
-            $("input[name=search]").keyup(function(e) {
+            $("input#search").keyup(function(e) {
                 var n,
                     match = $(this).val();
 
@@ -1191,6 +1194,8 @@
                     return;
                 }
 
+                n = areaTree.filterNodes(match, false);
+
                 $("button#btnAreaResetSearch").attr("disabled", false);
                 $("span#areaMatches").text("(" + n + " 匹配项)");
             });
@@ -1198,15 +1203,15 @@
             $("button#btnAreaResetSearch").click(function(e) {
                 $("input#search").val("");
                 $("span#areaMatches").text("");
-                tree.clearFilter();
+                areaTree.clearFilter();
             }).attr("disabled", true);
 
-            tree.options.filter.mode = $("input#areaHideMode").is(":checked") ? "hide" : "dimm";
-            tree.clearFilter();
+            areaTree.options.filter.mode = $("input#areaHideMode").is(":checked") ? "hide" : "dimm";
+            areaTree.clearFilter();
 
             $("input#areaHideMode").change(function(e) {
-                tree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
-                tree.clearFilter();
+                areaTree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
+                areaTree.clearFilter();
                 $("input#search").keyup();
             });
 
@@ -1218,6 +1223,21 @@
         }
 
 
+        function selectArea() {
+            if(areaTree.activeNode){
+                $("#areaName").val(areaTree.activeNode.title);
+                $("#areaId").val(areaTree.activeNode.key);
+            }
+
+            $('#areaTreeModal').modal('hide');
+        }
+        function selectOffice() {
+            if(officeTree.activeNode){
+                $("#parentName").val(officeTree.activeNode.title);
+                $("#parentId").val(officeTree.activeNode.key);
+            }
+            $('#officeTreeModal').modal('hide');
+        }
     </script>
     <!-- END: PAGE SCRIPTS -->
 

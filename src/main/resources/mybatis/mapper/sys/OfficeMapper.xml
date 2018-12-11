@@ -36,11 +36,11 @@
     <resultMap id="officeVoMap" type="com.liuk.springboot.sys.vo.OfficeVO" extends="BaseResultMap">
         <result column="parent_name" property="parentName"/>
         <result column="area_name" property="areaName"/>
-        <association column="id" property="hasChildren" select="hasChildren"/>
+        <association column="id" property="hasChildren" select="hasChildren" />
     </resultMap>
 
     <select id="hasChildren" parameterType="string" resultType="boolean">
-        select case when exists(select 1 from sys_area where parent_id = #{id}) then 1 else 0 end from dual
+        select case when exists(select 1 from sys_office where parent_id = #{id}) then 1 else 0 end from dual
     </select>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -73,6 +73,13 @@
     <select id="getAllOfficeTree" resultType="com.liuk.springboot.common.JsTree">
         select id 'key',name title,parent_Id parentId from sys_office
         where del_flag = '0'
+    </select>
+
+    <select id="getOfficeVoListByParentId" resultMap="officeVoMap">
+        select area.name area_name,
+        <include refid="Base_Column_List"/>
+        from sys_office a left join sys_area area on a.area_id = area.id
+        where a.parent_id = #{parentId}
     </select>
 
     <select id="getOfficeVoById" resultMap="officeVoMap">

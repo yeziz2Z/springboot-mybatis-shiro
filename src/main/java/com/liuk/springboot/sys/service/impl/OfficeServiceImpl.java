@@ -30,4 +30,9 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeMapper, Office> impleme
     public OfficeVO getOfficeVoById(String id) {
         return baseMapper.getOfficeVoById(id);
     }
+
+    @Override
+    public List<OfficeVO> getOfficeVoListByParentId(String parentId) {
+        return baseMapper.getOfficeVoListByParentId(parentId);
+    }
 }

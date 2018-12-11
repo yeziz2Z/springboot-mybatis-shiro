@@ -67,16 +67,13 @@ public class OfficeController {
 
     @RequestMapping("getChildren")
     @ResponseBody
-    public List<Office> getChildren(String parentId){
+    public List<OfficeVO> getChildren(String parentId){
 
         if ("-1".equals(parentId)) {
             parentId = "0";
         }
-        Office office = new Office();
-        office.setParentId(parentId);
-        EntityWrapper wrapper = new EntityWrapper<Office>();
-        wrapper.setEntity(office);
-        List list = officeService.selectList(wrapper);
+
+        List list = officeService.getOfficeVoListByParentId(parentId);
         return list;
     }
 

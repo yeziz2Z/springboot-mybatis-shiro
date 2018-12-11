@@ -20,4 +20,6 @@ public interface IOfficeService extends IService<Office> {
     List<JsTree> getAllOfficeTree();
 
     OfficeVO getOfficeVoById(String id);
+
+    List<OfficeVO> getOfficeVoListByParentId(String parentId);
 }

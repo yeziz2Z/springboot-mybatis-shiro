@@ -21,4 +21,6 @@ public interface OfficeMapper extends BaseMapper<Office> {
     List<JsTree> getAllOfficeTree();
 
     OfficeVO getOfficeVoById(@Param("id") String id);
+
+    List<OfficeVO> getOfficeVoListByParentId(@Param("parentId")String parentId);
 }

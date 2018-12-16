@@ -14,8 +14,12 @@ import org.springframework.stereotype.Controller;
  * @since 2018-07-05
  */
 @Controller
-@RequestMapping("/dict")
+@RequestMapping("/sys/dict")
 public class DictController {
 
+    @RequestMapping("toDictPage")
+    public String toDictPage(){
+        return "html/sys/dict/pages_dict";
+    }
 }
 

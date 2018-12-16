@@ -2,6 +2,7 @@ package com.liuk.springboot.sys.entity;
 
 
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liuk.springboot.entity.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
@@ -27,6 +28,7 @@ public class User extends BaseEntity{
 
     private String loginName;
 
+    @JsonIgnore
     private String password;
 
     private String no;

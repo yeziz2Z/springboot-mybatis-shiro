@@ -1,31 +1,31 @@
-package com.liuk.springboot.entity;
+package com.liuk.springboot.sys.entity;
 
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
- * 字典类型
+ * 字典值
  * </p>
  *
  * @author liuk
  * @since 2018-07-05
  */
-@TableName("sys_dict_type")
+@TableName("sys_dict_value")
 @Data
 @ToString
 @Accessors(chain = true)
 @NoArgsConstructor
-public class DictType extends Model<DictType> {
+public class DictValue extends Model<DictValue> {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,13 +35,21 @@ public class DictType extends Model<DictType> {
     @TableId(value = "id", type = IdType.UUID)
     private String id;
     /**
-     * 类型
+     * 标签名
      */
-    private String type;
+    private String dictTypeId;
     /**
-     * 描述
+     * 键值
      */
-    private String description;
+    private String label;
+    /**
+     * 排序
+     */
+    private String value;
+    /**
+     * 外键
+     */
+    private String sort;
     /**
      * 创建者
      */
@@ -63,9 +71,11 @@ public class DictType extends Model<DictType> {
      */
     private String delFlag;
 
+
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
+
 
 }

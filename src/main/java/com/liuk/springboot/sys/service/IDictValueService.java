@@ -1,10 +1,8 @@
-package com.liuk.springboot.service;
+package com.liuk.springboot.sys.service;
 
-import com.liuk.springboot.entity.DictValue;
 import com.baomidou.mybatisplus.service.IService;
+import com.liuk.springboot.sys.entity.DictValue;
 
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,5 +18,5 @@ public interface IDictValueService extends IService<DictValue> {
 
     List<DictValue> getDictList(String type);
 
-    String getDictLabel(String type,String value);
+    String getDictLabel(String type, String value);
 }

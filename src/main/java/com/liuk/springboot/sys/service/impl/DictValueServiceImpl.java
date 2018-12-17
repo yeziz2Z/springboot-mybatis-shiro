@@ -1,9 +1,9 @@
-package com.liuk.springboot.service.impl;
+package com.liuk.springboot.sys.service.impl;
 
-import com.liuk.springboot.entity.DictValue;
-import com.liuk.springboot.mapper.DictValueMapper;
-import com.liuk.springboot.service.IDictValueService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.liuk.springboot.sys.entity.DictValue;
+import com.liuk.springboot.sys.mapper.DictValueMapper;
+import com.liuk.springboot.sys.service.IDictValueService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

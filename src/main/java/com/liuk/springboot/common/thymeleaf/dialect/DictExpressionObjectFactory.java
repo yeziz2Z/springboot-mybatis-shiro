@@ -1,7 +1,7 @@
 package com.liuk.springboot.common.thymeleaf.dialect;
 
 import com.liuk.springboot.common.SpringContextHolder;
-import com.liuk.springboot.service.IDictValueService;
+import com.liuk.springboot.sys.service.IDictValueService;
 import org.thymeleaf.context.IExpressionContext;
 import org.thymeleaf.expression.IExpressionObjectFactory;
 

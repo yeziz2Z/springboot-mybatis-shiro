@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.liuk.springboot.core.web.BaseController;
 import com.liuk.springboot.sys.entity.User;
 import com.liuk.springboot.sys.service.IUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("sys")
+@Slf4j
 public class SysUserController extends BaseController {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private IUserService userService;

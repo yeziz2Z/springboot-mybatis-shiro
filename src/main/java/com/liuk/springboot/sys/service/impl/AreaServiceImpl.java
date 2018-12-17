@@ -1,11 +1,9 @@
 package com.liuk.springboot.sys.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.service.IService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.liuk.springboot.common.JsTree;
-import com.liuk.springboot.entity.DictValue;
-import com.liuk.springboot.mapper.DictValueMapper;
+import com.liuk.springboot.sys.mapper.DictValueMapper;
 import com.liuk.springboot.sys.entity.Area;
 import com.liuk.springboot.sys.mapper.AreaMapper;
 import com.liuk.springboot.sys.service.IAreaService;

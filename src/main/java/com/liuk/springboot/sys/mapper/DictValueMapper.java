@@ -1,11 +1,9 @@
-package com.liuk.springboot.mapper;
+package com.liuk.springboot.sys.mapper;
 
-import com.liuk.springboot.entity.DictValue;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.liuk.springboot.sys.entity.DictValue;
 import org.apache.ibatis.annotations.Param;
 
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,5 +18,5 @@ public interface DictValueMapper extends BaseMapper<DictValue> {
 
     List<DictValue> getListByDictType(@Param("type") String type);
 
-    String getDictLabel(@Param("type")String type,@Param("value") String value);
+    String getDictLabel(@Param("type") String type, @Param("value") String value);
 }

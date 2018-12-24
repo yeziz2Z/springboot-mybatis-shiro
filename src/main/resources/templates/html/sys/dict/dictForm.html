@@ -5,16 +5,9 @@
     <title>office Form</title>
 </head>
 <body>
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-            &times;
-        </button>
-        <h4 class="modal-title" >
-
-        </h4>
-
-    </div>
-    <div class="modal-body admin-form">
+<!--<div class="modal-dialog" style="width: 700px;">-->
+<!--<div class="modal-content">-->
+<div class="admin-form">
         <form  id="userForm">
             <input type="hidden" name="id" >
             <table class="table table-bordered">
@@ -26,7 +19,7 @@
                             <label class="field">
                                 <input type="text" id="parentName" readonly  class="gui-input" style="background: #EEE" >
                             </label>
-                            <input type="hidden" id="parentId" name="parentId" th:value="${office.parentId}">
+                            <input type="hidden" id="parentId" name="parentId" >
                             <button type="button" id="officeSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
                             <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
@@ -105,7 +98,7 @@
 
                         <label class="field select">
                             <select id="useable" name="useable">
-                                <option th:each="dict :${#dictUtils.getDictList('yes_no')}" th:text="${dict.label}" th:value="${dict.value}" ></option>
+                                <!--<option th:each="dict :${#dictUtils.getDictList('yes_no')}" th:text="${dict.label}" th:value="${dict.value}" ></option>-->
                             </select>
                             <i class="arrow"></i>
                         </label>
@@ -151,58 +144,8 @@
                 </tbody>
             </table>
         </form>
-
-
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="closeOfficeForm()">关闭
-        </button>
-        <button type="button" class="btn btn-primary" id="saveBtn" onclick="saveOffice()">
-            保存
-        </button>
-    </div>
-<script>
-    function closeOfficeForm() {
-        $("#officeFormModal").modal("hide");
-    }
-
-    function saveOffice() {
-        var formData = $("#officeForm").serialize();
-        console.log(formData);
-        $.ajax({
-            url:"/sys/office/save",
-            method:"POST",
-            data:formData,
-            success: function (result) {
-                if (result.code == 200){
-                    $treeTable.refresh();
-                    closeOfficeForm();
-                }
-            },
-            error:function () {
-                bootbox.alert("出错了!");
-            }
-        });
-    }
-
-    $("#areaSearchBtn,#areaName").click(function () {
-        loadAreaTree();
-        $("#areaTreeModal").modal("show");
-    });
-    $("#officeSearchBtn,#parentName").click(function () {
-        loadOfficeTree();
-        $("#officeTreeModal").modal("show");
-    });
-
-    $("#areaDelButton").click(function () {
-        $("#areaName").val("");
-        $("#areaId").val("");
-    });
-
-    $("#officeDelButton").click(function () {
-        $("#parentName").val("");
-        $("#parentId").val("");
-    });
-</script>
+<!--</div>-->
+</div>
+<!--</div>-->
 </body>
 </html>

@@ -34,7 +34,6 @@ public class SysUserController extends BaseController {
     public Map<String, Object> queryUserList(@RequestParam("iDisplayStart") Integer start,
                                              @RequestParam("iDisplayLength")Integer length){
         Page<User> page = new Page<>(start / length + 1,length);
-
         return getDataTableData(userService.selectPage(page) );
     }
 

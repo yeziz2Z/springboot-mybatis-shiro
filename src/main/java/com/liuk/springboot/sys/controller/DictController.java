@@ -4,12 +4,15 @@ package com.liuk.springboot.sys.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.liuk.springboot.core.web.BaseController;
+import com.liuk.springboot.entity.Dict;
 import com.liuk.springboot.sys.entity.DictType;
 import com.liuk.springboot.sys.entity.DictValue;
 import com.liuk.springboot.sys.service.IDictTypeService;
 import com.liuk.springboot.sys.service.IDictValueService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -81,6 +84,25 @@ public class DictController extends BaseController {
     @RequestMapping("form")
     public String dictForm(){
         return "html/sys/dict/dictForm";
+    }
+
+    @RequestMapping("dictTypeForm")
+    public String dictTypeForm(String id, Model model){
+        DictType dictType = new DictType();
+        if (StringUtils.isNotEmpty(id)){
+            dictType = dictTypeService.selectById(id);
+        }
+        model.addAttribute("dictType",dictType);
+        return "html/sys/dict/dictTypeForm";
+    }
+    @RequestMapping("dictValueForm")
+    public String dictValueForm(String id, Model model){
+        DictValue dictValue = new DictValue();
+        if (StringUtils.isNotEmpty(id)){
+            dictValue = dictValueService.selectById(id);
+        }
+        model.addAttribute("dictValue",dictValue);
+        return "html/sys/dict/dictValueForm";
     }
 }
 

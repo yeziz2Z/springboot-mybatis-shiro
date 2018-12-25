@@ -610,6 +610,9 @@
                                     <div class="col-sm-1">
                                         <button class="btn btn-default btn-block" onclick="refresh()"><span class="glyphicons glyphicons-repeat">刷新</span> </button>
                                     </div>
+                                    <div class="col-sm-1">
+                                        <button class="btn btn-default btn-block" onclick="myTest()"><span class="glyphicons glyphicons-repeat">测试</span> </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -809,6 +812,7 @@
     <script type="text/javascript" src="assets/js/utility/utility.js" th:src="@{/assets/js/utility/utility.js}"></script>
     <script type="text/javascript" src="assets/js/main.js" th:src="@{/assets/js/main.js}"></script>
     <script type="text/javascript" src="assets/js/demo.js" th:src="@{/assets/js/demo.js}"></script>
+    <script type="text/javascript" src="assets/js/demo.js" th:src="@{/assets/js/my-dialog.js}"></script>
     <script type="text/javascript">
         var $treeTable = null;
         jQuery(document).ready(function() {
@@ -994,6 +998,13 @@
         function refresh() {
             $treeTable.refresh();
             // $treeTable.refreshPoint(id);
+        }
+        function myTest() {
+            // bootbox.alert("666");
+            // md.alert(666);
+          md.confirm("haha",function () {
+            md.alert("hello");
+          })
         }
     </script>
     <!-- END: PAGE SCRIPTS -->

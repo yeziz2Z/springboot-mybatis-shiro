@@ -20,10 +20,47 @@ var md = {
     alert : function(msg){
         bootbox.alert(msg);
     },
-    openDialog : function (title,url) {
-        
+    openDialog : function (title,url,fn) {
+        if(!fn){
+            fn = 'submitForm';
+        }
+        $.get(url,function (data) {
+            bootbox.dialog({
+                title : title,
+                message : data,
+                buttons : {
+                    confirm: {
+                        label: '确认',
+                        className : 'btn btn-primary',
+                        callback : function () {
+                            try {
+                                if(typeof(eval(fn)) == 'function'){
+                                    eval(fn + '()');
+                                }
+                            }catch (e) {
+                                console.log(e);
+                            }
+                        }
+                    },
+                    cancel : {
+                        label : "取消",
+                        className : 'btn btn-default'
+                    }
+                }
+            });
+        })
     },
-    openDialogView : function () {
-        
+    openDialogView : function (title,url) {
+        $.get(url,function (data) {
+            bootbox.dialog({
+                title : title,
+                message : data,
+                buttons : {
+                    cancel : {
+                        label : "确定"
+                    }
+                }
+            });
+        })
     }
 }

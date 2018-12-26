@@ -5,8 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-    <form class='form-horizontal' id='dictTypeForm'>
+    <form class='form-horizontal' id='dictValueForm'>
         <input type='hidden' name='id' th:value="${dictValue.id}">
+        <input type='hidden' name='dictTypeId' th:value="${dictValue.dictTypeId}">
         <div class='form-group'>
             <label class='col-lg-3 control-label'>标签：</label>
             <div class='col-lg-8'>
@@ -26,5 +27,24 @@
             </div>
         </div>
     </form>
+<script>
+    function saveDictValue() {
+        var formData = $("#dictValueForm").serialize();
+        $.ajax({
+            url : "/sys/dict/saveDictValue",
+            method : "POST",
+            data : formData,
+            success : function (data) {
+                if(data.code == 200){
+                    md.alert(data.msg);
+                    $('#dictValueTable').DataTable().ajax.reload();
+                }
+            },
+            error : function () {
+                alert("出错啦");
+            }
+        });
+    }
+</script>
 </body>
 </html>

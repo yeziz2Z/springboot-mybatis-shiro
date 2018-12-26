@@ -20,17 +20,13 @@
     <!-- Required Plugin CSS -->
     <link rel="stylesheet" type="text/css" href="vendor/plugins/datatables/media/css/dataTables.bootstrap.css" th:href="@{/vendor/plugins/datatables/media/css/dataTables.bootstrap.css}">
 
-    <!-- Admin Forms CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/admin-tools/admin-forms/css/admin-forms.css" th:href="@{/assets/admin-tools/admin-forms/css/admin-forms.css}">
+    <!-- JQuery treeTable CSS -->
+    <link th:href="@{/vendor/jquery/tree-table/jquery.treetable.css}" rel="stylesheet">
+    <link th:href="@{/vendor/jquery/tree-table/jquery.treetable.theme.default.css}" rel="stylesheet">
+    <link th:href="@{/vendor/jquery/tree-table/my-tree.css}" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" th:href="@{/favicon.ico}">
-
-    <style>
-        .mybox{
-            width: 700px;
-        }
-    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -41,6 +37,149 @@
 </head>
 
 <body class="blank-page">
+
+    <!-- Start: Theme Preview Pane -->
+    <div id="skin-toolbox">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="panel-icon"><i class="fa fa-gear text-primary"></i>
+                </span>
+                <span class="panel-title"> Theme Options</span>
+            </div>
+            <div class="panel-body pn">
+
+                <ul class="nav nav-list nav-list-sm pl15 pt10" role="tablist">
+                    <li class="active">
+                        <a href="#toolbox-header" role="tab" data-toggle="tab">Navbar</a>
+                    </li>
+                    <li>
+                        <a href="#toolbox-sidebar" role="tab" data-toggle="tab">Sidebar</a>
+                    </li>
+                    <li>
+                        <a href="#toolbox-settings" role="tab" data-toggle="tab">Misc</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content p20 ptn pb15">
+                    <div role="tabpanel" class="tab-pane active" id="toolbox-header">
+                        <form id="toolbox-header-skin">
+                            <h4 class="mv20">Header Skins</h4>
+
+                            <div class="skin-toolbox-swatches">
+                                <div class="checkbox-custom checkbox-disabled fill mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin8" checked value="bg-light">
+                                    <label for="headerSkin8">Light</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-primary mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin1" value="bg-primary">
+                                    <label for="headerSkin1">Primary</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-info mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin3" value="bg-info">
+                                    <label for="headerSkin3">Info</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-warning mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin4" value="bg-warning">
+                                    <label for="headerSkin4">Warning</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-danger mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin5" value="bg-danger">
+                                    <label for="headerSkin5">Danger</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-alert mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin6" value="bg-alert">
+                                    <label for="headerSkin6">Alert</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-system mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin7" value="bg-system">
+                                    <label for="headerSkin7">System</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-success mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin2" value="bg-success">
+                                    <label for="headerSkin2">Success</label>
+                                </div>
+                                <div class="checkbox-custom fill mb5">
+                                    <input type="radio" name="headerSkin" id="headerSkin9" value="bg-dark">
+                                    <label for="headerSkin9">Dark</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="toolbox-sidebar">
+                        <form id="toolbox-sidebar-skin">
+
+                            <h4 class="mv20">Sidebar Skins</h4>
+                            <div class="skin-toolbox-swatches">
+                                <div class="checkbox-custom fill mb5">
+                                    <input type="radio" name="sidebarSkin" checked id="sidebarSkin3" value="">
+                                    <label for="sidebarSkin3">Dark</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-disabled mb5">
+                                    <input type="radio" name="sidebarSkin" id="sidebarSkin1" value="sidebar-light">
+                                    <label for="sidebarSkin1">Light</label>
+                                </div>
+                                <div class="checkbox-custom fill checkbox-light mb5">
+                                    <input type="radio" name="sidebarSkin" id="sidebarSkin2" value="sidebar-light light">
+                                    <label for="sidebarSkin2">Lighter</label>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="toolbox-settings">
+                        <form id="toolbox-settings-misc">
+                            <h4 class="mv20 mtn">Layout Options</h4>
+                            <div class="form-group">
+                                <div class="checkbox-custom fill mb5">
+                                    <input type="checkbox" checked="" id="header-option">
+                                    <label for="header-option">Fixed Header</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox-custom fill mb5">
+                                    <input type="checkbox" id="sidebar-option">
+                                    <label for="sidebar-option">Fixed Sidebar</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox-custom fill mb5">
+                                    <input type="checkbox" id="breadcrumb-option">
+                                    <label for="breadcrumb-option">Fixed Breadcrumbs</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox-custom fill mb5">
+                                    <input type="checkbox" id="breadcrumb-hidden">
+                                    <label for="breadcrumb-hidden">Hide Breadcrumbs</label>
+                                </div>
+                            </div>
+                            <h4 class="mv20">Layout Options</h4>
+                            <div class="form-group">
+                                <div class="radio-custom mb5">
+                                    <input type="radio" id="fullwidth-option" checked name="layout-option">
+                                    <label for="fullwidth-option">Fullwidth Layout</label>
+                                </div>
+                            </div>
+                            <div class="form-group mb20">
+                                <div class="radio-custom radio-disabled mb5">
+                                    <input type="radio" id="boxed-option" name="layout-option" disabled>
+                                    <label for="boxed-option">Boxed Layout <b class="text-muted">(Coming Soon)</b></label>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="form-group mn br-t p15">
+                    <a href="#" id="clearLocalStorage" class="btn btn-primary btn-block pb10 pt10">Clear LocalStorage</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End: Theme Preview Pane -->
+
     <!-- Start: Main -->
     <div id="main">
 
@@ -595,20 +734,16 @@
 
             <!-- Begin: Content -->
             <section id="content">
-                <div  class="row">
-                    <div id="left" class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="panel panel-visible">
                             <div class="panel-menu">
                                 <div class="col-adjust-8  row text-center" >
-
-                                    <div class="col-sm-2">
-                                        <button class="btn btn-primary btn-block" onclick="add()"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                    <div class="col-sm-1">
+                                        <button class="btn btn-primary btn-block"><i class="glyphicon glyphicon-plus"></i>新增</button>
                                     </div>
-                                    <div class="col-sm-2">
-                                        <button class="btn btn-success btn-block" onclick="edit()" id="editBtn"><i class="glyphicon glyphicon-edit"></i>修改</button>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <button class="btn btn-danger btn-block" id="deleteBtn" onclick="deleteDict()"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                    <div class="col-sm-1">
+                                        <button class="btn btn-default btn-block"><i class="glyphicon glyphicon-repeat"></i>刷新</button>
                                     </div>
 
                                 </div>
@@ -620,60 +755,23 @@
                             </div>-->
 
                             <div class="panel-body pn">
-                                <table class="table table-striped table-bordered table-hover"  id="dictTypeTables" cellspacing="0" width="100%">
+                                <table class="table table-striped table-bordered table-hover" id="menuTables" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th></th>
-                                            <th>类型</th>
-                                            <th>描述</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="right" style="display: none" class="col-md-6">
-
-                        <div class="panel panel-visible">
-
-                            <div class="panel-menu" style="padding: 14px;">
-                                <div class="col-adjust-8  row" >
-                                    <h3 class="panel-title"><label>键值列表，所属类型: </label><span id="dictTypeLabel"></span><input type="hidden" id="dictTypeId"/></h3>
-
-                                </div>
-                            </div>
-                            <div class="panel-menu">
-                                <div class="col-adjust-8  row text-center" >
-                                    <div class="col-sm-2">
-                                        <button onclick="addDictValue()" class="btn btn-primary btn-block">添加键值</button>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="panel-body pn" >
-
-                                <table class="table table-striped table-bordered table-hover"  id="dictValueTable" cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>标签</th>
-                                            <th>键值</th>
+                                            <th>名称</th>
+                                            <th>链接</th>
                                             <th>排序</th>
+                                            <th>显示/隐藏</th>
+                                            <th>权限标识</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
 
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </section>
             <!-- End: Content -->
 
@@ -769,178 +867,109 @@
     <!-- Bootstrap -->
     <script type="text/javascript" src="assets/js/bootstrap/bootstrap.min.js" th:src="@{/assets/js/bootstrap/bootstrap.min.js}"></script>
 
+
     <!-- Datatables -->
     <script type="text/javascript" src="vendor/plugins/datatables/media/js/jquery.dataTables.min.js" th:src="@{/vendor/plugins/datatables/media/js/jquery.dataTables.min.js}"></script>
     <script type="text/javascript" src="vendor/plugins/datatables/media/js/dataTables.bootstrap.js" th:src="@{/vendor/plugins/datatables/media/js/dataTables.bootstrap.js}"></script>
     <script type="text/javascript" src="vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js" th:src="@{/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.js}"></script>
 
+    <script th:src="@{/vendor/jquery/tree-table/jquery.treetable.js}"></script>
+    <script th:src="@{/vendor/jquery/tree-table/my-tree.js}"></script>
+
     <!-- Theme Javascript -->
     <script type="text/javascript" src="assets/js/utility/utility.js" th:src="@{/assets/js/utility/utility.js}"></script>
     <script type="text/javascript" src="assets/js/main.js" th:src="@{/assets/js/main.js}"></script>
     <script type="text/javascript" src="assets/js/demo.js" th:src="@{/assets/js/demo.js}"></script>
-    <script type="text/javascript" th:src="@{/assets/js/my-dialog.js}"></script>
     <script type="text/javascript">
+        var $treeTable = null;
         jQuery(document).ready(function() {
 
             "use strict";
 
-            // Init Theme Core
+            // Init Theme Core    
             Core.init();
 
             // Init Theme Core    
             Demo.init();
 
-            $('#dictTypeTables').dataTable({
-               aoColumns:[
-                        {
-                            "mData":"id" ,
-                            "bSortable": false ,
-                            "mRender": function (data) {
-                                return '<input onchange="setBtnFunction()"  type="checkbox" value="'+ data + '" name="id"/>';
-                            }
-                        },
-                        {"mData":"type"},
-                        {"mData": "description"},
-                        {
-                            "mData": "id",
-                            "mRender" : function (data,type,full) {
-                                var btns = "<a href='#' class='view' title='查看' onclick='md.openDialogView(\"查看字典\",\"/sys/dict/dictTypeForm?id=" + data + "\")' ><i class='fa fa-eye'></i> </a>" +
-                                "<a href='#' class='edit' title='修改' onclick='edit(\"" + data + "\")' ><i class='fa fa-edit'></i> </a>" +
-                                "<a href='#' class='del' title='删除' onclick='deleteDict(\""+ data +"\")' ><i class='fa fa-trash'></i> </a>" +
-                                "<a href='#' class='setDictValue' onclick='setDictValue(\""+data+"\",\""+ full.type +"\")' title='管理键值' ><i class='fa fa-cog'></i> </a>";
-                                return btns;
-                            }
-                            
-                        }
-                    ],
-                oLanguage: {
-                    "sInfo":"当前 _START_ 条到 _END_ 条 共 _TOTAL_ 条",
-                    "sLengthMenu": " &nbsp; 显示 _MENU_ 项结果",
-                    "sZeroRecords":"暂时没有数据。。。",
-                    "sInfoEmpty": "显示 0 to 0 of 0 条",
-                    "sInfoFiltered": "",
-                    "sProcessing": "加载中...",
-                    "oPaginate": {
-                        "sFirst": false,
-                        "sPrevious": "上一页",
-                        "sNext": "下一页",
-                        "sLast": false
-                    }
-                },
-                bSearchable : false,
-                iDisplayLength: 10, //默认显示的记录数
-                sPaginationType: "full_numbers",
-                aLengthMenu: [
-                    [ 10, 25, 50, 100],
-                    [ 10, 25, 50, 100]
-                ],
-                "sDom": '<"dt-panelmenu clearfix"flr>t<"dt-panelfooter clearfix"i<br>p>',
+            $treeTable = $("#menuTables").treeTable({
+                theme:'vsStyle',
+                expandLevel : 1,
+                column:0,
+                checkbox: false,
+                url:'/sys/office/getChildren?parentId=',
+                callback:function(item) {
 
-                bServerSide: true, //是否启动服务器端数据导入
-                bProcessing: true,//DataTables载入数据时，是否显示‘进度’提示
-                bPaginate: true,//是否显示（应用）分页器
-                bInfo: true,//是否显示页脚信息，DataTables插件左下角显示记录数
-                sAjaxDataProp : "data",//是服务器分页的标志，必须有
-                sAjaxSource : "/sys/dict/data",//通过ajax实现分页的url路径。
-                sServerMethod:"POST",
-                fnServerParams :function (aoData) {//向服务器提交额外参数
-                    aoData.push({ "name": "AAA_more_data", "value": "my_value" } );
+                    var result = "<td><a onclick='showOfficeForm(\"/sys/office/form?id="+item.id +"\",\"查看机构\")'>"+item.name+"</a></td>";
+                    result += "<td>"+item.areaName+"</td>";
+                    result += "<td>"+item.code+"</td>";
+                    result += "<td>"+item.type+"</td>";
+                    result += "<td>"+item.remarks+"</td>";
+                    result += "<td><div class='btn-group'>" +
+                        "<button type='button' class='fa fa-gear btn btn-sm btn-primary dropdown-toggle' data-toggle='dropdown'>" +
+                        "<span class='caret ml5'></span>" +
+                        "</button>" +
+                        "<ul class='dropdown-menu' role='menu'>" +
+                        "<li>" +
+                        "<a href='#' onclick='showOfficeForm(\"/sys/office/form?id="+item.id +"\",\"修改机构\")'>修改</a>" +
+                        "</li>" +
+                        "<li>" +
+                        "<a href='#' onclick='delOffice(\"" +item.id +"\")'>删除</a>" +
+                        "</li>" +
+                        "<li>" +
+                        "<a href='#' onclick='showOfficeForm(\"/sys/office/form?parentId="+ item.id +"\",\"新增机构\")'>添加下级机构</a>" +
+                        "</li></ul></div></td>";
+
+                    return result;
                 },
-                fnDrawCallback : function () {//绘制表格完成回调函数
-                    setBtnFunction();
+                beforeClick: function($treeTable, id) {
+                    //异步获取数据 这里模拟替换处理
+                    $treeTable.refreshPoint(id);
+                },
+                beforeExpand : function($treeTable, id) {
+                },
+                afterExpand : function($treeTable, id) {
+                    //layer.closeAll();
+                },
+                beforeClose : function($treeTable, id) {
+
                 }
 
             });
         });
 
-        function add() {
-            md.openDialog("新增字典","/sys/dict/dictTypeForm",'test');
-        }
-        function edit(id) {
-            if (!id){
-                id = getSelectionId()[0];
-            }
-            md.openDialog("新增字典","/sys/dict/dictTypeForm?id=" + id,'test');
-        }
-
-        function addDictValue() {
-            md.openDialog("新增键值","/sys/dict/dictValueForm?dictTypeId="+$("#dictTypeId").val(),'saveDictValue');
-        }
-
-        function deleteDictValue(dictValueId) {
-            md.confirm("确认要删除吗",function () {
-                $.ajax({
-                    url : "/sys/dict/deleteDictValue?dictValueId="+dictValueId,
-                    method : "GET",
-                    success : function (data) {
-                        md.alert(data);
-                        $('#dictValueTable').DataTable().ajax.reload();
+        function deleteUser() {
+            bootbox.confirm({
+                message: "确认要删除吗",
+                buttons: {
+                    confirm: {
+                        label: '确认'
                     },
-                    error : function () {
-                        md.alert("出错啦");
+                    cancel: {
+                        label: '取消'
                     }
-                });
-            });
-
-        }
-        function deleteDict(id) {
-            md.confirm("确认要删除吗?",function () {
-                var ids = new Array();
-                if (id){
-                    ids.push(id);
-                } else {
-                    ids = getSelectionId();
+                },
+                callback: function (result) {
+                    // 返回 true  或者false
+                    if (result) {
+                        $.ajax({
+                            url : "/sys/user/deleteAll",
+                            method : "POST",
+                            contentType: "application/json",
+                            data : JSON.stringify(getSelectionId()),
+                            success : function (data) {
+                                bootbox.alert(data);
+                                $('#userTables').DataTable().ajax.reload();
+                            },
+                            error : function () {
+                                bootbox.alert("出错啦");
+                            }
+                        });
+                    }
                 }
-                $.ajax({
-                    url : "/sys/dict/deleteDict",
-                    method : "POST",
-                    contentType: "application/json",
-                    data : JSON.stringify(ids),
-                    success : function (data) {
-                        bootbox.alert(data);
-                        $('#dictTypeTables').DataTable().ajax.reload();
-                    },
-                    error : function () {
-                        bootbox.alert("出错啦");
-                    }
-                });
             });
         }
 
-        function setDictValue(dictId,type){
-            $("#dictTypeId").val(dictId);
-            $("#dictTypeLabel").text(type);
-            $("#left").attr("class", "col-sm-6");
-            setTimeout(function(){
-                $("#right").fadeIn(200);
-            },300);
-            $("#dictValueTable").dataTable({
-                bServerSide: true, //是否启动服务器端数据导入
-                bPaginate: false,
-                bFilter : false,//是否启动过滤、搜索功能
-                //bRetrieve : true,//解决 Cannot reinitialise DataTable. For more information about this error, please see http://datatables.
-                bDestroy : true,//使用传递的新的初始化对象中的属性构造一个新的表格，并替换一个匹配指定的选择器的表格，如果没有匹配到表格，新的表格会被作为一个普通表格被构建
-                bInfo: false,
-                sAjaxDataProp : "data",
-                sAjaxSource : "/sys/dict/dictValue?dictTypeId="+dictId,//通过ajax实现分页的url路径。
-                aoColumns:[
-                    {mData:"label"},
-                    {mData:"value"},
-                    {mData: "sort"},
-                    {
-                        mData: "id",
-                        sClass : "center",
-                        mRender : function (data) {
-                            var btns = "<a href='#' class='edit' title='修改' onclick='md.openDialog(\"编辑键值\",\"/sys/dict/dictValueForm?id=" + data +"\",\"saveDictValue\")'><i class='fa fa-edit'></i> </a>" +
-                            "<a href='#' class='del' title='删除' onclick='deleteDictValue(\""+data+"\")' ><i class='fa fa-trash'></i> </a>" ;
-                            return btns;
-                        }
-
-                    }
-                ]
-            });
-        }
-        
         function setBtnFunction() {
             var ids = getSelectionId();
             $("#deleteBtn").prop("disabled",!ids.length);
@@ -948,7 +977,7 @@
         }
 
         function getSelectionId() {
-            var oCheckBox = $("#dictTypeTables input[name='id']");
+            var oCheckBox = $("#userTables input[name='id']");
             var ids = new Array();
             for(var i=0;i<oCheckBox.length;i++){
                 if($(oCheckBox[i]).prop("checked")){

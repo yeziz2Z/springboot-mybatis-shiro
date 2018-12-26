@@ -20,5 +20,29 @@
             </div>
         </div>
     </form>
+
+<script>
+    function submitForm() {
+        var formData = $("#dictTypeForm").serialize();
+        $.ajax({
+            url : "/sys/dict/saveDictType",
+            method : "POST",
+            data : formData,
+            success : function (data) {
+                if(data.code == 200){
+                    md.alert(data.msg);
+                    $('#dictTypeTables').DataTable().ajax.reload();
+                }
+            },
+            error : function () {
+                alert("出错啦");
+            }
+        });
+    }
+
+    function test() {
+        md.alert("message");
+    }
+</script>
 </body>
 </html>

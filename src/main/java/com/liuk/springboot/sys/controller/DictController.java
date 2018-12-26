@@ -3,8 +3,10 @@ package com.liuk.springboot.sys.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.liuk.springboot.common.Result;
 import com.liuk.springboot.core.web.BaseController;
 import com.liuk.springboot.entity.Dict;
+import com.liuk.springboot.sys.entity.Area;
 import com.liuk.springboot.sys.entity.DictType;
 import com.liuk.springboot.sys.entity.DictValue;
 import com.liuk.springboot.sys.service.IDictTypeService;
@@ -96,13 +98,31 @@ public class DictController extends BaseController {
         return "html/sys/dict/dictTypeForm";
     }
     @RequestMapping("dictValueForm")
-    public String dictValueForm(String id, Model model){
+    public String dictValueForm(String id,String dictTypeId, Model model){
         DictValue dictValue = new DictValue();
         if (StringUtils.isNotEmpty(id)){
             dictValue = dictValueService.selectById(id);
+        }else {
+            dictValue.setDictTypeId(dictTypeId);
         }
         model.addAttribute("dictValue",dictValue);
         return "html/sys/dict/dictValueForm";
+    }
+
+    @RequestMapping("saveDictType")
+    @ResponseBody
+    public Result<DictType> saveDictType(DictType dictType){
+        Result<DictType> result = new Result<>();
+        dictTypeService.insertOrUpdate(dictType);
+        return result;
+    }
+
+    @RequestMapping("saveDictValue")
+    @ResponseBody
+    public Result<DictType> saveDictValue(DictValue dictValue){
+        Result<DictType> result = new Result<>();
+        dictValueService.insertOrUpdate(dictValue);
+        return result;
     }
 }
 

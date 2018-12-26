@@ -1,7 +1,7 @@
-package com.liuk.springboot.mapper;
+package com.liuk.springboot.sys.mapper;
 
-import com.liuk.springboot.entity.Menu;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.liuk.springboot.sys.entity.Menu;
 
 /**
  * <p>

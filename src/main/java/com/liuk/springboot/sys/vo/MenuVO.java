@@ -1,30 +1,20 @@
-package com.liuk.springboot.sys.entity;
+package com.liuk.springboot.sys.vo;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.util.Date;
 
-/**
- * <p>
- * 菜单表
- * </p>
- *
- * @author liuk
- * @since 2018-07-05
- */
-@TableName("sys_menu")
-public class Menu extends Model<Menu> {
-
-    private static final long serialVersionUID = 1L;
-
+@Data
+@ToString
+@Accessors(chain = true)
+@NoArgsConstructor
+public class MenuVO {
     /**
      * 编号
      */
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
     /**
      * 父级编号
@@ -107,10 +97,8 @@ public class Menu extends Model<Menu> {
      */
     private String menuType;
 
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
+    /**
+     * 是否有子节点
+     */
+    private boolean hasChildren;
 }

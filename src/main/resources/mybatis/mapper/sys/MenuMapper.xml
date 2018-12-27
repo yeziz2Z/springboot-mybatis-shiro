@@ -30,9 +30,43 @@
         <result column="menu_type" property="menuType" />
     </resultMap>
 
+    <resultMap id="menuVOMap" type="com.liuk.springboot.sys.vo.MenuVO" extends="BaseResultMap">
+        <association column="id" property="hasChildren" select="hasChildren" />
+    </resultMap>
+
+    <select id="hasChildren" parameterType="string" resultType="boolean">
+        select case when exists(select 1 from sys_menu where parent_id = #{id}) then 1 else 0 end from dual
+    </select>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, parent_ids, name, sort, href, menu_code, icon_url, is_control, parameter, target, icon, is_show, permission, create_by, create_date, update_by, update_date, remarks, del_flag, menu_type
+        a.id,
+        a.parent_id,
+        a.parent_ids,
+        a.name,
+        a.sort,
+        a.href,
+        a.menu_code,
+        a.icon_url,
+        a.is_control,
+        a.parameter,
+        a.target,
+        a.icon,
+        a.is_show,
+        a.permission,
+        a.create_by,
+        a.create_date,
+        a.update_by,
+        a.update_date,
+        a.remarks,
+        a.del_flag,
+        a.menu_type
     </sql>
 
+    <select id="getMenuVOListByParentId" resultMap="menuVOMap" parameterType="string">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_menu a
+        where a.parent_id = #{parentId}
+    </select>
 </mapper>

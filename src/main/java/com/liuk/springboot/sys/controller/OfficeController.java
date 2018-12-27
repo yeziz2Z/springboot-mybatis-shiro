@@ -68,11 +68,9 @@ public class OfficeController {
     @RequestMapping("getChildren")
     @ResponseBody
     public List<OfficeVO> getChildren(String parentId){
-
         if ("-1".equals(parentId)) {
             parentId = "0";
         }
-
         List list = officeService.getOfficeVoListByParentId(parentId);
         return list;
     }

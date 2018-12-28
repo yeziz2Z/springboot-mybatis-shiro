@@ -38,5 +38,15 @@ public class MenuController extends BaseController {
         }
         return iMenuService.getMenuVOListByParentId(parentId);
     }
+
+    @RequestMapping("form")
+    public String menuForm(){
+        return "html/sys/menu/menuForm";
+    }
+
+    @RequestMapping("icons")
+    public String icon(){
+        return "html/common/icons";
+    }
 }
 

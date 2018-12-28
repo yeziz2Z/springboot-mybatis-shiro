@@ -20,6 +20,9 @@
     <!-- Required Plugin CSS -->
     <link rel="stylesheet" type="text/css" href="vendor/plugins/datatables/media/css/dataTables.bootstrap.css" th:href="@{/vendor/plugins/datatables/media/css/dataTables.bootstrap.css}">
 
+    <!-- Admin Forms CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/admin-tools/admin-forms/css/admin-forms.css" th:href="@{/assets/admin-tools/admin-forms/css/admin-forms.css}">
+
     <!-- JQuery treeTable CSS -->
     <link th:href="@{/vendor/jquery/tree-table/jquery.treetable.css}" rel="stylesheet">
     <link th:href="@{/vendor/jquery/tree-table/jquery.treetable.theme.default.css}" rel="stylesheet">
@@ -38,10 +41,8 @@
 
 <body class="blank-page">
 
-
     <!-- Start: Main -->
     <div id="main">
-
         <!-- Start: Header -->
         <div th:replace="html/common/header::header"></div>
         <!-- End: Header -->
@@ -599,7 +600,7 @@
                             <div class="panel-menu">
                                 <div class="col-adjust-8  row text-center" >
                                     <div class="col-sm-1">
-                                        <button class="btn btn-primary btn-block"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                        <button class="btn btn-primary btn-block" onclick="md.openDialog('添加菜单','/sys/menu/form')"><i class="glyphicon glyphicon-plus"></i>新增</button>
                                     </div>
                                     <div class="col-sm-1">
                                         <button class="btn btn-default btn-block"><i class="glyphicon glyphicon-repeat"></i>刷新</button>
@@ -663,6 +664,8 @@
     <script type="text/javascript" src="assets/js/utility/utility.js" th:src="@{/assets/js/utility/utility.js}"></script>
     <script type="text/javascript" src="assets/js/main.js" th:src="@{/assets/js/main.js}"></script>
     <script type="text/javascript" src="assets/js/demo.js" th:src="@{/assets/js/demo.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/my-dialog.js}"></script>
+
     <script type="text/javascript">
         var $treeTable = null;
         jQuery(document).ready(function() {
@@ -682,10 +685,10 @@
                 checkbox: false,
                 url:'/sys/menu/getChildren?parentId=',
                 callback:function(item) {
-                    var result = "<td><a onclick='showOfficeForm(\"/sys/office/form?id="+item.id +"\",\"查看机构\")'>"+item.name+"</a></td>";
+                    let result = "<td><a onclick='md.openDialogView(\"查看菜单\",\"/sys/menu/form?id="+item.id+"\")'>"+"<i class='"+ item.icon +"'></i>"+item.name+"</a></td>";
                     result += "<td class='col-sm-2'>"+item.href+"</td>";
                     result += "<td class='col-sm-1'>"+item.sort+"</td>";
-                    result += "<td class='col-sm-1'>"+item.isShow+"</td>";
+                    result += "<td class='col-sm-1'>"+(item.isShow==1?"<i class='fa fa-circle text-success ml5'></i>":"<i class='fa fa-circle text-muted ml5'></i>")+"</td>";
                     result += "<td class='col-sm-2'>"+item.permission+"</td>";
                     result += "<td><div class='btn-group'>" +
                         "<button type='button' class='fa fa-gear btn btn-sm btn-primary dropdown-toggle' data-toggle='dropdown'>" +
@@ -693,15 +696,14 @@
                         "</button>" +
                         "<ul class='dropdown-menu' role='menu'>" +
                         "<li>" +
-                        "<a href='#' onclick='showOfficeForm(\"/sys/office/form?id="+item.id +"\",\"修改机构\")'>修改</a>" +
+                        "<a href='#' onclick='md.openDialog(\"修改机构\",\"/sys/menu/form?id="+item.id+"\")'><i class='fa fa-edit'></i>修改</a>" +
                         "</li>" +
                         "<li>" +
-                        "<a href='#' onclick='delOffice(\"" +item.id +"\")'>删除</a>" +
+                        "<a href='#' onclick='delOffice(\"" +item.id +"\")'><i class='fa fa-trash-o'></i>删除</a>" +
                         "</li>" +
                         "<li>" +
-                        "<a href='#' onclick='showOfficeForm(\"/sys/office/form?parentId="+ item.id +"\",\"新增机构\")'>添加下级机构</a>" +
+                        "<a href='#' onclick='showOfficeForm(\"/sys/office/form?parentId="+ item.id +"\",\"新增机构\")'><i class='fa fa-plus'></i>添加下级机构</a>" +
                         "</li></ul></div></td>";
-
                     return result;
                 },
                 beforeClick: function($treeTable, id) {

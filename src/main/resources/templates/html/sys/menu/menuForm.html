@@ -5,94 +5,78 @@
     <title>office Form</title>
 </head>
 <body>
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-            &times;
-        </button>
-        <h4 class="modal-title" >
 
-        </h4>
-
-    </div>
-    <div class="modal-body admin-form">
-        <form  id="userForm">
+    <div class="admin-form">
+        <form  id="menuForm">
             <input type="hidden" name="id" >
             <table class="table table-bordered">
                 <tbody>
                 <tr >
-                    <td class="col-md-2" >头像:</td>
+                    <td class="col-md-2" ><span style="color: red">*</span>上级菜单:</td>
                     <td class="col-md-4">
                         <div class="smart-widget sm-right smr-50" >
                             <label class="field">
                                 <input type="text" id="parentName" readonly  class="gui-input" style="background: #EEE" >
                             </label>
-                            <input type="hidden" id="parentId" name="parentId" th:value="${office.parentId}">
+                            <input type="hidden" id="parentId" name="parentId" >
                             <button type="button" id="officeSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
                             <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
 
                     </td>
 
-                    <td class="col-md-2"><span style="color: red">*</span>归属公司:</td>
+                    <td class="col-md-2"><span style="color: red">*</span>名称:</td>
                     <td class="col-md-4">
-                        <div class="smart-widget sm-right smr-50">
-                            <label class="field">
-                                <input type="text" id="areaName" readonly  style="background: #EEE" class="gui-input" >
-                            </label>
-                            <input type="hidden" id="areaId" name="areaId" >
-                            <button type="submit" id="areaSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
-                            <button type="button" id="areaDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
+                        <label class="field">
+                            <input type="text" name="name" class="gui-input" >
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2">链接:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="href" class="gui-input" >
+                        </label>
+                    </td>
+
+                    <td>目标:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="target" class="gui-input" >
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2" >图标:</td>
+                    <td class="col-md-4">
+                        <i id="iconIcon" class=" hide"></i>&nbsp;<span id="iconIconLabel">无</span>&nbsp;
+                        <input id="icon" name="icon" type="hidden" value=""/><a id="iconButton" href="javascript:" onclick="md.openDialog('选择图标','/sys/menu/icons','setIcons')" class="btn btn-primary">选择</a>&nbsp;&nbsp;
+                        <button id="iconclear" class="btn btn-default" type="button" >清除</button>
+                    </td>
+
+                    <td>菜单类型:</td>
+                    <td class="col-md-4">
+                        <div class="radio-custom">
+                            <input type="radio" id="menuRadio" name="type">
+                            <label for="menuRadio">菜单</label>
+                            <input type="radio" id="btnRadio" name="type">
+                            <label for="btnRadio">按钮</label>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="col-md-2"><span style="color: red">*</span>归属部门:</td>
+                    <td>可见:</td>
                     <td class="col-md-4">
-                        <div class="smart-widget sm-right smr-50">
-                            <label class="field">
-                                <input type="text" id="deptName" readonly  style="background: #EEE" class="gui-input" >
-                            </label>
-                            <input type="hidden"  name="areaId" >
-                            <button type="submit" id="deptSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
-                            <button type="button" id="deptDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
+                        <div class="radio-custom">
+                            <input type="radio" id="showRadio" name="isShow">
+                            <label for="showRadio">显示</label>
+                            <input type="radio" id="hideRadio" name="isShow">
+                            <label for="hideRadio">隐藏</label>
                         </div>
                     </td>
 
-                    <td><span style="color: red">*</span>工号:</td>
-                    <td class="col-md-4">
-                        <label class="field">
-                            <input type="text" name="code" id="code"  class="gui-input" >
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-2" ><span style="color: red">*</span>姓名:</td>
-                    <td class="col-md-4">
-                        <label class="field select">
-                            <label class="field">
-                                <input type="text" name="name" id="name" class="gui-input" >
-                            </label>
-                        </label>
-                    </td>
-
-                    <td><span style="color: red">*</span>登录名:</td>
-                    <td class="col-md-4">
-                        <label class="field select">
-                            <label class="field">
-                                <input type="text" name="loginName" id="loginName" class="gui-input" >
-                            </label>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span style="color: red">*</span>密码:</td>
-                    <td class="col-md-4">
-                        <label class="field">
-                            <input type="text" name="primaryPerson" id="primaryPerson" class="gui-input" >
-                        </label>
-                    </td>
-
-                    <td><span style="color: red">*</span>确认密码:</td>
+                    <td>权限标识:</td>
                     <td class="col-md-4">
                         <label class="field">
                             <input type="text" name="deputyPerson" id="deputyPerson" class="gui-input" >
@@ -100,72 +84,36 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="col-md-2" >是否可用:</td>
-                    <td class="col-md-4">
-
-                        <label class="field select">
-                            <select id="useable" name="useable">
-                                <option th:each="dict :${#dictUtils.getDictList('yes_no')}" th:text="${dict.label}" th:value="${dict.value}" ></option>
-                            </select>
-                            <i class="arrow"></i>
-                        </label>
-                    </td>
-
-                    <td>邮箱:</td>
-                    <td class="col-md-4">
-                        <label class="field">
-                            <input type="text" name="address"  id="address" class="gui-input" >
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-2" >电话:</td>
-                    <td class="col-md-4">
-                        <label class="field">
-                            <input type="text" name="zipCode" id="zipCode"  class="gui-input" >
-                        </label>
-                    </td>
-
-                    <td>手机:</td>
-                    <td class="col-md-4">
-                        <label class="field">
-                            <input type="text" name="master" id="master"  class="gui-input" >
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-2" >用户角色:</td>
-                    <td class="col-md-4">
-                        <label class="field">
-                            <input type="text" name="email" id="email"  class="gui-input" >
-                        </label>
-                    </td>
-
                     <td>备注:</td>
                     <td class="col-md-4">
                         <label class="field">
                             <textarea class="form-control" name="remarks"   rows="2"></textarea>
                         </label>
                     </td>
+
+                    <td></td>
+                    <td class="col-md-4">
+
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </form>
-
-
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="closeOfficeForm()">关闭
-        </button>
-        <button type="button" class="btn btn-primary" id="saveBtn" onclick="saveOffice()">
-            保存
-        </button>
     </div>
 <script>
     function closeOfficeForm() {
         $("#officeFormModal").modal("hide");
     }
 
+    $("#iconclear").click(function () {
+        $("#iconIcon").attr("class","");
+        $("#icon").val("");
+    })
+
+    function submitForm() {
+        let formData = $("#menuForm").serialize();
+        console.log(formData);
+    }
     function saveOffice() {
         var formData = $("#officeForm").serialize();
         console.log(formData);

@@ -31,6 +31,7 @@
     </resultMap>
 
     <resultMap id="menuVOMap" type="com.liuk.springboot.sys.vo.MenuVO" extends="BaseResultMap">
+        <result column="parent_name" property="parentName"/>
         <association column="id" property="hasChildren" select="hasChildren" />
     </resultMap>
 
@@ -68,5 +69,18 @@
             <include refid="Base_Column_List"/>
         from sys_menu a
         where a.parent_id = #{parentId}
+    </select>
+
+    <select id="getAllMenuTree" resultType="com.liuk.springboot.common.JsTree">
+        select id 'key',name title,parent_Id parentId from sys_menu
+        where del_flag = '0'
+    </select>
+    <select id="getMenuVOById" resultMap="menuVOMap">
+        select b.name parent_name,
+               <include refid="Base_Column_List"/>
+               from sys_menu a
+                left join sys_menu b
+                on a.parent_id = b.id
+          where a.id = #{id}
     </select>
 </mapper>

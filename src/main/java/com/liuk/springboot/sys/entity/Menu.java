@@ -4,6 +4,10 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +21,10 @@ import java.util.Date;
  * @since 2018-07-05
  */
 @TableName("sys_menu")
+@Data
+@ToString
+@Accessors(chain = true)
+@NoArgsConstructor
 public class Menu extends Model<Menu> {
 
     private static final long serialVersionUID = 1L;

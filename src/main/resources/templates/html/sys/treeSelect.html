@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Fancytree CSS -->
+    <link rel="stylesheet" type="text/css" href="vendor/plugins/fancytree/skin-win8/ui.fancytree.min.css" th:href="@{/vendor/plugins/fancytree/skin-win8/ui.fancytree.min.css}">
+
+</head>
+<body>
+    <div class="row mb15">
+        <div class="col-xs-8">
+            <input class="form-control" style="height: 34px" name="search" placeholder="Filter...">
+        </div>
+        <div class="col-xs-4">
+            <button class="btn btn-primary" style="height: 34px;padding: 7px 9px;" id="btnResetSearch"> Clear <i class="fa fa-remove pl10"></i>
+            </button>
+            <span id="matches"></span>
+        </div>
+    </div>
+    <p>
+        <label for="hideMode" class="mr15">
+            <input type="checkbox" class="mr5 va-t" id="hideMode"> 隐藏未匹配节点
+        </label>
+    </p>
+    <hr class="short alt mv15">
+    <p id="sampleButtons"></p>
+    <!-- Add a <table> element where the tree should appear: -->
+    <div id="tree-container">
+        <div id="selectTree" style=" overflow-y:auto; height:300px;">
+        </div>
+    </div>
+    <!-- Fancytree Plugin -->
+    <script type="text/javascript" src="vendor/plugins/fancytree/jquery.fancytree-all.min.js" th:src="@{/vendor/plugins/fancytree/jquery.fancytree-all.min.js}"></script>
+
+    <!-- Fancytree Addon - Inline Edit -->
+    <script type="text/javascript" src="vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js" th:src="@{/vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js}"></script>
+
+    <script th:inline="javascript">
+        var selectTree;
+        jQuery(document).ready(function() {
+            // var selectTree;
+            $("#selectTree").remove();
+            $("#tree-container").append("<div id='selectTree' style='overflow-y:auto; height:300px;'></div>");
+            $("#selectTree").fancytree({
+                extensions: ["filter"],
+                quicksearch: true,
+                source:{
+                    url: [[${url}]]
+                },
+
+                filter: {
+                    mode: "hide",
+                    autoApply: true
+                },
+                activate: function(event, data) {
+                    //alert("activate " + data.node);
+                },
+                lazyLoad:function (event, data) {
+                    console.log(event);
+                    console.log(data);
+                }
+
+            });
+            selectTree = $("#selectTree").fancytree("getTree");
+            /*
+             * Event handlers for our little demo interface
+             */
+            $("input[name=search]").keyup(function(e) {
+                var n,
+                    match = $(this).val();
+
+                if (e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === "") {
+                    $("button#btnResetSearch").click();
+                    return;
+                }
+
+                n = selectTree.filterNodes(match, false);
+
+                $("button#btnResetSearch").attr("disabled", false);
+                $("span#matches").text("(" + n + " 匹配项)");
+            });
+
+            $("button#btnResetSearch").click(function(e) {
+                $("input[name=search]").val("");
+                $("span#matches").text("");
+                selectTree.clearFilter();
+            }).attr("disabled", true);
+
+            selectTree.options.filter.mode = $("input#hideMode").is(":checked") ? "hide" : "dimm";
+            selectTree.clearFilter();
+
+            $("input#hideMode").change(function(e) {
+                selectTree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
+                selectTree.clearFilter();
+                $("input[name=search]").keyup();
+            });
+
+
+        })
+
+        function confirmSelect(){
+            if(selectTree.activeNode){
+                $("#" + [[${inputName}]]).val(selectTree.activeNode.title);
+                $("#" + [[${inputId}]]).val(selectTree.activeNode.key);
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -101,4 +101,9 @@ public class MenuVO {
      * 是否有子节点
      */
     private boolean hasChildren;
+
+    /**
+     * 父级菜单名称
+     */
+    private String parentName;
 }

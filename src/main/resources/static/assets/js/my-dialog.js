@@ -20,14 +20,19 @@ var md = {
     alert : function(msg){
         bootbox.alert(msg);
     },
-    openDialog : function (title,url,fn) {
+    openDialog : function (title,url,fn,modalSize) {
         if(!fn){
             fn = 'submitForm';
+        }
+        let size = null;
+        if(modalSize == "large" || modalSize == "small"){
+            size = modalSize;
         }
         $.get(url,function (data) {
             bootbox.dialog({
                 title : title,
                 message : data,
+                size : size,
                 buttons : {
                     confirm: {
                         label: '确认',

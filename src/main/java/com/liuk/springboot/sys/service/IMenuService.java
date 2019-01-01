@@ -1,6 +1,7 @@
 package com.liuk.springboot.sys.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.liuk.springboot.common.JsTree;
 import com.liuk.springboot.sys.entity.Menu;
 import com.liuk.springboot.sys.vo.MenuVO;
 
@@ -17,4 +18,8 @@ import java.util.List;
 public interface IMenuService extends IService<Menu> {
 
     List<MenuVO> getMenuVOListByParentId(String parentId);
+
+    List<JsTree> getAllMenuTree();
+
+    MenuVO getMenuVOById(String id);
 }

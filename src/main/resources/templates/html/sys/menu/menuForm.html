@@ -8,7 +8,7 @@
 
     <div class="admin-form">
         <form  id="menuForm">
-            <input type="hidden" name="id" >
+            <input type="hidden" name="id" th:value="${menu.id}" >
             <table class="table table-bordered">
                 <tbody>
                 <tr >
@@ -16,9 +16,9 @@
                     <td class="col-md-4">
                         <div class="smart-widget sm-right smr-50" >
                             <label class="field">
-                                <input type="text" id="parentName" readonly  class="gui-input" style="background: #EEE" >
+                                <input type="text" id="parentName" readonly th:value="${menu.parentName}"  class="gui-input" style="background: #EEE" >
                             </label>
-                            <input type="hidden" id="parentId" name="parentId" >
+                            <input type="hidden" id="parentId" name="parentId" th:value="${menu.parentId}" >
                             <button type="button" id="officeSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
                             <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
@@ -28,7 +28,7 @@
                     <td class="col-md-2"><span style="color: red">*</span>名称:</td>
                     <td class="col-md-4">
                         <label class="field">
-                            <input type="text" name="name" class="gui-input" >
+                            <input type="text" name="name" th:value="${menu.name}" class="gui-input" >
                         </label>
                     </td>
                 </tr>
@@ -36,31 +36,31 @@
                     <td class="col-md-2">链接:</td>
                     <td class="col-md-4">
                         <label class="field">
-                            <input type="text" name="href" class="gui-input" >
+                            <input type="text" name="href" th:value="${menu.href}" class="gui-input" >
                         </label>
                     </td>
 
                     <td>目标:</td>
                     <td class="col-md-4">
                         <label class="field">
-                            <input type="text" name="target" class="gui-input" >
+                            <input type="text" name="target" th:value="${menu.target}" class="gui-input" >
                         </label>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-2" >图标:</td>
                     <td class="col-md-4">
-                        <i id="iconIcon" class=" hide"></i>&nbsp;<span id="iconIconLabel">无</span>&nbsp;
-                        <input id="icon" name="icon" type="hidden" value=""/><a id="iconButton" href="javascript:" onclick="md.openDialog('选择图标','/sys/menu/icons','setIcons')" class="btn btn-primary">选择</a>&nbsp;&nbsp;
+                        <i id="iconIcon" class=" hide"  th:class="${menu.icon}"></i>&nbsp;<span id="iconIconLabel" th:text="${#strings.isEmpty(menu.icon)?'无':''}">无</span>&nbsp;
+                        <input id="icon" name="icon" type="hidden" th:value="${menu.icon}"/><a id="iconButton" href="javascript:" onclick="md.openDialog('选择图标','/sys/menu/icons','setIcons')" class="btn btn-primary">选择</a>&nbsp;&nbsp;
                         <button id="iconclear" class="btn btn-default" type="button" >清除</button>
                     </td>
 
                     <td>菜单类型:</td>
                     <td class="col-md-4">
                         <div class="radio-custom">
-                            <input type="radio" id="menuRadio" name="type">
+                            <input type="radio" id="menuRadio" name="type" value="1" th:checked="${menu.menuType == '1'}" >
                             <label for="menuRadio">菜单</label>
-                            <input type="radio" id="btnRadio" name="type">
+                            <input type="radio" id="btnRadio" name="type" value="2" th:checked="${menu.menuType == '2'}">
                             <label for="btnRadio">按钮</label>
                         </div>
                     </td>
@@ -69,9 +69,9 @@
                     <td>可见:</td>
                     <td class="col-md-4">
                         <div class="radio-custom">
-                            <input type="radio" id="showRadio" name="isShow">
+                            <input type="radio" id="showRadio" name="isShow" value="1" th:checked="${menu.isShow == '1'}">
                             <label for="showRadio">显示</label>
-                            <input type="radio" id="hideRadio" name="isShow">
+                            <input type="radio" id="hideRadio" name="isShow" value="0"  th:checked="${menu.isShow == '0'}">
                             <label for="hideRadio">隐藏</label>
                         </div>
                     </td>
@@ -79,7 +79,7 @@
                     <td>权限标识:</td>
                     <td class="col-md-4">
                         <label class="field">
-                            <input type="text" name="deputyPerson" id="deputyPerson" class="gui-input" >
+                            <input type="text" name="permission" th:value="${menu.permission}" class="gui-input" >
                         </label>
                     </td>
                 </tr>
@@ -87,7 +87,7 @@
                     <td>备注:</td>
                     <td class="col-md-4">
                         <label class="field">
-                            <textarea class="form-control" name="remarks"   rows="2"></textarea>
+                            <textarea class="form-control" name="remarks" th:text="${menu.remarks}"  rows="2"></textarea>
                         </label>
                     </td>
 
@@ -108,6 +108,7 @@
     $("#iconclear").click(function () {
         $("#iconIcon").attr("class","");
         $("#icon").val("");
+        $("#iconIconLabel").text("无");
     })
 
     function submitForm() {
@@ -134,12 +135,10 @@
     }
 
     $("#areaSearchBtn,#areaName").click(function () {
-        loadAreaTree();
-        $("#areaTreeModal").modal("show");
+       md.openDialog('选择菜单','/sys/treeSelect?url=/sys/area/treeData')
     });
     $("#officeSearchBtn,#parentName").click(function () {
-        loadOfficeTree();
-        $("#officeTreeModal").modal("show");
+        md.openDialog('选择菜单','/sys/treeSelect?url=/sys/menu/treeData&inputName=parentName&inputId=parentId','confirmSelect','small');
     });
 
     $("#areaDelButton").click(function () {
@@ -151,6 +150,8 @@
         $("#parentName").val("");
         $("#parentId").val("");
     });
+
+
 </script>
 </body>
 </html>

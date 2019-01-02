@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liuk.springboot.mapper.RoleMapper">
+<mapper namespace="com.liuk.springboot.sys.mapper.RoleMapper">
 
     <!-- 开启二级缓存 -->
     <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.liuk.springboot.entity.Role">
+    <resultMap id="BaseResultMap" type="com.liuk.springboot.sys.entity.Role">
         <id column="id" property="id" />
         <result column="office_id" property="officeId" />
         <result column="name" property="name" />
@@ -24,7 +24,29 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, office_id, name, enname, role_type, is_sys, useable, create_by, create_date, update_by, update_date, remarks, del_flag
+        a.id,
+        a.office_id,
+        a.name,
+        a.enname,
+        a.role_type,
+        a.is_sys,
+        a.useable,
+        a.create_by,
+        a.create_date,
+        a.update_by,
+        a.update_date,
+        a.remarks,
+        a.del_flag
     </sql>
+
+    <select id="getRoleVOById" resultType="com.liuk.springboot.sys.vo.RoleVO">
+        select b.name officeName,
+          <include refid="Base_Column_List"/>
+        from sys_role a
+          left join sys_office b
+        on a.office_id = b.id
+        where a.id = #{id}
+
+    </select>
 
 </mapper>

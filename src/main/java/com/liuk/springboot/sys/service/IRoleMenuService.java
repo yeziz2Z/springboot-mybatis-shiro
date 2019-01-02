@@ -1,6 +1,6 @@
-package com.liuk.springboot.service;
+package com.liuk.springboot.sys.service;
 
-import com.liuk.springboot.entity.RoleMenu;
+import com.liuk.springboot.sys.entity.RoleMenu;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

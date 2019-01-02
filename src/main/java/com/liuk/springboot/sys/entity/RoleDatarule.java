@@ -1,4 +1,4 @@
-package com.liuk.springboot.entity;
+package com.liuk.springboot.sys.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -13,34 +13,34 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 用户-角色
+ * 角色数据权限表
  * </p>
  *
  * @author liuk
  * @since 2018-07-05
  */
-@TableName("sys_user_role")
+@TableName("sys_role_datarule")
 @Data
 @ToString
 @Accessors(chain = true)
 @NoArgsConstructor
-public class UserRole extends Model<UserRole> {
+public class RoleDatarule extends Model<RoleDatarule> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户编号
+     * 角色id
      */
-    @TableId(value = "user_id", type = IdType.UUID)
-    private String userId;
-    /**
-     * 角色编号
-     */
+    @TableId(value = "role_id", type = IdType.UUID)
     private String roleId;
+    /**
+     * 数据规则id
+     */
+    private String dataruleId;
 
     @Override
     protected Serializable pkVal() {
-        return this.userId;
+        return this.roleId;
     }
 
 }

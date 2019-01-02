@@ -1,43 +1,31 @@
-package com.liuk.springboot.entity;
+package com.liuk.springboot.sys.vo;
 
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
+import java.util.Date;
 
-/**
- * <p>
- * 角色表
- * </p>
- *
- * @author liuk
- * @since 2018-07-05
- */
-@TableName("sys_role")
 @Data
 @ToString
 @Accessors(chain = true)
 @NoArgsConstructor
-public class Role extends Model<Role> {
-
-    private static final long serialVersionUID = 1L;
-
+public class RoleVO {
     /**
      * 编号
      */
-    @TableId(value = "id", type = IdType.UUID)
     private String id;
     /**
      * 归属机构
      */
     private String officeId;
+
+    /**
+     * 归属机构名称
+     */
+    private String officeName;
+
     /**
      * 角色名称
      */
@@ -82,11 +70,5 @@ public class Role extends Model<Role> {
      * 删除标记
      */
     private String delFlag;
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
 
 }

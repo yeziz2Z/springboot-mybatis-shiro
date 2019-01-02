@@ -1,6 +1,6 @@
-package com.liuk.springboot.mapper;
+package com.liuk.springboot.sys.mapper;
 
-import com.liuk.springboot.entity.RoleDatarule;
+import com.liuk.springboot.sys.entity.RoleDatarule;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**

@@ -1,8 +1,8 @@
-package com.liuk.springboot.service.impl;
+package com.liuk.springboot.sys.service.impl;
 
-import com.liuk.springboot.entity.RoleDatarule;
-import com.liuk.springboot.mapper.RoleDataruleMapper;
-import com.liuk.springboot.service.IRoleDataruleService;
+import com.liuk.springboot.sys.entity.RoleDatarule;
+import com.liuk.springboot.sys.mapper.RoleDataruleMapper;
+import com.liuk.springboot.sys.service.IRoleDataruleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

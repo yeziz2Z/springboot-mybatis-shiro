@@ -1,6 +1,7 @@
 package com.liuk.springboot.sys.controller;
 
 import com.liuk.springboot.common.JsTree;
+import com.liuk.springboot.common.Result;
 import com.liuk.springboot.core.web.BaseController;
 import com.liuk.springboot.sys.entity.Menu;
 import com.liuk.springboot.sys.service.IMenuService;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,6 +36,27 @@ public class MenuController extends BaseController {
     @RequestMapping("toMenuPage")
     public String toMenuPage(){
         return "html/sys/menu/pages_menu";
+    }
+
+    @RequestMapping("save")
+    @ResponseBody
+    public Result<Menu> save(Menu menu){
+        Result<Menu> result = new Result<>();
+        menuService.insertOrUpdate(menu.setDelFlag("0")
+                .setParentIds(menu.getParentId())
+                .setSort(100).setUpdateDate(new Date())
+                .setCreateDate(new Date())
+                .setCreateBy("admin")
+                .setUpdateBy("admin"));
+        result.setData(menu);
+        return result;
+    }
+
+    @RequestMapping("delete")
+    @ResponseBody
+    public String delete(String id){
+        menuService.deleteById(id);
+        return "ok!";
     }
 
     @RequestMapping("getChildren")

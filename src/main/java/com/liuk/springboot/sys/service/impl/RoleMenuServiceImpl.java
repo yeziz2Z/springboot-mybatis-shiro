@@ -1,8 +1,8 @@
-package com.liuk.springboot.service.impl;
+package com.liuk.springboot.sys.service.impl;
 
-import com.liuk.springboot.entity.RoleMenu;
-import com.liuk.springboot.mapper.RoleMenuMapper;
-import com.liuk.springboot.service.IRoleMenuService;
+import com.liuk.springboot.sys.entity.RoleMenu;
+import com.liuk.springboot.sys.mapper.RoleMenuMapper;
+import com.liuk.springboot.sys.service.IRoleMenuService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

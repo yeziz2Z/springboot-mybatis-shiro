@@ -1,7 +1,8 @@
-package com.liuk.springboot.service;
+package com.liuk.springboot.sys.service;
 
-import com.liuk.springboot.entity.Role;
+import com.liuk.springboot.sys.entity.Role;
 import com.baomidou.mybatisplus.service.IService;
+import com.liuk.springboot.sys.vo.RoleVO;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface IRoleService extends IService<Role> {
 
+    RoleVO getRoleVOById(String id);
 }

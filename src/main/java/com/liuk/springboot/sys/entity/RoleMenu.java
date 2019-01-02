@@ -1,4 +1,4 @@
-package com.liuk.springboot.entity;
+package com.liuk.springboot.sys.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;

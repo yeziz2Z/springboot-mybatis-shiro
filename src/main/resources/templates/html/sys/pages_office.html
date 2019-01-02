@@ -38,7 +38,7 @@
 <![endif]-->
 
 </head>
-
+选择机构
 <body class="blank-page">
 
     <!-- Start: Theme Preview Pane
@@ -1013,7 +1013,7 @@
                 checkbox: false,
                 url:'/sys/office/getChildren?parentId=',
                 callback:function(item) {
-                    var result = "<td><a onclick='showOfficeForm(\"/sys/office/form?id="+item.id +"\",\"查看机构\")'>"+item.name+"</a></td>";
+                    let result = "<td><a onclick='showOfficeForm(\"/sys/office/form?id="+item.id +"\",\"查看机构\")'>"+item.name+"</a></td>";
                     result += "<td>"+item.areaName+"</td>";
                     result += "<td>"+item.code+"</td>";
                     result += "<td>"+item.type+"</td>";

@@ -1,8 +1,8 @@
-package com.liuk.springboot.service.impl;
+package com.liuk.springboot.sys.service.impl;
 
-import com.liuk.springboot.entity.UserRole;
-import com.liuk.springboot.mapper.UserRoleMapper;
-import com.liuk.springboot.service.IUserRoleService;
+import com.liuk.springboot.sys.entity.UserRole;
+import com.liuk.springboot.sys.mapper.UserRoleMapper;
+import com.liuk.springboot.sys.service.IUserRoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

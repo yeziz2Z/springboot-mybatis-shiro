@@ -19,8 +19,8 @@
                                 <input type="text" id="parentName" readonly th:value="${menu.parentName}"  class="gui-input" style="background: #EEE" >
                             </label>
                             <input type="hidden" id="parentId" name="parentId" th:value="${menu.parentId}" >
-                            <button type="button" id="officeSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
-                            <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
+                            <button type="button" id="menuSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
+                            <button type="button" id="menuDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
                         </div>
 
                     </td>
@@ -101,9 +101,6 @@
         </form>
     </div>
 <script>
-    function closeOfficeForm() {
-        $("#officeFormModal").modal("hide");
-    }
 
     $("#iconclear").click(function () {
         $("#iconIcon").attr("class","");
@@ -113,19 +110,13 @@
 
     function submitForm() {
         let formData = $("#menuForm").serialize();
-        console.log(formData);
-    }
-    function saveOffice() {
-        var formData = $("#officeForm").serialize();
-        console.log(formData);
         $.ajax({
-            url:"/sys/office/save",
+            url:"/sys/menu/save",
             method:"POST",
             data:formData,
             success: function (result) {
                 if (result.code == 200){
                     $treeTable.refresh();
-                    closeOfficeForm();
                 }
             },
             error:function () {
@@ -134,19 +125,14 @@
         });
     }
 
-    $("#areaSearchBtn,#areaName").click(function () {
-       md.openDialog('选择菜单','/sys/treeSelect?url=/sys/area/treeData')
-    });
-    $("#officeSearchBtn,#parentName").click(function () {
+
+
+    $("#menuSearchBtn,#parentName").click(function () {
         md.openDialog('选择菜单','/sys/treeSelect?url=/sys/menu/treeData&inputName=parentName&inputId=parentId','confirmSelect','small');
     });
 
-    $("#areaDelButton").click(function () {
-        $("#areaName").val("");
-        $("#areaId").val("");
-    });
 
-    $("#officeDelButton").click(function () {
+    $("#menuDelButton").click(function () {
         $("#parentName").val("");
         $("#parentId").val("");
     });

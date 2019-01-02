@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>office Form</title>
+</head>
+<body>
+
+    <div class="admin-form">
+        <form  id="roleForm">
+            <input type="hidden" name="id" th:value="${role.id}" >
+            <table class="table table-bordered">
+                <tbody>
+                <tr >
+                    <td class="col-md-2" ><span style="color: red">*</span>归属机构:</td>
+                    <td class="col-md-4">
+                        <div class="smart-widget sm-right smr-50" >
+                            <label class="field">
+                                <input type="text" id="officeName" readonly th:value="${role.officeName}"  class="gui-input" style="background: #EEE" >
+                            </label>
+                            <input type="hidden" id="officeId" name="officeId" th:value="${role.officeId}" >
+                            <button type="button" id="officeSearchBtn" class="button btn-default"> <i class="fa fa-search"></i></button>
+                            <button type="button" id="officeDelButton" class="close" data-dismiss="" style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X</button>
+                        </div>
+
+                    </td>
+
+                    <td class="col-md-2"><span style="color: red">*</span>角色名称:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="name" th:value="${role.name}" class="gui-input" >
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2">英文名称:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <input type="text" name="enname" th:value="${role.enname}" class="gui-input" >
+                        </label>
+                    </td>
+
+                    <td>角色类型:</td>
+                    <td class="col-md-4">
+                        <label class="field select">
+                            <select id="type" name="roleType">
+                                <option></option>
+                                <option th:each="dict :${#dictUtils.getDictList('role_type')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${#strings.equals(role.roleType,dict.value)}"></option>
+
+                            </select>
+                            <i class="arrow"></i>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2" >是否系统数据:</td>
+                    <td class="col-md-4">
+                        <label class="field select">
+                            <select name="isSys">
+                                <option></option>
+                                <option th:each="dict :${#dictUtils.getDictList('yes_no')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${role.isSys == dict.value}"></option>
+
+                            </select>
+                            <i class="arrow"></i>
+                        </label>
+                    </td>
+
+                    <td>是否可用	:</td>
+                    <td class="col-md-4">
+                        <label class="field select">
+                            <select name="useable">
+                                <option></option>
+                                <option th:each="dict :${#dictUtils.getDictList('yes_no')}" th:text="${dict.label}" th:value="${dict.value}" th:selected="${role.useable == dict.value}"></option>
+
+                            </select>
+                            <i class="arrow"></i>
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>备注:</td>
+                    <td class="col-md-4">
+                        <label class="field">
+                            <textarea class="form-control" name="remarks" th:text="${role.remarks}"  rows="2"></textarea>
+                        </label>
+                    </td>
+
+                    <td></td>
+                    <td class="col-md-4">
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+<script>
+
+    function submitForm() {
+        let formData = $("#menuForm").serialize();
+        console.log(formData);
+        /*$.ajax({
+            url:"/sys/menu/save",
+            method:"POST",
+            data:formData,
+            success: function (result) {
+                if (result.code == 200){
+                    $treeTable.refresh();
+                }
+            },
+            error:function () {
+                bootbox.alert("出错了!");
+            }
+        });*/
+    }
+
+
+
+    $("#officeName,#officeSearchBtn").click(function () {
+        md.openDialog('选择菜单','/sys/treeSelect?url=/sys/office/treeData&inputName=officeName&inputId=officeId','confirmSelect','small');
+    });
+
+
+    $("#officeDelButton").click(function () {
+        $("#officeName").val("");
+        $("#officeId").val("");
+    });
+
+
+</script>
+</body>
+</html>

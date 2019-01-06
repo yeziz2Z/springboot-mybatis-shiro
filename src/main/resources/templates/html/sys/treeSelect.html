@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <!-- Fancytree CSS -->
-    <link rel="stylesheet" type="text/css" href="vendor/plugins/fancytree/skin-win8/ui.fancytree.min.css" th:href="@{/vendor/plugins/fancytree/skin-win8/ui.fancytree.min.css}">
 
 </head>
 <body>
@@ -30,12 +28,7 @@
         <div id="selectTree" style=" overflow-y:auto; height:300px;">
         </div>
     </div>
-    <!-- Fancytree Plugin -->
-    <script type="text/javascript" src="vendor/plugins/fancytree/jquery.fancytree-all.min.js" th:src="@{/vendor/plugins/fancytree/jquery.fancytree-all.min.js}"></script>
-
-    <!-- Fancytree Addon - Inline Edit -->
-    <script type="text/javascript" src="vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js" th:src="@{/vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js}"></script>
-
+    <input type="hidden" id="roleId" th:value="${roleId}">
     <script th:inline="javascript">
         var selectTree;
         jQuery(document).ready(function() {
@@ -44,6 +37,9 @@
             $("#tree-container").append("<div id='selectTree' style='overflow-y:auto; height:300px;'></div>");
             $("#selectTree").fancytree({
                 extensions: ["filter"],
+                selectMode: 3,
+                // clickFolderMode: 1,
+                checkbox: [[${checkbox}]],
                 quicksearch: true,
                 source:{
                     url: [[${url}]]
@@ -104,6 +100,27 @@
                 $("#" + [[${inputName}]]).val(selectTree.activeNode.title);
                 $("#" + [[${inputId}]]).val(selectTree.activeNode.key);
             }
+        }
+
+        function setCheckedTreeNode() {
+            let arr = selectTree.getSelectedNodes();
+            let roleId = $("#roleId").val();
+            md.confirm("确定要设置么？",function () {
+                let menuIds = arr.map(function (value) {
+                    return value.key;
+                }).join(",");
+                $.post(
+                    "/sys/role/auth",
+                    {
+                        roleId:roleId,
+                        menuIds:menuIds
+                    },
+                    function (result) {
+                        md.alert(result);
+                    }
+                );
+            })
+
         }
 
     </script>

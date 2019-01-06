@@ -6,6 +6,9 @@ import com.liuk.springboot.sys.service.IRoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.liuk.springboot.sys.vo.RoleVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,4 +25,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     public RoleVO getRoleVOById(String id) {
         return baseMapper.getRoleVOById(id);
     }
+
+    @Override
+    @Transactional
+    public boolean insertRoleMenu(String roleId, List<String> menuIds) {
+        baseMapper.deleteRoleMenu(roleId);
+        baseMapper.insertRoleMenu(roleId,menuIds);
+        return true;
+    }
+
 }

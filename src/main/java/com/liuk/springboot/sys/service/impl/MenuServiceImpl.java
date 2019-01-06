@@ -35,4 +35,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     public MenuVO getMenuVOById(String id) {
         return baseMapper.getMenuVOById(id);
     }
+
+    @Override
+    public List<JsTree> getMenuAuth(String id) {
+        return baseMapper.getMenuAuth(id);
+    }
 }

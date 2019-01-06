@@ -22,4 +22,6 @@ public interface IMenuService extends IService<Menu> {
     List<JsTree> getAllMenuTree();
 
     MenuVO getMenuVOById(String id);
+
+    List<JsTree> getMenuAuth(String id);
 }

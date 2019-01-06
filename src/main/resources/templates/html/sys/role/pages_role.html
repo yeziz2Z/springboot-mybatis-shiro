@@ -23,6 +23,9 @@
     <!-- Admin Forms CSS -->
     <link rel="stylesheet" type="text/css" href="assets/admin-tools/admin-forms/css/admin-forms.css" th:href="@{/assets/admin-tools/admin-forms/css/admin-forms.css}">
 
+    <!-- Fancytree CSS -->
+    <link rel="stylesheet" type="text/css" href="vendor/plugins/fancytree/skin-win8/ui.fancytree.min.css" th:href="@{/vendor/plugins/fancytree/skin-win8/ui.fancytree.min.css}">
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" th:href="@{/favicon.ico}">
 
@@ -459,7 +462,7 @@
                                         <button class="btn btn-danger btn-block" onclick="delRole()" id="delBtn"><i class="glyphicon glyphicon-remove"></i>删除</button>
                                     </div>
                                     <div class="col-sm-2">
-                                        <button class="btn btn-default btn-block" id="permissionBtn"><i class="glyphicons glyphicons-cogwheels"></i>权限设置</button>
+                                        <button class="btn btn-default btn-block" onclick="setPermission()" id="permissionBtn"><i class="glyphicons glyphicons-cogwheels"></i>权限设置</button>
                                     </div>
 
                                 </div>
@@ -506,6 +509,12 @@
     <!-- Bootstrap -->
     <script type="text/javascript" src="assets/js/bootstrap/bootstrap.min.js" th:src="@{/assets/js/bootstrap/bootstrap.min.js}"></script>
 
+    <!-- Fancytree Plugin -->
+    <script type="text/javascript" src="vendor/plugins/fancytree/jquery.fancytree-all.min.js" th:src="@{/vendor/plugins/fancytree/jquery.fancytree-all.min.js}"></script>
+
+    <!-- Fancytree Addon - Inline Edit -->
+    <script type="text/javascript" src="vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js" th:src="@{/vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js}"></script>
+
 
     <!-- Datatables -->
     <script type="text/javascript" src="vendor/plugins/datatables/media/js/jquery.dataTables.min.js" th:src="@{/vendor/plugins/datatables/media/js/jquery.dataTables.min.js}"></script>
@@ -547,7 +556,7 @@
                             let btns = "<a href='#' class='view' title='查看' onclick='md.openDialogView(\"查看角色\",\"/sys/role/form?id=" + data + "\")' ><i class='fa fa-eye'></i> </a>" +
                                 "<a href='#' class='edit' title='修改' onclick='edit(\"" + data + "\")' ><i class='fa fa-edit'></i> </a>" +
                                 "<a href='#' class='del' title='删除' onclick='delRole(\""+ data +"\")' ><i class='fa fa-trash'></i> </a>" +
-                                "<a href='#' class='setDictValue' onclick='setDictValue(\""+data+"\",\""+ full.type +"\")' title='管理键值' ><i class='fa fa-cog'></i> </a>";
+                                "<a href='#' class='setDictValue' onclick='setPermission(\""+data + "\")' title='权限设置' ><i class='fa fa-cog'></i> </a>";
                             return btns;
                         }
 
@@ -622,6 +631,13 @@
                 id = getSelectionId().shift();
             }
             md.openDialog("修改角色","/sys/role/form?id="+id);
+        }
+
+        function setPermission(id) {
+            if(!id){
+                id = getSelectionId().shift();
+            }
+            md.openDialog("权限设置",'/sys/treeSelect?url=/sys/role/roleAuthTree&checkbox=true&inputId='+id,'setCheckedTreeNode','small');
         }
 
         function setBtnFunction() {

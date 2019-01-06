@@ -9,6 +9,7 @@ public class JsTree {
     private String key;
     private String title;
     private String parentId;
+    private boolean selected;
 
 
     private List<JsTree> children;

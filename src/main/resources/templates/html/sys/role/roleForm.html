@@ -98,24 +98,21 @@
 <script>
 
     function submitForm() {
-        let formData = $("#menuForm").serialize();
-        console.log(formData);
-        /*$.ajax({
-            url:"/sys/menu/save",
+        let formData = $("#roleForm").serialize();
+        $.ajax({
+            url:"/sys/role/save",
             method:"POST",
             data:formData,
             success: function (result) {
                 if (result.code == 200){
-                    $treeTable.refresh();
+                    $('#roleTables').DataTable().ajax.reload();
                 }
             },
             error:function () {
                 bootbox.alert("出错了!");
             }
-        });*/
+        });
     }
-
-
 
     $("#officeName,#officeSearchBtn").click(function () {
         md.openDialog('选择菜单','/sys/treeSelect?url=/sys/office/treeData&inputName=officeName&inputId=officeId','confirmSelect','small');

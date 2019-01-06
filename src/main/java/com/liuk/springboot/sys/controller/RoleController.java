@@ -2,8 +2,11 @@ package com.liuk.springboot.sys.controller;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.liuk.springboot.common.JsTree;
+import com.liuk.springboot.common.Result;
 import com.liuk.springboot.core.web.BaseController;
 import com.liuk.springboot.sys.entity.Role;
+import com.liuk.springboot.sys.service.IMenuService;
 import com.liuk.springboot.sys.service.IRoleService;
 import com.liuk.springboot.sys.vo.RoleVO;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,6 +33,8 @@ public class RoleController extends BaseController {
 
     @Autowired
     IRoleService roleService;
+    @Autowired
+    IMenuService menuService;
 
     @RequestMapping("toRolePage")
     public String toRolePage(){
@@ -61,5 +66,39 @@ public class RoleController extends BaseController {
         return "ok";
     }
 
+    @RequestMapping("save")
+    @ResponseBody
+    public Result<Role> save(Role role){
+        Result<Role> result = new Result<>();
+        roleService.insertOrUpdate(role.setDelFlag("0")
+                .setCreateBy("admin")
+                .setUpdateBy("admin")
+                .setCreateDate(new Date())
+                .setUpdateDate(new Date()));
+        result.setData(role);
+        return result;
+    }
+
+    @RequestMapping("roleAuthTree")
+    @ResponseBody
+    public List<JsTree> roleAuthTree(String roleId){
+        //TODO 逻辑待优化
+        List<JsTree> roleAuth = menuService.getMenuAuth(roleId);
+        Map<String, List<JsTree>> collect = roleAuth.stream().collect(Collectors.groupingBy(JsTree::getParentId));
+        roleAuth.forEach(jsTree -> {
+            if (collect.containsKey(jsTree.getKey())){
+                jsTree.setChildren(collect.get(jsTree.getKey()));
+            }
+        });
+        roleAuth = roleAuth.stream().filter(jsTree -> jsTree.getParentId().equals("0")).collect(Collectors.toList());
+        return roleAuth;
+    }
+
+    @RequestMapping("auth")
+    @ResponseBody
+    public Object auth(String roleId,String menuIds){
+        roleService.insertRoleMenu(roleId, Arrays.asList(menuIds.split(",")));
+        return "ok";
+    }
 }
 

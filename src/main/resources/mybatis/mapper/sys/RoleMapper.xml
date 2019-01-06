@@ -38,6 +38,15 @@
         a.remarks,
         a.del_flag
     </sql>
+    <insert id="insertRoleMenu">
+        insert into sys_role_menu(role_id,menu_id)
+        <foreach collection="menuIds" item="menuId" separator=" union all " >
+          select #{roleId} ,#{menuId} from dual
+        </foreach>
+    </insert>
+    <delete id="deleteRoleMenu">
+        delete from sys_role_menu where role_id = #{roleId}
+    </delete>
 
     <select id="getRoleVOById" resultType="com.liuk.springboot.sys.vo.RoleVO">
         select b.name officeName,

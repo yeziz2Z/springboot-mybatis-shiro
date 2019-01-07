@@ -20,6 +20,9 @@
     <!-- Required Plugin CSS -->
     <link rel="stylesheet" type="text/css" href="vendor/plugins/datatables/media/css/dataTables.bootstrap.css" th:href="@{/vendor/plugins/datatables/media/css/dataTables.bootstrap.css}">
 
+    <!-- Admin Forms CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/admin-tools/admin-forms/css/admin-forms.css" th:href="@{/assets/admin-tools/admin-forms/css/admin-forms.css}">
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" th:href="@{/favicon.ico}">
 
@@ -735,13 +738,13 @@
                             <div class="panel-menu">
                                 <div class="col-adjust-8  row text-center" >
                                     <div class="col-sm-1">
-                                        <button class="btn btn-default btn-block">查看</button>
+                                        <button class="btn btn-default btn-block" id="viewBtn" onclick="viewUser()">查看</button>
                                     </div>
                                     <div class="col-sm-1">
-                                        <button class="btn btn-primary btn-block"><i class="glyphicon glyphicon-plus"></i>新增</button>
+                                        <button class="btn btn-primary btn-block" onclick="add()"><i class="glyphicon glyphicon-plus"></i>新增</button>
                                     </div>
                                     <div class="col-sm-1">
-                                        <button class="btn btn-success btn-block" id="editBtn"><i class="glyphicon glyphicon-edit"></i>修改</button>
+                                        <button class="btn btn-success btn-block" id="editBtn" onclick="edit()"><i class="glyphicon glyphicon-edit"></i>修改</button>
                                     </div>
                                     <div class="col-sm-1">
                                         <button class="btn btn-danger btn-block" id="deleteBtn" onclick="deleteUser()"><i class="glyphicon glyphicon-remove"></i>删除</button>
@@ -878,8 +881,8 @@
     <script type="text/javascript" src="assets/js/utility/utility.js" th:src="@{/assets/js/utility/utility.js}"></script>
     <script type="text/javascript" src="assets/js/main.js" th:src="@{/assets/js/main.js}"></script>
     <script type="text/javascript" src="assets/js/demo.js" th:src="@{/assets/js/demo.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/my-dialog.js}"></script>
     <script type="text/javascript">
-        var table;
         jQuery(document).ready(function() {
 
             "use strict";
@@ -890,7 +893,7 @@
             // Init Theme Core    
             Demo.init();
 
-            table = $('#userTables').dataTable({
+            $('#userTables').dataTable({
                 /*"aoColumnDefs": [{
                     'bSortable': false,
                     'aTargets': [-1]
@@ -977,7 +980,7 @@
                 bPaginate: true,
                 bInfo: true,
                 sAjaxDataProp : "data",//是服务器分页的标志，必须有
-                sAjaxSource : "/sys/userList",//通过ajax实现分页的url路径。
+                sAjaxSource : "/sys/user/userList",//通过ajax实现分页的url路径。
                 sServerMethod:"POST",
                 fnServerParams :function (aoData) {//向服务器提交额外参数
                     aoData.push({ "name": "AAA_more_data", "value": "my_value" } );
@@ -1017,52 +1020,53 @@
         });
 
         function deleteUser() {
-            bootbox.confirm({
-                message: "确认要删除吗",
-                buttons: {
-                    confirm: {
-                        label: '确认'
+
+            md.confirm("确认要删除吗",function () {
+                $.ajax({
+                    url : "/sys/user/deleteAll",
+                    method : "POST",
+                    contentType: "application/json",
+                    data : JSON.stringify(getSelectionId()),
+                    success : function (data) {
+                        md.alert(data);
+                        $('#userTables').DataTable().ajax.reload();
                     },
-                    cancel: {
-                        label: '取消'
+                    error : function () {
+                        md.alert("出错啦");
                     }
-                },
-                callback: function (result) {
-                    // 返回 true  或者false
-                    if (result) {
-                        $.ajax({
-                            url : "/sys/user/deleteAll",
-                            method : "POST",
-                            contentType: "application/json",
-                            data : JSON.stringify(getSelectionId()),
-                            success : function (data) {
-                                bootbox.alert(data);
-                                $('#userTables').DataTable().ajax.reload();
-                            },
-                            error : function () {
-                                bootbox.alert("出错啦");
-                            }
-                        });
-                    }
-                }
+                });
             });
+
         }
 
         function setBtnFunction() {
-            var ids = getSelectionId();
+            let ids = getSelectionId();
             $("#deleteBtn").prop("disabled",!ids.length);
             $("#editBtn").prop("disabled",!(ids.length==1));
+            $("#viewBtn").prop("disabled",!(ids.length==1));
         }
 
         function getSelectionId() {
-            var oCheckBox = $("#userTables input[name='id']");
-            var ids = new Array();
-            for(var i=0;i<oCheckBox.length;i++){
+            let oCheckBox = $("#userTables input[name='id']");
+            let ids = new Array();
+            for(let i=0;i<oCheckBox.length;i++){
                 if($(oCheckBox[i]).prop("checked")){
                     ids.push($(oCheckBox[i]).val());
                 }
             }
             return ids;
+        }
+
+        function viewUser() {
+            let id = getSelectionId().shift();
+            md.openDialogView("查看用户","/sys/user/form?id=" + id);
+        }
+        function edit() {
+            let id = getSelectionId().shift();
+            md.openDialog("修改用户","/sys/user/form?id=" + id);
+        }
+        function add() {
+            md.openDialog("新增用户","/sys/user/form");
         }
 
     </script>

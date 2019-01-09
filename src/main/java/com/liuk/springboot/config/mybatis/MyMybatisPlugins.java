@@ -10,13 +10,13 @@ import java.util.Properties;
 public class MyMybatisPlugins implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        System.out.println("MyMybatisPlugins intercept:" + invocation);
+//        System.out.println("MyMybatisPlugins intercept:" + invocation);
         return invocation.proceed();
     }
 
     @Override
     public Object plugin(Object target) {
-        System.out.println("MyMybatisPlugins plugin:" + target);
+//        System.out.println("MyMybatisPlugins plugin:" + target);
         if (target instanceof StatementHandler) {
             return Plugin.wrap(target, this);
         }
@@ -25,6 +25,6 @@ public class MyMybatisPlugins implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
-        System.out.println("MyMybatisPlugins setProperties:" + properties);
+//        System.out.println("MyMybatisPlugins setProperties:" + properties);
     }
 }

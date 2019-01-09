@@ -1,5 +1,6 @@
 package com.liuk.springboot.config.shiro;
 
+import com.liuk.springboot.common.SpringContextHolder;
 import com.liuk.springboot.sys.entity.User;
 import com.liuk.springboot.sys.service.IUserService;
 import org.apache.shiro.authc.*;
@@ -10,6 +11,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.codec.Hex;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
@@ -19,10 +22,12 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
@@ -45,8 +50,8 @@ public class ShiroConfiguration {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private IUserService userService;
+    /*@Autowired
+    private IUserService userService;*/
 
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
@@ -69,13 +74,10 @@ public class ShiroConfiguration {
         filterMap.put("authc",formAuthenticationFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
-
-        
         return shiroFilterFactoryBean;
     }
 
     @Bean
-    @Order
     public FormAuthenticationFilter formAuthenticationFilter(){
 
         /**
@@ -108,12 +110,18 @@ public class ShiroConfiguration {
             protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
                 logger.info("doGetAuthorizationInfo ...");
                 System.out.println(principalCollection);
-                return new SimpleAuthorizationInfo();
+
+                SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+                simpleAuthorizationInfo.addStringPermission("user");
+                simpleAuthorizationInfo.addStringPermission("sys:menu:view");
+                simpleAuthorizationInfo.addRole("admin");
+                return simpleAuthorizationInfo;
             }
 
             @Override
             protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
                 logger.info("doGetAuthenticationInfo ...");
+                IUserService userService = SpringContextHolder.getBean(IUserService.class);
                 User user = userService.getByLoginName(authenticationToken.getPrincipal().toString());
                 if(user == null){
                     throw new AuthenticationException("message:用户不存在！");
@@ -167,5 +175,33 @@ public class ShiroConfiguration {
         return filterRegistrationBean;
     }
 
+    @Bean
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
+        logger.info("init lifecycleBeanPostProcessor ...");
+        return new LifecycleBeanPostProcessor();
+    }
 
+
+    /*
+     *
+     * 启用 Shiro 注解
+     *  AOP式方法级权限检查
+     *
+     */
+    @Bean
+    @DependsOn("lifecycleBeanPostProcessor")
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+        logger.info("init defaultAdvisorAutoProxyCreator ...");
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+        return defaultAdvisorAutoProxyCreator;
+    }
+
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
+        logger.info("init authorizationAttributeSourceAdvisor ...");
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
 }

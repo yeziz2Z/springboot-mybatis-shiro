@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("sys")
+@RequestMapping("/sys/user")
 @Slf4j
 public class SysUserController extends BaseController {
 
@@ -24,9 +24,15 @@ public class SysUserController extends BaseController {
     private IUserService userService;
 
 
-    @RequestMapping("user")
+    @RequestMapping("userPage")
     public String toUser(){
         return "html/sys/user/pages_user";
+    }
+
+    @RequestMapping("form")
+    public String form(){
+
+        return "html/sys/user/userForm";
     }
 
     @PostMapping("userList")
@@ -37,6 +43,8 @@ public class SysUserController extends BaseController {
         return getDataTableData(userService.selectPage(page) );
     }
 
+
+
     @PostMapping("add")
     @ResponseBody
     public Object add(){
@@ -44,7 +52,7 @@ public class SysUserController extends BaseController {
         return null;
     }
 
-    @PostMapping("user/deleteAll")
+    @PostMapping("deleteAll")
     @ResponseBody
     public String deleteAll(@RequestBody List<String> ids){
         userService.deleteBatchIds(ids);

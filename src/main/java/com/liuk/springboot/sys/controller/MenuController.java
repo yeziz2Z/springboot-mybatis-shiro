@@ -7,6 +7,7 @@ import com.liuk.springboot.sys.entity.Menu;
 import com.liuk.springboot.sys.service.IMenuService;
 import com.liuk.springboot.sys.vo.MenuVO;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,6 +70,7 @@ public class MenuController extends BaseController {
     }
 
     @RequestMapping("form")
+    @RequiresPermissions("sys:menu:view")
     public String menuForm(MenuVO menuVO, Model model){
         if(StringUtils.isNotEmpty(menuVO.getId())){
             menuVO = menuService.getMenuVOById(menuVO.getId());

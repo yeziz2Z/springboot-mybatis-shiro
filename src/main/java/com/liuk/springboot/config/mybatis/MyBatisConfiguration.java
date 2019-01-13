@@ -1,6 +1,7 @@
 package com.liuk.springboot.config.mybatis;
 
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,11 @@ public class MyBatisConfiguration {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
+    }
+
+    @Bean
+    public PerformanceInterceptor performanceInterceptor(){
+        return new PerformanceInterceptor();
     }
 
 //    @Bean

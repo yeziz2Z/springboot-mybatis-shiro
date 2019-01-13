@@ -22,4 +22,6 @@ public interface RoleMapper extends BaseMapper<Role> {
     boolean insertRoleMenu(@Param("roleId") String roleId, @Param("menuIds")List<String> menuIds);
 
     boolean deleteRoleMenu(@Param("roleId") String roleId);
+
+
 }

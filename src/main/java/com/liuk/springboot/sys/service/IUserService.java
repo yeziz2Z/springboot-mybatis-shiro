@@ -6,4 +6,8 @@ import com.liuk.springboot.sys.entity.User;
 public interface IUserService extends IService<User> {
 
     User getByLoginName(String loginName);
+
+    User getById(String id);
+
+    User save(User user);
 }

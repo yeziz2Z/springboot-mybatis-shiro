@@ -1,6 +1,7 @@
 package com.liuk.springboot.sys.entity;
 
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liuk.springboot.entity.BaseEntity;
@@ -54,5 +55,16 @@ public class User extends BaseEntity{
 
     private String sign;
 
+    @TableField(exist = false)
+    private Office office;
+
+    @TableField(exist = false)
+    private Office company;
+
+    @TableField(exist = false)
+    private List<String> roleIds;
+
+    @TableField(exist = false)
+    private String confirmPassword;
 
 }

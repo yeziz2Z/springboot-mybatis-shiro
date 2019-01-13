@@ -8,23 +8,12 @@
 
 <div class="admin-form">
     <form id="userForm">
-        <input type="hidden" name="id">
+        <input type="hidden" name="id" th:value="${user.id}">
         <table class="table table-bordered">
             <tbody>
             <tr>
                 <td class="col-md-2">头像:</td>
                 <td class="col-md-4">
-                    <div class="smart-widget sm-right smr-50">
-                        <label class="field">
-                            <input type="text" id="parentName" readonly class="gui-input" style="background: #EEE">
-                        </label>
-                        <input type="hidden" id="parentId" name="parentId" >
-                        <button type="button" id="officeSearchBtn" class="button btn-default"><i
-                                class="fa fa-search"></i></button>
-                        <button type="button" id="officeDelButton" class="close" data-dismiss=""
-                                style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X
-                        </button>
-                    </div>
 
                 </td>
 
@@ -32,12 +21,12 @@
                 <td class="col-md-4">
                     <div class="smart-widget sm-right smr-50">
                         <label class="field">
-                            <input type="text" id="areaName" readonly style="background: #EEE" class="gui-input">
+                            <input type="text" id="companyName" th:value="${user.company.name}"  readonly style="background: #EEE" class="gui-input">
                         </label>
-                        <input type="hidden" id="areaId" name="areaId">
-                        <button type="submit" id="areaSearchBtn" class="button btn-default"><i class="fa fa-search"></i>
+                        <input type="hidden" name="companyId" th:value="${user.company.id}" id="companyId">
+                        <button type="submit" id="companySearchBtn" class="button btn-default"><i class="fa fa-search"></i>
                         </button>
-                        <button type="button" id="areaDelButton" class="close" data-dismiss=""
+                        <button type="button" id="companyDelButton" class="close" data-dismiss=""
                                 style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X
                         </button>
                     </div>
@@ -48,12 +37,12 @@
                 <td class="col-md-4">
                     <div class="smart-widget sm-right smr-50">
                         <label class="field">
-                            <input type="text" id="deptName" readonly style="background: #EEE" class="gui-input">
+                            <input type="text" id="officeName" th:value="${user.office.name}" readonly style="background: #EEE" class="gui-input">
                         </label>
-                        <input type="hidden" name="areaId">
-                        <button type="submit" id="deptSearchBtn" class="button btn-default"><i class="fa fa-search"></i>
+                        <input type="hidden" name="officeId" id="officeId" th:value="${user.office.id}">
+                        <button type="submit" id="officeSearchBtn" class="button btn-default"><i class="fa fa-search"></i>
                         </button>
-                        <button type="button" id="deptDelButton" class="close" data-dismiss=""
+                        <button type="button" id="officeDelButton" class="close" data-dismiss=""
                                 style="position: absolute; top: 11px; right: 60px; z-index: 999; display: block;">X
                         </button>
                     </div>
@@ -62,7 +51,7 @@
                 <td><span style="color: red">*</span>工号:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <input type="text" name="code" id="code" class="gui-input">
+                        <input type="text" name="no" th:value="${user.no}"  class="gui-input">
                     </label>
                 </td>
             </tr>
@@ -71,7 +60,7 @@
                 <td class="col-md-4">
                     <label class="field select">
                         <label class="field">
-                            <input type="text" name="name" id="name" class="gui-input">
+                            <input type="text" name="name" th:value="${user.name}" class="gui-input">
                         </label>
                     </label>
                 </td>
@@ -80,7 +69,7 @@
                 <td class="col-md-4">
                     <label class="field select">
                         <label class="field">
-                            <input type="text" name="loginName" id="loginName" class="gui-input">
+                            <input type="text" name="loginName" th:value="${user.loginName}" class="gui-input">
                         </label>
                     </label>
                 </td>
@@ -89,14 +78,14 @@
                 <td><span style="color: red">*</span>密码:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <input type="text" name="primaryPerson" id="primaryPerson" class="gui-input">
+                        <input type="password" name="password" class="gui-input">
                     </label>
                 </td>
 
                 <td><span style="color: red">*</span>确认密码:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <input type="text" name="deputyPerson" id="deputyPerson" class="gui-input">
+                        <input type="password"  id="confirmPassword" class="gui-input">
                     </label>
                 </td>
             </tr>
@@ -116,7 +105,7 @@
                 <td>邮箱:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <input type="text" name="address" id="address" class="gui-input">
+                        <input type="text" name="email" th:value="${user.email}" class="gui-input email">
                     </label>
                 </td>
             </tr>
@@ -124,29 +113,27 @@
                 <td class="col-md-2">电话:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <input type="text" name="zipCode" id="zipCode" class="gui-input">
+                        <input type="text" name="phone" th:value="${user.phone}" class="gui-input">
                     </label>
                 </td>
 
                 <td>手机:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <input type="text" name="master" id="master" class="gui-input">
+                        <input type="text" name="mobile" th:value="${user.mobile}" class="gui-input">
                     </label>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-2">用户角色:</td>
                 <td class="col-md-4">
-                    <label class="field">
-                        <input type="text" name="email" id="email" class="gui-input">
-                    </label>
+                    <span th:each="role:${roles}"><input type="checkbox" th:value="${role.id}" th:checked="${#lists.contains(user.roleIds,role.id)}" name="roleIds">[[${role.name}]]</span>
                 </td>
 
                 <td>备注:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <textarea class="form-control" name="remarks" rows="2"></textarea>
+                        <textarea class="form-control" name="remarks" th:text="${user.remarks}" rows="2"></textarea>
                     </label>
                 </td>
             </tr>
@@ -158,10 +145,10 @@
 <script>
 
     function submitForm() {
-        let formData = $("#officeForm").serialize();
+        let formData = $("#userForm").serialize();
         console.log(formData);
         $.ajax({
-            url: "/sys/office/save",
+            url: "/sys/user/save",
             method: "POST",
             data: formData,
             success: function (result) {

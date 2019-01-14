@@ -3,21 +3,18 @@ package com.liuk.springboot.sys.service.impl;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.liuk.springboot.common.EncryptUtil;
 import com.liuk.springboot.sys.entity.User;
-import com.liuk.springboot.sys.mapper.RoleMapper;
 import com.liuk.springboot.sys.mapper.UserMapper;
 import com.liuk.springboot.sys.service.IUserService;
+import org.apache.shiro.codec.Hex;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUserService {
-
-    @Autowired
-    RoleMapper roleMapper;
 
     @Override
     public User getByLoginName(String loginName) {
@@ -33,14 +30,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
+    @Transactional
     public User save(User user){
         if (isNotEmpty(user.getId())){
             if(isNotEmpty(user.getPassword())){
                 user.setPassword(encodePwd(user.getPassword()));
             }
+            baseMapper.updateUserBySelect(user);
+
+            baseMapper.deleteUserRoleByUserId(user.getId());
         }else {
             user.setPassword(encodePwd(user.getPassword()));
+            baseMapper.insert(user);
         }
+        int i = baseMapper.insertUserRole(user.getId(), user.getRoleIds());
+        System.out.println(i);
         return user;
     }
 
@@ -50,8 +54,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
      * @return
      */
     private String encodePwd(String password){
-        byte[] salt = EncryptUtil.generateSalt(16);
+        System.out.println(password);
+        byte[] salt = EncryptUtil.generateSalt(8);
         SimpleHash simpleHash = new SimpleHash("MD5", password, ByteSource.Util.bytes(salt),1024);
-        return simpleHash.toHex();
+        return Hex.encodeToString(salt) + simpleHash.toHex();
     }
 }

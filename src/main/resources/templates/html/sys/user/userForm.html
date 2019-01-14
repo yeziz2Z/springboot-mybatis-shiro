@@ -21,9 +21,9 @@
                 <td class="col-md-4">
                     <div class="smart-widget sm-right smr-50">
                         <label class="field">
-                            <input type="text" id="companyName" th:value="${user.company.name}"  readonly style="background: #EEE" class="gui-input">
+                            <input type="text" id="companyName" th:value="${user.company == null?'':user.company.name}"  readonly style="background: #EEE" class="gui-input">
                         </label>
-                        <input type="hidden" name="companyId" th:value="${user.company.id}" id="companyId">
+                        <input type="hidden" name="companyId" th:value="${user.company == null?'':user.company.id}" id="companyId">
                         <button type="submit" id="companySearchBtn" class="button btn-default"><i class="fa fa-search"></i>
                         </button>
                         <button type="button" id="companyDelButton" class="close" data-dismiss=""
@@ -37,9 +37,9 @@
                 <td class="col-md-4">
                     <div class="smart-widget sm-right smr-50">
                         <label class="field">
-                            <input type="text" id="officeName" th:value="${user.office.name}" readonly style="background: #EEE" class="gui-input">
+                            <input type="text" id="officeName" th:value="${user.office == null?'' : user.office.name}" readonly style="background: #EEE" class="gui-input">
                         </label>
-                        <input type="hidden" name="officeId" id="officeId" th:value="${user.office.id}">
+                        <input type="hidden" name="officeId" id="officeId" th:value="${user.office == null?'' : user.office.id}">
                         <button type="submit" id="officeSearchBtn" class="button btn-default"><i class="fa fa-search"></i>
                         </button>
                         <button type="button" id="officeDelButton" class="close" data-dismiss=""
@@ -78,14 +78,14 @@
                 <td><span style="color: red">*</span>密码:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <input type="password" name="password" class="gui-input">
+                        <input type="password" id="password" name="password" class="gui-input">
                     </label>
                 </td>
 
                 <td><span style="color: red">*</span>确认密码:</td>
                 <td class="col-md-4">
                     <label class="field">
-                        <input type="password"  id="confirmPassword" class="gui-input">
+                        <input type="password" id="confirmPassword" class="gui-input">
                     </label>
                 </td>
             </tr>
@@ -94,9 +94,9 @@
                 <td class="col-md-4">
 
                     <label class="field select">
-                        <select id="useable" name="useable">
+                        <select name="loginFlag">
                             <option th:each="dict :${#dictUtils.getDictList('yes_no')}" th:text="${dict.label}"
-                                    th:value="${dict.value}"></option>
+                                    th:value="${dict.value}" th:selected="${#strings.equals(dict.value,user.loginFlag)}"></option>
                         </select>
                         <i class="arrow"></i>
                     </label>
@@ -127,7 +127,7 @@
             <tr>
                 <td class="col-md-2">用户角色:</td>
                 <td class="col-md-4">
-                    <span th:each="role:${roles}"><input type="checkbox" th:value="${role.id}" th:checked="${#lists.contains(user.roleIds,role.id)}" name="roleIds">[[${role.name}]]</span>
+                    <span th:each="role:${roles}"><input type="checkbox" th:value="${role.id}" th:checked="${user.roleIds == null?false:#lists.contains(user.roleIds,role.id)}" name="roleIds">[[${role.name}]]</span>
                 </td>
 
                 <td>备注:</td>
@@ -144,6 +144,92 @@
 
 <script>
 
+    jQuery(document).ready(function() {
+        $("#userForm").validate({
+            rules : {
+                companyId : {
+                    required : true
+                },
+                officeId : {
+                    required : true
+                },
+                no : {
+                    required : true
+                },
+                name : {
+                    required : true
+                },
+                loginName : {
+                    required : true
+                },
+                password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 16
+                },
+                confirmPassword : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 16,
+                    equalTo: '#password'
+                },
+                email : {
+                    email : true
+                },
+                phone : {
+                },
+                mobile : {
+                },
+                roleIds : {
+                    required : true
+                },
+                remarks : {
+                }
+            },
+            messages : {
+                companyId : {
+                    required : '请选择公司'
+                },
+                officeId : {
+                    required : '请选择机构'
+                },
+                no : {
+                    required : '工号必填'
+                },
+                name : {
+                    required : '姓名必填'
+                },
+                loginName : {
+                    required : '登录名必填'
+                },
+                password : {
+                    required : '请输入密码'
+                },
+                confirmPassword : {
+                    required : '请确认密码',
+                    equalTo: '#密码不一致，请确认'
+                },
+                email : {
+                    email : '请输入正确格式邮箱'
+                },
+                phone : {
+                },
+                mobile : {
+                },
+                roleIds : {
+                    required : '请选择至少一个角色'
+                },
+                remarks : {
+                }
+            },
+            submitHandler:function(form){
+                md.alert("提交事件!");
+                // form.submit();
+                return false;
+            }
+        });
+    });
+
     function submitForm() {
         let formData = $("#userForm").serialize();
         console.log(formData);
@@ -153,7 +239,7 @@
             data: formData,
             success: function (result) {
                 if (result.code == 200) {
-
+                    $('#userTables').DataTable().ajax.reload();
                 }
             },
             error: function () {
@@ -162,23 +248,22 @@
         });
     }
 
-    $("#areaSearchBtn,#areaName").click(function () {
-        loadAreaTree();
-        $("#areaTreeModal").modal("show");
-    });
-    $("#officeSearchBtn,#parentName").click(function () {
-        loadOfficeTree();
-        $("#officeTreeModal").modal("show");
+    $("#companySearchBtn,#companyName").click(function () {
+        md.openDialog('选择公司','/sys/treeSelect?url=/sys/office/treeData&inputName=companyName&inputId=companyId','confirmSelect','small');
     });
 
-    $("#areaDelButton").click(function () {
-        $("#areaName").val("");
-        $("#areaId").val("");
+    $("#officeSearchBtn,#officeName").click(function () {
+        md.openDialog('选择机构','/sys/treeSelect?url=/sys/office/treeData&inputName=officeName&inputId=officeId','confirmSelect','small');
+    });
+
+    $("#companyDelButton").click(function () {
+        $("#companyName").val("");
+        $("#companyId").val("");
     });
 
     $("#officeDelButton").click(function () {
-        $("#parentName").val("");
-        $("#parentId").val("");
+        $("#officeName").val("");
+        $("#officeId").val("");
     });
 </script>
 </body>

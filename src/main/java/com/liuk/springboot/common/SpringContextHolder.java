@@ -4,6 +4,7 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Lazy;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 /**
  * 以静态变量保存Spring ApplicationContext, 可在任何代码任何地方任何时候取出ApplicaitonContext.
  *
- * @author Zaric
+ * @author liuk
  * @date 2016-5-29 下午1:25:40
  */
 @Service
@@ -84,4 +85,15 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
     private static void assertContextInjected() {
         Validate.validState(applicationContext != null, "applicaitonContext属性未注入, 请在applicationContext.xml中定义SpringContextHolder.");
     }
+
+    /**
+     * 如果给定 bean 名字 存在别名，返回这些别名
+     * @param name
+     * @return
+     * @throws NoSuchBeanDefinitionException
+     */
+    public static String[] getAliases(String name) throws NoSuchBeanDefinitionException {
+        return applicationContext.getAliases(name);
+    }
+
 }

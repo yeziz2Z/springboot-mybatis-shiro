@@ -86,7 +86,7 @@ public class SysUserController extends BaseController {
     @PostMapping("deleteAll")
     @ResponseBody
     public String deleteAll(@RequestBody List<String> ids){
-        userService.deleteBatchIds(ids);
+        userService.deleteUserBatch(ids);
         return "ok!";
     }
 

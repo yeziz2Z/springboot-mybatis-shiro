@@ -798,7 +798,7 @@
                         {
                             "mData": "id",
                             "mRender" : function (data,type,full) {
-                                var btns = "<a href='#' class='view' title='查看' onclick='md.openDialogView(\"查看字典\",\"/sys/dict/dictTypeForm?id=" + data + "\")' ><i class='fa fa-eye'></i> </a>" +
+                                let btns = "<a href='#' class='view' title='查看' onclick='md.openDialogView(\"查看字典\",\"/sys/dict/dictTypeForm?id=" + data + "\")' ><i class='fa fa-eye'></i> </a>" +
                                 "<a href='#' class='edit' title='修改' onclick='edit(\"" + data + "\")' ><i class='fa fa-edit'></i> </a>" +
                                 "<a href='#' class='del' title='删除' onclick='deleteDict(\""+ data +"\")' ><i class='fa fa-trash'></i> </a>" +
                                 "<a href='#' class='setDictValue' onclick='setDictValue(\""+data+"\",\""+ full.type +"\")' title='管理键值' ><i class='fa fa-cog'></i> </a>";

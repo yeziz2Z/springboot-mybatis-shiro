@@ -25,4 +25,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
     MenuVO getMenuVOById(@Param("id") String id);
 
     List<JsTree> getMenuAuth(@Param("roleId") String id);
+
+    List<Menu> getMenuListByUserId(@Param("userId")String userId);
 }

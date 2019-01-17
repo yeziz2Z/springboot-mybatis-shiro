@@ -108,4 +108,16 @@
                 on a.parent_id = b.id
           where a.id = #{id}
     </select>
+    <select id="getMenuListByUserId" resultType="com.liuk.springboot.sys.entity.Menu">
+        SELECT
+          sm.*
+        FROM
+          sys_menu sm,
+          sys_role_menu srm,
+          sys_user_role sur
+        WHERE sm.id = srm.menu_id
+          AND srm.role_id = sur.role_id
+          AND sur.user_id = #{userId}
+          AND sm.del_flag = '0'
+    </select>
 </mapper>

@@ -57,5 +57,17 @@
         where a.id = #{id}
 
     </select>
+    <select id="getByUserId" resultType="com.liuk.springboot.sys.entity.Role">
+        SELECT
+          sr.*
+        FROM
+          sys_role sr
+        WHERE sr.id IN
+          (SELECT
+            role_id
+          FROM
+            sys_user_role
+          WHERE user_id = #{userId})
+    </select>
 
 </mapper>

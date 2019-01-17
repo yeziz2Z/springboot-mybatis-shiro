@@ -19,4 +19,6 @@ public interface UserMapper extends BaseMapper<User> {
     int deleteUserRoleByUserId(@Param("userId") String userId);
 
     int insertUserRole(@Param("userId") String userId,@Param("roleIds")List<String> roleIds);
+
+    boolean deleteUserRoleBatch(@Param("userIds") List<String> userIds);
 }

@@ -1,5 +1,6 @@
 package com.liuk.springboot.sys.service.impl;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.liuk.springboot.common.EncryptUtil;
 import com.liuk.springboot.sys.entity.User;
@@ -10,6 +11,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -48,6 +51,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
         return user;
     }
 
+    @Override
+    @Transactional
+    public boolean deleteUserBatch(List<String> ids) {
+        baseMapper.deleteBatchIds(ids);
+        baseMapper.deleteUserRoleBatch(ids);
+        return true;
+    }
+
     /**
      * 密码加密
      * @param password
@@ -59,4 +70,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
         SimpleHash simpleHash = new SimpleHash("MD5", password, ByteSource.Util.bytes(salt),1024);
         return Hex.encodeToString(salt) + simpleHash.toHex();
     }
+
+    @Override
+    public Page<User> selectPage(Page<User> page) {
+//        baseMapper.selectPage()
+        List<User> users = baseMapper.selectPage(page, null);
+        return super.selectPage(page);
+    }
+
 }

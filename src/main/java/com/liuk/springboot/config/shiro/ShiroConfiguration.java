@@ -1,8 +1,11 @@
 package com.liuk.springboot.config.shiro;
 
 import com.liuk.springboot.common.SpringContextHolder;
+import com.liuk.springboot.sys.entity.Menu;
 import com.liuk.springboot.sys.entity.User;
 import com.liuk.springboot.sys.service.IUserService;
+import com.liuk.springboot.sys.utils.UserUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -15,6 +18,7 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -35,9 +39,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * shiro相关配置
@@ -110,12 +112,20 @@ public class ShiroConfiguration {
             @Override
             protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
                 logger.info("doGetAuthorizationInfo ...");
-                System.out.println(principalCollection);
 
+                User user = (User)principalCollection.getPrimaryPrincipal();
+                System.out.println(user);
                 SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-                simpleAuthorizationInfo.addStringPermission("user");
-                simpleAuthorizationInfo.addStringPermission("sys:menu:view");
-                simpleAuthorizationInfo.addRole("admin");
+                List<Menu> menus = UserUtils.getMenuList();
+                menus.forEach(menu -> {
+                    if (StringUtils.isNotBlank(menu.getPermission())){
+                        simpleAuthorizationInfo.addStringPermissions(Arrays.asList(menu.getPermission().split(",")));
+                    }
+                });
+
+                UserUtils.getRoleList(user).forEach(role -> {
+                    simpleAuthorizationInfo.addRole(role.getEnname());
+                });
                 return simpleAuthorizationInfo;
             }
 
@@ -128,9 +138,9 @@ public class ShiroConfiguration {
                     throw new AuthenticationException("message:用户不存在！");
                 }
                 System.out.println(user);
-                String username = (String) authenticationToken.getPrincipal();
                 byte[] salt = Hex.decode(user.getPassword().substring(0, 16));
-                return new SimpleAuthenticationInfo(username,user.getPassword().substring(16),ByteSource.Util.bytes(salt),getName());
+                return new SimpleAuthenticationInfo(user,user.getPassword().substring(16),ByteSource.Util.bytes(salt),getName());
+//                return new SimpleAuthenticationInfo(username,user.getPassword().substring(16),ByteSource.Util.bytes(salt),getName());
             }
 
             @Override

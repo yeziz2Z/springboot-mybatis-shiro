@@ -67,4 +67,8 @@ public class User extends BaseEntity{
     @TableField(exist = false)
     private String confirmPassword;
 
+    public boolean isAdmin(){
+        return "1".equals(id);
+    }
+
 }
